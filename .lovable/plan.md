@@ -6,6 +6,8 @@ Brand system, application shell, landing page, visual screens, database foundati
 
 The connected backend currently holds an unrelated student-residence system (buildings, rooms, leases, students, applications, payments and related enums). Per your instruction, Phase 0 drops all of it and rebuilds the schema for Start To Up alone. This is destructive and irreversible for that data.
 
+Blocking fix first: the backend client files exist under `src/integrations/supabase/` but `@supabase/supabase-js` is not in `package.json`, so typecheck currently fails. Step one of the build is installing that package and correcting the index-signature access in `previewAuthStorage.ts`.
+
 New schema (created empty, deny-by-default RLS, no seed rows):
 
 - Identity: `profiles`, `user_identities`, `skills`, `sectors`, `profile_skills`, `profile_sectors`
