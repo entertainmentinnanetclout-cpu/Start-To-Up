@@ -25,7 +25,7 @@ function WebsiteStudioTemplatesPage() {
     void navigate({ to: "/app/website-studio" });
   }
 
-  return <AppShell title="Website templates" eyebrow="24 PREMIUM STARTER SYSTEMS" action={<Link to="/app/website-studio" className="button button-secondary">Open current site</Link>}>
+  return <AppShell title="Website templates" eyebrow={`${studioTemplates.length} PREMIUM STARTER SYSTEMS`} action={<Link to="/app/website-studio" className="button button-secondary">Open current site</Link>}>
     <section className="template-library-hero">
       <div><span><Sparkles/> START TO UP TEMPLATE LIBRARY</span><h2>Elementor-level polish. Original Start To Up systems.</h2><p>Choose a premium starting point, then customise every colour, section, CTA, integration and source export inside Website Studio.</p></div>
       <div className="template-library-count"><strong>{studioTemplates.length}</strong><span>premium templates</span></div>
