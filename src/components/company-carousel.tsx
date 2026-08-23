@@ -35,7 +35,7 @@ const slides = [
     title: "Raise from evidence, not excitement.",
     body: "Build a sharper story around traction, unit economics, milestones, governance, data rooms and the use of funds investors need to understand quickly.",
     cta: "Prepare the business",
-    href: "/startup-playbook#funding",
+    href: "/startup-playbook",
     accent: "gold",
     proof: ["TRACTION", "METRICS", "CAPITAL"],
   },
@@ -44,7 +44,7 @@ const slides = [
     title: "Growth should make the company stronger, not harder to run.",
     body: "Install repeatable acquisition, customer success, financial control, team accountability and operating systems before complexity starts managing the founder.",
     cta: "Build for scale",
-    href: "/startup-playbook#scale",
+    href: "/startup-playbook",
     accent: "blue",
     proof: ["SYSTEMISE", "MEASURE", "SCALE"],
   },
@@ -89,7 +89,7 @@ export function CompanyCarousel() {
               <p>{slide.body}</p>
               <div className="carousel-actions">
                 {slide.href.startsWith("/") ? (
-                  <Link preload="intent" to={slide.href as "/startup-playbook"} className="button carousel-primary">
+                  <Link preload="intent" to="/startup-playbook" className="button carousel-primary">
                     {slide.cta} <ArrowRight />
                   </Link>
                 ) : (
