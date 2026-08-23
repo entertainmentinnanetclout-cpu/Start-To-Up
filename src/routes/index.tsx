@@ -8,6 +8,7 @@ import {
   Code2,
   GraduationCap,
   Handshake,
+  LayoutTemplate,
   Lightbulb,
   Mail,
   Network,
@@ -55,6 +56,7 @@ function Index() {
         </Link>
         <nav className="landing-nav" aria-label="Main navigation">
           <Link preload="intent" to="/startup-playbook">Startup playbook</Link>
+          <Link preload="intent" to="/website-studio">Website Studio</Link>
           <a href="#services">Services</a>
           <a href="#network">Network</a>
           <a href="#ventures">Ventures</a>
@@ -147,6 +149,7 @@ function Index() {
           <div className="company-service-grid">
             <ServiceCard icon={<Lightbulb />} title="Venture strategy" text="Problem validation, business modelling, market positioning, founder roadmaps and commercial readiness." />
             <ServiceCard icon={<Code2 />} title="Product & technology" text="Premium websites, platforms, prototypes, business systems and production-minded software development." />
+            <ServiceCard icon={<LayoutTemplate />} title="Website Studio" text="Create branded, responsive business websites from our ResKonnect Premium template system, preview every device and prepare managed GitHub publishing." to="/website-studio" />
             <ServiceCard icon={<Blocks />} title="Brand & go-to-market" text="Brand foundations, product storytelling, launch preparation, distribution and early customer acquisition." />
             <ServiceCard icon={<BarChart3 />} title="Operations & scale" text="Metrics, process design, financial control, partnerships, operating cadence and scalable growth systems." />
             <ServiceCard icon={<GraduationCap />} title="Founder development" text="Practical startup operating education, expert sessions, playbooks and structured company-building programmes." />
@@ -223,6 +226,7 @@ function Index() {
           </div>
           <div className="footer-links">
             <Link preload="intent" to="/startup-playbook">Startup playbook</Link>
+            <Link preload="intent" to="/website-studio">Website Studio</Link>
             <a href="#services">Services</a>
             <a href="#network">Network</a>
             <a href="#ventures">Ventures</a>
@@ -235,6 +239,7 @@ function Index() {
   );
 }
 
-function ServiceCard({ icon, title, text }: { icon: React.ReactNode; title: string; text: string }) {
-  return <article className="company-service-card"><div>{icon}</div><h3>{title}</h3><p>{text}</p><ArrowRight /></article>;
+function ServiceCard({ icon, title, text, to }: { icon: React.ReactNode; title: string; text: string; to?: "/website-studio" }) {
+  const content = <><div>{icon}</div><h3>{title}</h3><p>{text}</p><ArrowRight /></>;
+  return to ? <Link preload="intent" to={to} className="company-service-card">{content}</Link> : <article className="company-service-card">{content}</article>;
 }
