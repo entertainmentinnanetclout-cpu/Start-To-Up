@@ -158,6 +158,12 @@ export async function queueGithubPublication(
     .select("*")
     .single();
   if (error) throw error;
+
+  try {
+    await runGithubPublication(data.id);
+  } catch {
+    // The publication job remains versioned and recoverable for managed retry.
+  }
   return data;
 }
 
