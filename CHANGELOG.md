@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-08-23 — ResKonnect network showcase
+
+- Published ResKonnect as the first real editorial product showcase in Supabase with a public build update and six collaboration categories.
+- Added a cinematic branded campaign cover, animated product-post experience and curated Living, Applications and Opportunity page previews.
+- Added premium product previews to Home, Explore, the company landing page and the Ventures portfolio without sending visitors away first.
+- Moved founder information from the landing page to the footer-linked `/company` route.
+- Kept editorial publishing read-only for public visitors while authentication remains intentionally excluded.
+
 ## 2026-08-23 — Premium venture studio experience
 
 - Rebuilt the hero as an accessible, auto-advancing editorial carousel with three company stories.

@@ -515,6 +515,78 @@ export type Database = {
           },
         ];
       };
+      editorial_product_showcases: {
+        Row: {
+          author_handle: string;
+          author_name: string;
+          case_study_url: string | null;
+          collaboration_brief: string | null;
+          collaboration_services: string[];
+          cover_url: string | null;
+          created_at: string;
+          featured: boolean;
+          headline: string;
+          id: string;
+          logo_url: string | null;
+          post_caption: string;
+          preview_pages: Json;
+          product_name: string;
+          product_tags: string[];
+          published_at: string | null;
+          published_by: string;
+          slug: string;
+          status: string;
+          updated_at: string;
+          website_url: string | null;
+        };
+        Insert: {
+          author_handle: string;
+          author_name: string;
+          case_study_url?: string | null;
+          collaboration_brief?: string | null;
+          collaboration_services?: string[];
+          cover_url?: string | null;
+          created_at?: string;
+          featured?: boolean;
+          headline: string;
+          id?: string;
+          logo_url?: string | null;
+          post_caption: string;
+          preview_pages?: Json;
+          product_name: string;
+          product_tags?: string[];
+          published_at?: string | null;
+          published_by: string;
+          slug: string;
+          status?: string;
+          updated_at?: string;
+          website_url?: string | null;
+        };
+        Update: {
+          author_handle?: string;
+          author_name?: string;
+          case_study_url?: string | null;
+          collaboration_brief?: string | null;
+          collaboration_services?: string[];
+          cover_url?: string | null;
+          created_at?: string;
+          featured?: boolean;
+          headline?: string;
+          id?: string;
+          logo_url?: string | null;
+          post_caption?: string;
+          preview_pages?: Json;
+          product_name?: string;
+          product_tags?: string[];
+          published_at?: string | null;
+          published_by?: string;
+          slug?: string;
+          status?: string;
+          updated_at?: string;
+          website_url?: string | null;
+        };
+        Relationships: [];
+      };
       evidence_events: {
         Row: {
           actor_id: string | null;

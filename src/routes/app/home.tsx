@@ -1,13 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Plus } from "lucide-react";
 import { AppShell } from "../../components/app-shell";
+import { EditorialShowcasePost } from "../../components/editorial-showcase";
 import { DataState, LiveProjectCard } from "../../components/live-data-ui";
-import { useProjects, usePublicTrustData } from "../../lib/start-to-up-data";
+import { useEditorialShowcases, useProjects, usePublicTrustData } from "../../lib/start-to-up-data";
 
 export const Route = createFileRoute("/app/home")({ component: HomeFeed });
 
 function HomeFeed() {
   const projects = useProjects();
+  const showcases = useEditorialShowcases();
   const trust = usePublicTrustData();
   return (
     <AppShell title="Your innovation feed" eyebrow="LIVE FROM THE NETWORK">
@@ -20,6 +22,17 @@ function HomeFeed() {
               <Plus size={18} /> Create
             </button>
           </div>
+          <DataState
+            loading={showcases.loading}
+            error={showcases.error}
+            empty={!showcases.data.length}
+          >
+            <div className="editorial-feed-stack">
+              {showcases.data.map((showcase) => (
+                <EditorialShowcasePost key={showcase.id} showcase={showcase} />
+              ))}
+            </div>
+          </DataState>
           <DataState
             loading={projects.loading}
             error={projects.error}

@@ -8,6 +8,9 @@ import {
   Home,
   Sparkles,
 } from "lucide-react";
+import { EditorialShowcasePost } from "../components/editorial-showcase";
+import { DataState } from "../components/live-data-ui";
+import { useEditorialShowcases } from "../lib/start-to-up-data";
 
 export const Route = createFileRoute("/ventures")({
   component: VenturesPage,
@@ -23,6 +26,7 @@ export const Route = createFileRoute("/ventures")({
 });
 
 function VenturesPage() {
+  const showcases = useEditorialShowcases();
   return (
     <div className="venture-page">
       <header className="venture-page-header shell-width">
@@ -43,6 +47,21 @@ function VenturesPage() {
             Start To Up builds and supports purposeful digital ventures, each designed around a real
             problem, a defined community and a route to measurable impact.
           </p>
+        </section>
+        <section className="venture-live-preview shell-width">
+          <div className="explore-section-label light">
+            <span>EXPERIENCE BEFORE EXIT</span>
+            <p>Open a curated key-page preview without leaving Start To Up.</p>
+          </div>
+          <DataState
+            loading={showcases.loading}
+            error={showcases.error}
+            empty={!showcases.data.length}
+          >
+            {showcases.data.slice(0, 1).map((showcase) => (
+              <EditorialShowcasePost compact key={showcase.id} showcase={showcase} />
+            ))}
+          </DataState>
         </section>
         <section className="venture-case shell-width">
           <div className="case-brand">

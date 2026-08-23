@@ -1,7 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
-  BadgeCheck,
   BarChart3,
   Blocks,
   Building2,
@@ -17,6 +16,9 @@ import {
 } from "lucide-react";
 import { BrandPreloader } from "../components/brand-preloader";
 import { CompanyCarousel } from "../components/company-carousel";
+import { EditorialShowcasePost } from "../components/editorial-showcase";
+import { DataState } from "../components/live-data-ui";
+import { useEditorialShowcases } from "../lib/start-to-up-data";
 
 export const Route = createFileRoute("/")({ component: Index });
 
@@ -30,6 +32,7 @@ const audiences = [
 ] as const;
 
 function Index() {
+  const showcases = useEditorialShowcases();
   return (
     <div className="landing-page company-landing">
       <BrandPreloader />
@@ -41,7 +44,6 @@ function Index() {
           <a href="#services">Services</a>
           <a href="#network">Network</a>
           <a href="#ventures">Ventures</a>
-          <a href="#about">About</a>
           <a href="#contact">Contact</a>
         </nav>
         <div className="header-actions">
@@ -85,49 +87,17 @@ function Index() {
                 communities and create measurable paths forward.
               </p>
             </div>
-            <article className="featured-venture">
-              <div className="venture-brand-panel">
-                <span>START TO UP VENTURE · 01</span>
-                <div className="reskonnect-full-lockup">
-                  <img src="/brand/reskonnect-product-icon.png" alt="" />
-                  <div>
-                    <strong>RESKONNECT</strong>
-                    <small>LIVING · AI · OPPORTUNITY</small>
-                  </div>
-                </div>
-                <p>Connecting residents. Advancing futures.</p>
+            <DataState
+              loading={showcases.loading}
+              error={showcases.error}
+              empty={!showcases.data.length}
+            >
+              <div className="landing-product-stage">
+                {showcases.data.slice(0, 1).map((showcase) => (
+                  <EditorialShowcasePost compact key={showcase.id} showcase={showcase} />
+                ))}
               </div>
-              <div className="venture-story">
-                <span className="live-product-pill">
-                  <i /> LIVE DIGITAL PRODUCT
-                </span>
-                <h3>A connected living and youth-opportunity ecosystem.</h3>
-                <p>
-                  ResKonnect helps students, parents, private tenants, landlords and partners
-                  discover verified accommodation, prepare applications, access digital tools and
-                  connect with opportunity.
-                </p>
-                <div className="venture-capabilities">
-                  <span>Student living</span>
-                  <span>Application readiness</span>
-                  <span>Property partnerships</span>
-                  <span>WIL &amp; opportunities</span>
-                </div>
-                <div className="venture-actions">
-                  <a
-                    href="https://www.reskonnect.org/"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="button button-primary button-large"
-                  >
-                    Explore ResKonnect <ArrowRight />
-                  </a>
-                  <Link to="/ventures" className="text-link">
-                    View our venture portfolio
-                  </Link>
-                </div>
-              </div>
-            </article>
+            </DataState>
             <div className="venture-pipeline">
               <span>NEXT IN THE PIPELINE</span>
               <strong>
@@ -253,45 +223,6 @@ function Index() {
           </div>
         </section>
 
-        <section id="about" className="founder-section">
-          <div className="shell-width founder-grid">
-            <div className="founder-portrait-wrap">
-              <img
-                src="/brand/founder-ayanda-dube.webp"
-                alt="Ayanda Lawrence Msizi Dube, Founder and Director of Start To Up"
-              />
-              <div>
-                <span>FOUNDER &amp; DIRECTOR</span>
-                <strong>Ayanda Lawrence Msizi Dube</strong>
-              </div>
-            </div>
-            <div className="founder-copy">
-              <span className="section-label">FOUNDER-LED BY DESIGN</span>
-              <h2>Built from the same reality our founders face.</h2>
-              <p className="founder-statement">
-                “Start To Up exists to give serious ideas a clearer path—from uncertainty and
-                isolation to visibility, collaboration and measurable growth.”
-              </p>
-              <p>
-                Founded by Ayanda Lawrence Msizi Dube, Start To Up combines practical startup
-                experience, digital product development and ecosystem thinking. The company begins
-                lean, works with specialist delivery partners where required and grows alongside the
-                ventures it supports.
-              </p>
-              <div className="registration-status">
-                <BadgeCheck />
-                <div>
-                  <strong>Company registration submitted</strong>
-                  <span>
-                    Start To Up Innovation Group name and registration are currently being processed
-                    by CIPC.
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         <section id="contact" className="section shell-width contact-section">
           <div className="contact-copy">
             <span className="section-label">LET&apos;S BUILD WHAT&apos;S NEXT</span>
@@ -336,7 +267,7 @@ function Index() {
             <a href="#services">Services</a>
             <a href="#network">Network</a>
             <a href="#ventures">Ventures</a>
-            <a href="#about">Founder</a>
+            <Link to="/company">Company &amp; founder</Link>
             <a href="#contact">Contact</a>
           </div>
           <span>

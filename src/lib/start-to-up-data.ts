@@ -19,6 +19,7 @@ export type MediaPublication = Tables["media_publications"]["Row"];
 export type LiveEvent = Tables["live_events"]["Row"];
 export type EcosystemProgram = Tables["ecosystem_programs"]["Row"];
 export type PlatformPlan = Tables["platform_plans"]["Row"];
+export type EditorialProductShowcase = Tables["editorial_product_showcases"]["Row"];
 
 type LiveState<T> = { data: T; loading: boolean; error: string | null };
 
@@ -70,6 +71,30 @@ export function useProjects() {
       .select("*")
       .order("created_at", { ascending: false })
       .limit(24)
+      .then(({ data, error }) => {
+        if (active) setState({ data: data ?? [], loading: false, error: error?.message ?? null });
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+  return state;
+}
+
+export function useEditorialShowcases() {
+  const [state, setState] = useState<LiveState<EditorialProductShowcase[]>>({
+    data: [],
+    loading: true,
+    error: null,
+  });
+  useEffect(() => {
+    let active = true;
+    void supabase
+      .from("editorial_product_showcases")
+      .select("*")
+      .eq("status", "published")
+      .order("featured", { ascending: false })
+      .order("published_at", { ascending: false })
       .then(({ data, error }) => {
         if (active) setState({ data: data ?? [], loading: false, error: error?.message ?? null });
       });

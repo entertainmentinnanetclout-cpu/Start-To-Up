@@ -83,7 +83,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Start To Up helps founders, innovators and growing businesses connect, validate, build, launch and upscale through venture support and an innovation network.",
       },
-      { name: "author", content: "Start To Up · Founder Ayanda Lawrence Msizi Dube" },
+      { name: "author", content: "Start To Up Innovation Group" },
       { name: "theme-color", content: "#071449" },
       { property: "og:title", content: "Start To Up | Connect. Build. Launch. Upscale." },
       {
