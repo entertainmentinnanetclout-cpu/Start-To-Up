@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { AppShell } from "../../components/app-shell";
 import { applyStudioTemplate, studioTemplates } from "../../lib/website-studio-template-catalog";
 import { getStructuralFamily, structuralFamilyLabels } from "../../lib/website-studio-structural";
+import { applyVisualContractDefaults } from "../../lib/website-studio-visual-contract-defaults";
 import { hasVisualContract, renderWebsiteStudioHtml } from "../../lib/website-studio-visual-contracts";
 import "../../website-studio-templates.css";
 import "../../website-studio-visual-contracts.css";
@@ -22,7 +23,7 @@ function WebsiteStudioTemplatesPage() {
   }), [family, query]);
 
   function choose(template: (typeof studioTemplates)[number]) {
-    const next = applyStudioTemplate(template);
+    const next = applyVisualContractDefaults(applyStudioTemplate(template));
     window.localStorage.setItem("start-to-up-website-studio-draft", JSON.stringify(next));
     window.localStorage.setItem("start-to-up-website-studio-template", template.key);
     void navigate({ to: "/app/website-studio-v4" });
@@ -41,7 +42,7 @@ function WebsiteStudioTemplatesPage() {
 
     <section className="template-library-grid">
       {filtered.map((template) => {
-        const sample = applyStudioTemplate(template);
+        const sample = applyVisualContractDefaults(applyStudioTemplate(template));
         const structuralFamily = getStructuralFamily(sample);
         const locked = hasVisualContract(sample);
         return <article className={`template-card mood-${template.preview.mood}`} key={template.key}>
