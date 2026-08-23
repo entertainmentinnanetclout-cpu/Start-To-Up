@@ -7,6 +7,7 @@ import {
   Compass,
   Handshake,
   Home,
+  LayoutTemplate,
   Menu,
   MessageCircle,
   Plus,
@@ -40,6 +41,7 @@ const scaleNavigation = [
   { to: "/app/sessions", label: "Live studio", icon: Radio },
   { to: "/app/creator", label: "Creator studio", icon: BarChart3 },
   { to: "/app/watchlist", label: "Investor watchlist", icon: WalletCards },
+  { to: "/app/website-studio", label: "Website studio", icon: LayoutTemplate },
   { to: "/app/programs", label: "Programs", icon: CalendarDays },
   { to: "/app/plans", label: "Plans", icon: WalletCards },
 ] as const;
@@ -53,6 +55,7 @@ const mobileNavigation = [
 ] as const;
 
 const mobileMoreNavigation = [
+  { to: "/app/website-studio", label: "Website studio", icon: LayoutTemplate, description: "Build and preview managed business websites" },
   { to: "/app/collaboration", label: "Collaboration rooms", icon: Handshake, description: "Build with teams inside Start To Up" },
   { to: "/app/messages", label: "Messages", icon: MessageCircle, description: "Continue project conversations" },
   { to: "/app/network", label: "Network", icon: Compass, description: "People, ventures and institutions" },
