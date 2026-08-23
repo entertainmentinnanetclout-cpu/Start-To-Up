@@ -10,6 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import uxSpeedCss from "../ux-speed.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 const primaryDomain = "https://www.start-to-up.co.za";
@@ -24,10 +25,7 @@ function NotFoundComponent() {
           The page you're looking for doesn't exist or has been moved.
         </p>
         <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
+          <Link preload="intent" to="/" className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">
             Go home
           </Link>
         </div>
@@ -60,10 +58,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           >
             Retry view
           </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
+          <a href="/" className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent">
             Go to home
           </a>
         </div>
@@ -73,27 +68,24 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  // Production recovery mode: the Vercel function was failing during route-component SSR.
-  // Keep the document shell server-rendered, but render the application routes in the browser.
-  // This preserves full app functionality while the SSR-only failure is isolated.
   ssr: false,
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Start To Up | Innovation & Venture Development" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
+      { title: "Start To Up | Startup Operating Company & Innovation Network" },
       {
         name: "description",
         content:
-          "Start To Up helps developers, entrepreneurs, innovators, investors and institutions connect, validate, build, launch and scale through a professional innovation network.",
+          "Start To Up helps founders, developers, entrepreneurs, innovators, investors and institutions validate, build, launch, operate and scale startups through practical company-building systems and a professional innovation network.",
       },
       { name: "author", content: "Start To Up Innovation Group" },
       { name: "theme-color", content: "#071449" },
-      { property: "og:title", content: "Start To Up | Connect. Build. Launch. Scale." },
+      { property: "og:title", content: "Start To Up | Build the company, not just the idea." },
       {
         property: "og:description",
         content:
-          "A professional network for developers, entrepreneurs, innovators, investors and institutions to build, collaborate and scale ventures.",
+          "Startup strategy, product, operations, founder knowledge, collaboration and growth infrastructure in one professional ecosystem.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: primaryDomain },
@@ -102,19 +94,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "Start To Up" },
       {
         name: "twitter:description",
-        content: "A professional innovation network for serious builders, collaborators and capital partners.",
+        content: "A startup operating company and professional innovation network for serious builders and capital partners.",
       },
       { name: "twitter:image", content: `${primaryDomain}/brand/start-to-up-og-image.png` },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "stylesheet", href: appCss },
+      { rel: "stylesheet", href: uxSpeedCss },
       { rel: "canonical", href: primaryDomain },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
       { rel: "apple-touch-icon", href: "/brand/apple-touch-icon.png" },
       { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "preconnect", href: "https://clawrgsnnmzmcxutiodg.supabase.co", crossOrigin: "anonymous" },
     ],
   }),
   shellComponent: RootShell,
@@ -126,9 +117,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
+      <head><HeadContent /></head>
       <body>
         {children}
         <Scripts />
@@ -139,11 +128,5 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-    </QueryClientProvider>
-  );
+  return <QueryClientProvider client={queryClient}><Outlet /></QueryClientProvider>;
 }
