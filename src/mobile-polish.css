@@ -1,0 +1,330 @@
+@media (max-width: 760px) {
+  .landing-header {
+    width: min(100% - 24px, 1180px) !important;
+    min-height: 70px;
+    height: 70px;
+    gap: 0.65rem;
+  }
+
+  .landing-nav {
+    display: none !important;
+  }
+
+  .brand-logo {
+    width: 148px !important;
+    height: 46px !important;
+  }
+
+  .header-actions {
+    margin-left: auto;
+  }
+
+  .header-actions .button-ghost {
+    display: none;
+  }
+
+  .header-actions .button-primary {
+    min-height: 40px;
+    padding: 0.55rem 0.72rem;
+    border-radius: 11px;
+    font-size: 0.74rem;
+    white-space: nowrap;
+  }
+
+  .shell-width {
+    width: min(100% - 24px, 1180px);
+  }
+
+  .app-header {
+    min-height: 76px;
+    padding: 10px 12px !important;
+    gap: 0.55rem;
+  }
+
+  .app-header > div:nth-child(2) {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .app-header h1 {
+    font-size: clamp(1.05rem, 5.4vw, 1.35rem) !important;
+    line-height: 1.08;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .page-eyebrow {
+    display: block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.56rem !important;
+  }
+
+  .app-header-actions {
+    gap: 0.25rem !important;
+  }
+
+  .app-search {
+    display: none !important;
+  }
+
+  .app-header-actions .icon-button {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+  }
+
+  .app-header-actions > .button {
+    display: none;
+  }
+
+  .v2-command {
+    padding: 18px !important;
+    border-radius: 20px !important;
+    align-items: flex-start !important;
+    flex-direction: column;
+    gap: 16px !important;
+  }
+
+  .v2-command h2 {
+    font-size: clamp(1.55rem, 7.5vw, 2.25rem) !important;
+  }
+
+  .v2-command p {
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+
+  .v2-command-actions {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+
+  .v2-command-actions::-webkit-scrollbar {
+    display: none;
+  }
+
+  .v2-command-actions .button {
+    flex: 0 0 auto;
+    min-height: 42px;
+    font-size: 0.76rem;
+  }
+
+  .v2-notification-strip {
+    align-items: flex-start !important;
+    flex-direction: column;
+    gap: 8px !important;
+    padding: 10px !important;
+    border-radius: 14px !important;
+  }
+
+  .v2-notification-strip > div {
+    width: 100%;
+  }
+
+  .v2-audience-tabs {
+    margin-inline: -4px;
+    padding-inline: 4px;
+    scroll-snap-type: x proximity;
+  }
+
+  .v2-audience-tabs button {
+    min-height: 40px;
+    padding: 8px 13px !important;
+    scroll-snap-align: start;
+  }
+
+  .v2-cohort {
+    display: none !important;
+  }
+
+  .v2-media-layout {
+    display: block !important;
+  }
+
+  .v2-intelligence-rail {
+    display: none !important;
+  }
+
+  .v2-vertical-feed {
+    height: calc(100dvh - 166px) !important;
+    min-height: 520px !important;
+    border-radius: 18px !important;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .v2-reel {
+    min-height: calc(100dvh - 166px) !important;
+    border-radius: 18px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .v2-kind {
+    top: 14px !important;
+    left: 14px !important;
+    padding: 7px 9px !important;
+    font-size: 0.6rem !important;
+  }
+
+  .v2-sound {
+    top: 14px !important;
+    right: 14px !important;
+    min-height: 36px;
+    padding: 7px 10px !important;
+  }
+
+  .v2-reel-copy {
+    left: 16px !important;
+    right: 78px !important;
+    bottom: 18px !important;
+  }
+
+  .v2-author-row {
+    gap: 8px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .v2-author-row > i {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 12px !important;
+  }
+
+  .v2-author-row strong {
+    font-size: 0.75rem !important;
+  }
+
+  .v2-author-row span {
+    font-size: 0.64rem !important;
+  }
+
+  .v2-author-row button {
+    min-height: 36px;
+    padding: 7px 9px !important;
+    font-size: 0.66rem !important;
+  }
+
+  .v2-reel-copy h2 {
+    font-size: clamp(1.45rem, 8vw, 2.5rem) !important;
+    margin-bottom: 7px !important;
+  }
+
+  .v2-reel-copy p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.78rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .v2-tags {
+    max-height: 28px;
+    overflow: hidden;
+    gap: 5px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .v2-tags span {
+    font-size: 0.64rem !important;
+  }
+
+  .v2-project-actions {
+    gap: 6px !important;
+  }
+
+  .v2-project-actions a,
+  .v2-project-actions button {
+    min-height: 38px;
+    padding: 8px 10px !important;
+    font-size: 0.66rem !important;
+  }
+
+  .v2-action-rail {
+    right: 8px !important;
+    bottom: 15px !important;
+    gap: 8px !important;
+  }
+
+  .v2-action-rail button {
+    width: 58px !important;
+    min-height: 51px;
+    font-size: 0.58rem !important;
+  }
+
+  .v2-action-rail button svg {
+    width: 38px !important;
+    height: 38px !important;
+    padding: 9px !important;
+  }
+
+  .v2-comment-drawer {
+    width: 100% !important;
+    max-width: none !important;
+    border-radius: 18px 18px 0 0;
+  }
+
+  .v2-comment-drawer > header {
+    padding: 14px !important;
+  }
+
+  .v2-comment-list {
+    padding: 10px 14px !important;
+  }
+
+  .v2-comment-drawer > footer {
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .v2-comment-drawer textarea {
+    min-height: 70px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .header-actions .button-primary {
+    font-size: 0.69rem;
+    padding-inline: 0.6rem;
+  }
+
+  .brand-logo {
+    width: 135px !important;
+  }
+
+  .app-header {
+    min-height: 70px;
+  }
+
+  .v2-vertical-feed,
+  .v2-reel {
+    min-height: calc(100dvh - 156px) !important;
+    height: calc(100dvh - 156px) !important;
+  }
+
+  .v2-reel-copy {
+    right: 70px !important;
+  }
+
+  .v2-author-row button {
+    max-width: 88px;
+    overflow: hidden;
+  }
+
+  .v2-reel-copy p {
+    -webkit-line-clamp: 2;
+  }
+
+  .v2-project-actions button,
+  .v2-project-actions a {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
