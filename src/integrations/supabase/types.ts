@@ -14,1430 +14,1472 @@ export type Database = {
   }
   public: {
     Tables: {
-      announcements: {
+      admin_audit_log: {
         Row: {
-          audience: string
-          building_id: string | null
-          content: string | null
+          action: string
+          actor_id: string | null
           created_at: string
-          created_by: string | null
-          expires_at: string | null
+          entity_id: string | null
+          entity_type: string | null
           id: string
-          is_active: boolean
-          message: string
-          name: string | null
-          title: string
+          new_state: Json | null
+          previous_state: Json | null
+          reason: string | null
         }
         Insert: {
-          audience?: string
-          building_id?: string | null
-          content?: string | null
+          action: string
+          actor_id?: string | null
           created_at?: string
-          created_by?: string | null
-          expires_at?: string | null
+          entity_id?: string | null
+          entity_type?: string | null
           id?: string
-          is_active?: boolean
-          message: string
-          name?: string | null
-          title: string
+          new_state?: Json | null
+          previous_state?: Json | null
+          reason?: string | null
         }
         Update: {
-          audience?: string
-          building_id?: string | null
-          content?: string | null
+          action?: string
+          actor_id?: string | null
           created_at?: string
-          created_by?: string | null
-          expires_at?: string | null
+          entity_id?: string | null
+          entity_type?: string | null
           id?: string
-          is_active?: boolean
-          message?: string
-          name?: string | null
-          title?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "announcements_building_id_fkey"
-            columns: ["building_id"]
-            isOneToOne: false
-            referencedRelation: "buildings"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      application_documents: {
-        Row: {
-          application_id: string | null
-          document_type: string
-          file_path: string
-          id: string
-          uploaded_at: string
-          uploaded_by: string | null
-        }
-        Insert: {
-          application_id?: string | null
-          document_type: string
-          file_path: string
-          id?: string
-          uploaded_at?: string
-          uploaded_by?: string | null
-        }
-        Update: {
-          application_id?: string | null
-          document_type?: string
-          file_path?: string
-          id?: string
-          uploaded_at?: string
-          uploaded_by?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "application_documents_application_id_fkey"
-            columns: ["application_id"]
-            isOneToOne: false
-            referencedRelation: "applications"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      applications: {
-        Row: {
-          applicant_id: string | null
-          applicant_type: Database["public"]["Enums"]["applicant_type"]
-          application_number: string | null
-          building_id: string | null
-          created_at: string
-          document_url: string | null
-          email: string | null
-          first_name: string | null
-          gender: string | null
-          id: string
-          id_number: string | null
-          institution: string | null
-          last_name: string | null
-          notes: string | null
-          nsfas_status: string | null
-          personal_details: Json
-          phone: string | null
-          referral_code: string | null
-          reviewed_at: string | null
-          reviewed_by: string | null
-          room_preference: Json | null
-          status: Database["public"]["Enums"]["application_status"]
-          submitted_at: string | null
-          updated_at: string
-          user_id: string | null
-        }
-        Insert: {
-          applicant_id?: string | null
-          applicant_type?: Database["public"]["Enums"]["applicant_type"]
-          application_number?: string | null
-          building_id?: string | null
-          created_at?: string
-          document_url?: string | null
-          email?: string | null
-          first_name?: string | null
-          gender?: string | null
-          id?: string
-          id_number?: string | null
-          institution?: string | null
-          last_name?: string | null
-          notes?: string | null
-          nsfas_status?: string | null
-          personal_details?: Json
-          phone?: string | null
-          referral_code?: string | null
-          reviewed_at?: string | null
-          reviewed_by?: string | null
-          room_preference?: Json | null
-          status?: Database["public"]["Enums"]["application_status"]
-          submitted_at?: string | null
-          updated_at?: string
-          user_id?: string | null
-        }
-        Update: {
-          applicant_id?: string | null
-          applicant_type?: Database["public"]["Enums"]["applicant_type"]
-          application_number?: string | null
-          building_id?: string | null
-          created_at?: string
-          document_url?: string | null
-          email?: string | null
-          first_name?: string | null
-          gender?: string | null
-          id?: string
-          id_number?: string | null
-          institution?: string | null
-          last_name?: string | null
-          notes?: string | null
-          nsfas_status?: string | null
-          personal_details?: Json
-          phone?: string | null
-          referral_code?: string | null
-          reviewed_at?: string | null
-          reviewed_by?: string | null
-          room_preference?: Json | null
-          status?: Database["public"]["Enums"]["application_status"]
-          submitted_at?: string | null
-          updated_at?: string
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "applications_building_id_fkey"
-            columns: ["building_id"]
-            isOneToOne: false
-            referencedRelation: "buildings"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      beds: {
-        Row: {
-          bed_number: string
-          created_at: string
-          id: string
-          occupant_id: string | null
-          room_id: string
-          status: string
-          updated_at: string
-        }
-        Insert: {
-          bed_number: string
-          created_at?: string
-          id?: string
-          occupant_id?: string | null
-          room_id: string
-          status?: string
-          updated_at?: string
-        }
-        Update: {
-          bed_number?: string
-          created_at?: string
-          id?: string
-          occupant_id?: string | null
-          room_id?: string
-          status?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "beds_room_id_fkey"
-            columns: ["room_id"]
-            isOneToOne: false
-            referencedRelation: "rooms"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      building_configs: {
-        Row: {
-          base_rent: number
-          beds_per_room: number
-          building_id: string
-          created_at: string
-          default_capacity_per_room: number
-          floors: number
-          id: string
-          layout: Json
-          rooms_per_floor: number
-          updated_at: string
-        }
-        Insert: {
-          base_rent?: number
-          beds_per_room?: number
-          building_id: string
-          created_at?: string
-          default_capacity_per_room?: number
-          floors?: number
-          id?: string
-          layout?: Json
-          rooms_per_floor?: number
-          updated_at?: string
-        }
-        Update: {
-          base_rent?: number
-          beds_per_room?: number
-          building_id?: string
-          created_at?: string
-          default_capacity_per_room?: number
-          floors?: number
-          id?: string
-          layout?: Json
-          rooms_per_floor?: number
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "building_configs_building_id_fkey"
-            columns: ["building_id"]
-            isOneToOne: true
-            referencedRelation: "buildings"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      buildings: {
-        Row: {
-          address: string | null
-          brand_id: string | null
-          city: string | null
-          code: string | null
-          created_at: string
-          current_occupancy: number
-          current_residents: number
-          hero_image_url: string | null
-          id: string
-          is_active: boolean
-          metadata: Json
-          name: string
-          total_capacity: number
-          total_floors: number
-          total_rooms: number
-          updated_at: string
-        }
-        Insert: {
-          address?: string | null
-          brand_id?: string | null
-          city?: string | null
-          code?: string | null
-          created_at?: string
-          current_occupancy?: number
-          current_residents?: number
-          hero_image_url?: string | null
-          id?: string
-          is_active?: boolean
-          metadata?: Json
-          name: string
-          total_capacity?: number
-          total_floors?: number
-          total_rooms?: number
-          updated_at?: string
-        }
-        Update: {
-          address?: string | null
-          brand_id?: string | null
-          city?: string | null
-          code?: string | null
-          created_at?: string
-          current_occupancy?: number
-          current_residents?: number
-          hero_image_url?: string | null
-          id?: string
-          is_active?: boolean
-          metadata?: Json
-          name?: string
-          total_capacity?: number
-          total_floors?: number
-          total_rooms?: number
-          updated_at?: string
+          new_state?: Json | null
+          previous_state?: Json | null
+          reason?: string | null
         }
         Relationships: []
       }
-      complaints: {
+      agreement_acceptances: {
         Row: {
-          assigned_to: string | null
-          building_id: string | null
-          category: string
-          created_at: string
-          description: string | null
+          acceptance_method: string
+          accepted_at: string
+          agreement_version_id: string
           id: string
-          photos: string[] | null
-          priority: string | null
-          resolution_notes: string | null
-          resolved_at: string | null
-          status: Database["public"]["Enums"]["complaint_status"]
-          student_id: string | null
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          assigned_to?: string | null
-          building_id?: string | null
-          category: string
-          created_at?: string
-          description?: string | null
-          id?: string
-          photos?: string[] | null
-          priority?: string | null
-          resolution_notes?: string | null
-          resolved_at?: string | null
-          status?: Database["public"]["Enums"]["complaint_status"]
-          student_id?: string | null
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          assigned_to?: string | null
-          building_id?: string | null
-          category?: string
-          created_at?: string
-          description?: string | null
-          id?: string
-          photos?: string[] | null
-          priority?: string | null
-          resolution_notes?: string | null
-          resolved_at?: string | null
-          status?: Database["public"]["Enums"]["complaint_status"]
-          student_id?: string | null
-          title?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "complaints_building_id_fkey"
-            columns: ["building_id"]
-            isOneToOne: false
-            referencedRelation: "buildings"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "complaints_student_id_fkey"
-            columns: ["student_id"]
-            isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      documents: {
-        Row: {
-          building_id: string | null
-          created_at: string
-          file_url: string
-          id: string
-          is_public: boolean
-          owner_id: string | null
-          title: string
-          type: string
-          updated_at: string
-        }
-        Insert: {
-          building_id?: string | null
-          created_at?: string
-          file_url: string
-          id?: string
-          is_public?: boolean
-          owner_id?: string | null
-          title: string
-          type?: string
-          updated_at?: string
-        }
-        Update: {
-          building_id?: string | null
-          created_at?: string
-          file_url?: string
-          id?: string
-          is_public?: boolean
-          owner_id?: string | null
-          title?: string
-          type?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "documents_building_id_fkey"
-            columns: ["building_id"]
-            isOneToOne: false
-            referencedRelation: "buildings"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      lease_terms: {
-        Row: {
-          building_id: string | null
-          content: string
-          created_at: string
-          id: string
-          is_active: boolean
-          name: string
-          updated_at: string
-          version: number
-        }
-        Insert: {
-          building_id?: string | null
-          content: string
-          created_at?: string
-          id?: string
-          is_active?: boolean
-          name: string
-          updated_at?: string
-          version?: number
-        }
-        Update: {
-          building_id?: string | null
-          content?: string
-          created_at?: string
-          id?: string
-          is_active?: boolean
-          name?: string
-          updated_at?: string
-          version?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "lease_terms_building_id_fkey"
-            columns: ["building_id"]
-            isOneToOne: false
-            referencedRelation: "buildings"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      leases: {
-        Row: {
-          approved_at: string | null
-          approved_by: string | null
-          bed_id: string | null
-          building_id: string | null
-          created_at: string
-          document_url: string | null
-          end_date: string
-          id: string
-          lease_document_url: string | null
-          monthly_rent: number
-          rejected_at: string | null
-          rejection_reason: string | null
-          room_id: string | null
-          signed_at: string | null
-          start_date: string
-          status: Database["public"]["Enums"]["lease_status"]
-          student_id: string | null
-          terms_accepted: boolean
-          updated_at: string
-        }
-        Insert: {
-          approved_at?: string | null
-          approved_by?: string | null
-          bed_id?: string | null
-          building_id?: string | null
-          created_at?: string
-          document_url?: string | null
-          end_date: string
-          id?: string
-          lease_document_url?: string | null
-          monthly_rent?: number
-          rejected_at?: string | null
-          rejection_reason?: string | null
-          room_id?: string | null
-          signed_at?: string | null
-          start_date: string
-          status?: Database["public"]["Enums"]["lease_status"]
-          student_id?: string | null
-          terms_accepted?: boolean
-          updated_at?: string
-        }
-        Update: {
-          approved_at?: string | null
-          approved_by?: string | null
-          bed_id?: string | null
-          building_id?: string | null
-          created_at?: string
-          document_url?: string | null
-          end_date?: string
-          id?: string
-          lease_document_url?: string | null
-          monthly_rent?: number
-          rejected_at?: string | null
-          rejection_reason?: string | null
-          room_id?: string | null
-          signed_at?: string | null
-          start_date?: string
-          status?: Database["public"]["Enums"]["lease_status"]
-          student_id?: string | null
-          terms_accepted?: boolean
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "leases_bed_id_fkey"
-            columns: ["bed_id"]
-            isOneToOne: false
-            referencedRelation: "beds"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "leases_building_id_fkey"
-            columns: ["building_id"]
-            isOneToOne: false
-            referencedRelation: "buildings"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "leases_room_id_fkey"
-            columns: ["room_id"]
-            isOneToOne: false
-            referencedRelation: "rooms"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "leases_student_id_fkey"
-            columns: ["student_id"]
-            isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      ledger_entries: {
-        Row: {
-          amount: number
-          balance_after: number | null
-          created_at: string
-          created_by: string | null
-          description: string | null
-          entry_date: string
-          entry_type: string
-          id: string
-          reference: string | null
-          rent_period: string | null
-          status: string
-          student_id: string | null
-        }
-        Insert: {
-          amount: number
-          balance_after?: number | null
-          created_at?: string
-          created_by?: string | null
-          description?: string | null
-          entry_date?: string
-          entry_type: string
-          id?: string
-          reference?: string | null
-          rent_period?: string | null
-          status?: string
-          student_id?: string | null
-        }
-        Update: {
-          amount?: number
-          balance_after?: number | null
-          created_at?: string
-          created_by?: string | null
-          description?: string | null
-          entry_date?: string
-          entry_type?: string
-          id?: string
-          reference?: string | null
-          rent_period?: string | null
-          status?: string
-          student_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "ledger_entries_student_id_fkey"
-            columns: ["student_id"]
-            isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      matchmaker_settings: {
-        Row: {
-          building_id: string
-          created_at: string
-          enabled: boolean
-          gender_separated: boolean
-          id: string
-          preferences: Json
-          updated_at: string
-        }
-        Insert: {
-          building_id: string
-          created_at?: string
-          enabled?: boolean
-          gender_separated?: boolean
-          id?: string
-          preferences?: Json
-          updated_at?: string
-        }
-        Update: {
-          building_id?: string
-          created_at?: string
-          enabled?: boolean
-          gender_separated?: boolean
-          id?: string
-          preferences?: Json
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "matchmaker_settings_building_id_fkey"
-            columns: ["building_id"]
-            isOneToOne: true
-            referencedRelation: "buildings"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      monthly_rent_tracking: {
-        Row: {
-          created_at: string
-          expected_amount: number
-          id: string
-          last_payment_at: string | null
-          paid_amount: number
-          rent_period: string
-          status: Database["public"]["Enums"]["rent_period_status"]
-          student_id: string
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          expected_amount?: number
-          id?: string
-          last_payment_at?: string | null
-          paid_amount?: number
-          rent_period: string
-          status?: Database["public"]["Enums"]["rent_period_status"]
-          student_id: string
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          expected_amount?: number
-          id?: string
-          last_payment_at?: string | null
-          paid_amount?: number
-          rent_period?: string
-          status?: Database["public"]["Enums"]["rent_period_status"]
-          student_id?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "monthly_rent_tracking_student_id_fkey"
-            columns: ["student_id"]
-            isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      payments: {
-        Row: {
-          amount: number
-          balance_after: number | null
-          building_id: string | null
-          collected_by: string | null
-          created_at: string
-          description: string | null
-          id: string
-          notes: string | null
-          payment_date: string
-          payment_method: string | null
-          payment_type: string
-          reference: string | null
-          reference_number: string | null
-          rent_period: string | null
-          status: Database["public"]["Enums"]["payment_status"]
-          student_id: string | null
-          updated_at: string
-        }
-        Insert: {
-          amount: number
-          balance_after?: number | null
-          building_id?: string | null
-          collected_by?: string | null
-          created_at?: string
-          description?: string | null
-          id?: string
-          notes?: string | null
-          payment_date?: string
-          payment_method?: string | null
-          payment_type?: string
-          reference?: string | null
-          reference_number?: string | null
-          rent_period?: string | null
-          status?: Database["public"]["Enums"]["payment_status"]
-          student_id?: string | null
-          updated_at?: string
-        }
-        Update: {
-          amount?: number
-          balance_after?: number | null
-          building_id?: string | null
-          collected_by?: string | null
-          created_at?: string
-          description?: string | null
-          id?: string
-          notes?: string | null
-          payment_date?: string
-          payment_method?: string | null
-          payment_type?: string
-          reference?: string | null
-          reference_number?: string | null
-          rent_period?: string | null
-          status?: Database["public"]["Enums"]["payment_status"]
-          student_id?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "payments_building_id_fkey"
-            columns: ["building_id"]
-            isOneToOne: false
-            referencedRelation: "buildings"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "payments_student_id_fkey"
-            columns: ["student_id"]
-            isOneToOne: false
-            referencedRelation: "students"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      pricing_config: {
-        Row: {
-          amount: number
-          description: string | null
-          id: string
-          key: string
-          label: string
-          updated_at: string
-          updated_by: string | null
-        }
-        Insert: {
-          amount?: number
-          description?: string | null
-          id?: string
-          key: string
-          label: string
-          updated_at?: string
-          updated_by?: string | null
-        }
-        Update: {
-          amount?: number
-          description?: string | null
-          id?: string
-          key?: string
-          label?: string
-          updated_at?: string
-          updated_by?: string | null
-        }
-        Relationships: []
-      }
-      profiles: {
-        Row: {
-          avatar_url: string | null
-          created_at: string
-          email: string | null
-          first_name: string | null
-          full_name: string | null
-          id: string
-          id_number: string | null
-          last_name: string | null
-          phone: string | null
-          updated_at: string
-        }
-        Insert: {
-          avatar_url?: string | null
-          created_at?: string
-          email?: string | null
-          first_name?: string | null
-          full_name?: string | null
-          id: string
-          id_number?: string | null
-          last_name?: string | null
-          phone?: string | null
-          updated_at?: string
-        }
-        Update: {
-          avatar_url?: string | null
-          created_at?: string
-          email?: string | null
-          first_name?: string | null
-          full_name?: string | null
-          id?: string
-          id_number?: string | null
-          last_name?: string | null
-          phone?: string | null
-          updated_at?: string
-        }
-        Relationships: []
-      }
-      referrals: {
-        Row: {
-          applicant_type: Database["public"]["Enums"]["applicant_type"] | null
-          application_id: string | null
-          commission_amount: number
-          created_at: string
-          id: string
-          marketer_id: string | null
-          referral_code: string
-          status: string
-        }
-        Insert: {
-          applicant_type?: Database["public"]["Enums"]["applicant_type"] | null
-          application_id?: string | null
-          commission_amount?: number
-          created_at?: string
-          id?: string
-          marketer_id?: string | null
-          referral_code: string
-          status?: string
-        }
-        Update: {
-          applicant_type?: Database["public"]["Enums"]["applicant_type"] | null
-          application_id?: string | null
-          commission_amount?: number
-          created_at?: string
-          id?: string
-          marketer_id?: string | null
-          referral_code?: string
-          status?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "referrals_application_id_fkey"
-            columns: ["application_id"]
-            isOneToOne: false
-            referencedRelation: "applications"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      rent_rules: {
-        Row: {
-          building_id: string | null
-          created_at: string
-          funding_type: string
-          id: string
-          is_active: boolean
-          monthly_rent: number
-          updated_at: string
-        }
-        Insert: {
-          building_id?: string | null
-          created_at?: string
-          funding_type: string
-          id?: string
-          is_active?: boolean
-          monthly_rent?: number
-          updated_at?: string
-        }
-        Update: {
-          building_id?: string | null
-          created_at?: string
-          funding_type?: string
-          id?: string
-          is_active?: boolean
-          monthly_rent?: number
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "rent_rules_building_id_fkey"
-            columns: ["building_id"]
-            isOneToOne: false
-            referencedRelation: "buildings"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      roommate_matches: {
-        Row: {
-          building_id: string | null
-          created_at: string
-          id: string
-          status: string
-          user_a: string
-          user_b: string
-        }
-        Insert: {
-          building_id?: string | null
-          created_at?: string
-          id?: string
-          status?: string
-          user_a: string
-          user_b: string
-        }
-        Update: {
-          building_id?: string | null
-          created_at?: string
-          id?: string
-          status?: string
-          user_a?: string
-          user_b?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "roommate_matches_building_id_fkey"
-            columns: ["building_id"]
-            isOneToOne: false
-            referencedRelation: "buildings"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      roommate_profiles: {
-        Row: {
-          bio: string | null
-          building_id: string | null
-          created_at: string
-          id: string
-          is_active: boolean
-          photo_url: string | null
-          preferences: Json
-          updated_at: string
+          superseded: boolean
           user_id: string
         }
         Insert: {
-          bio?: string | null
-          building_id?: string | null
-          created_at?: string
+          acceptance_method?: string
+          accepted_at?: string
+          agreement_version_id: string
           id?: string
-          is_active?: boolean
-          photo_url?: string | null
-          preferences?: Json
-          updated_at?: string
+          superseded?: boolean
           user_id: string
         }
         Update: {
-          bio?: string | null
-          building_id?: string | null
-          created_at?: string
+          acceptance_method?: string
+          accepted_at?: string
+          agreement_version_id?: string
           id?: string
-          is_active?: boolean
-          photo_url?: string | null
-          preferences?: Json
-          updated_at?: string
+          superseded?: boolean
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "roommate_profiles_building_id_fkey"
-            columns: ["building_id"]
+            foreignKeyName: "agreement_acceptances_agreement_version_id_fkey"
+            columns: ["agreement_version_id"]
             isOneToOne: false
-            referencedRelation: "buildings"
+            referencedRelation: "agreement_versions"
             referencedColumns: ["id"]
           },
         ]
       }
-      roommate_swipes: {
+      agreement_versions: {
         Row: {
-          building_id: string | null
-          created_at: string
+          agreement_key: string
+          body_markdown: string
           id: string
-          liked: boolean
-          swiper_id: string
-          target_id: string
+          is_current: boolean
+          published_at: string
+          requires_reacceptance: boolean
+          title: string
+          version: string
         }
         Insert: {
-          building_id?: string | null
-          created_at?: string
+          agreement_key: string
+          body_markdown: string
           id?: string
-          liked: boolean
-          swiper_id: string
-          target_id: string
+          is_current?: boolean
+          published_at?: string
+          requires_reacceptance?: boolean
+          title: string
+          version: string
         }
         Update: {
-          building_id?: string | null
-          created_at?: string
+          agreement_key?: string
+          body_markdown?: string
           id?: string
-          liked?: boolean
-          swiper_id?: string
-          target_id?: string
+          is_current?: boolean
+          published_at?: string
+          requires_reacceptance?: boolean
+          title?: string
+          version?: string
+        }
+        Relationships: []
+      }
+      appeals: {
+        Row: {
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+          decision_notes: string | null
+          id: string
+          moderation_action_id: string | null
+          statement: string
+          status: Database["public"]["Enums"]["report_status"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          decision_notes?: string | null
+          id?: string
+          moderation_action_id?: string | null
+          statement: string
+          status?: Database["public"]["Enums"]["report_status"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          decision_notes?: string | null
+          id?: string
+          moderation_action_id?: string | null
+          statement?: string
+          status?: Database["public"]["Enums"]["report_status"]
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "roommate_swipes_building_id_fkey"
-            columns: ["building_id"]
+            foreignKeyName: "appeals_moderation_action_id_fkey"
+            columns: ["moderation_action_id"]
             isOneToOne: false
-            referencedRelation: "buildings"
+            referencedRelation: "moderation_actions"
             referencedColumns: ["id"]
           },
         ]
       }
-      rooms: {
+      blocks: {
         Row: {
-          block: string | null
-          building_id: string
-          capacity: number | null
+          blocked_id: string
+          blocker_id: string
+          created_at: string
+          id: string
+        }
+        Insert: {
+          blocked_id: string
+          blocker_id: string
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          blocked_id?: string
+          blocker_id?: string
+          created_at?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      collaboration_applications: {
+        Row: {
+          applicant_id: string
+          created_at: string
+          id: string
+          message: string | null
+          request_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          applicant_id: string
+          created_at?: string
+          id?: string
+          message?: string | null
+          request_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          applicant_id?: string
+          created_at?: string
+          id?: string
+          message?: string | null
+          request_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collaboration_applications_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "collaboration_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      collaboration_requests: {
+        Row: {
+          commitment: string | null
+          compensation_disclosure: string | null
+          created_at: string
+          created_by: string
+          deadline: string | null
+          description: string | null
+          id: string
+          is_remote: boolean
+          location: string | null
+          project_id: string
+          requirement: string
+          skills: string[]
+          status: string
+          updated_at: string
+          visibility: Database["public"]["Enums"]["visibility_level"]
+        }
+        Insert: {
+          commitment?: string | null
+          compensation_disclosure?: string | null
+          created_at?: string
+          created_by: string
+          deadline?: string | null
+          description?: string | null
+          id?: string
+          is_remote?: boolean
+          location?: string | null
+          project_id: string
+          requirement: string
+          skills?: string[]
+          status?: string
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["visibility_level"]
+        }
+        Update: {
+          commitment?: string | null
+          compensation_disclosure?: string | null
+          created_at?: string
+          created_by?: string
+          deadline?: string | null
+          description?: string | null
+          id?: string
+          is_remote?: boolean
+          location?: string | null
+          project_id?: string
+          requirement?: string
+          skills?: string[]
+          status?: string
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["visibility_level"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "collaboration_requests_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      comments: {
+        Row: {
+          author_id: string
+          body: string
+          created_at: string
+          id: string
+          is_removed: boolean
+          parent_id: string | null
+          post_id: string
+          updated_at: string
+        }
+        Insert: {
+          author_id: string
+          body: string
+          created_at?: string
+          id?: string
+          is_removed?: boolean
+          parent_id?: string | null
+          post_id: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string
+          body?: string
+          created_at?: string
+          id?: string
+          is_removed?: boolean
+          parent_id?: string | null
+          post_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "comments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      content_reports: {
+        Row: {
+          category: string
           created_at: string
           description: string | null
-          floor: string | null
-          gender_restriction: string | null
           id: string
-          is_available: boolean
-          monthly_rent: number | null
-          occupied: number
-          occupied_beds: number
-          photo_url: string | null
-          room_number: string
-          room_type: string
-          status: string
-          total_beds: number
+          reporter_id: string
+          status: Database["public"]["Enums"]["report_status"]
+          subject_id: string
+          subject_type: string
           updated_at: string
         }
         Insert: {
-          block?: string | null
-          building_id: string
-          capacity?: number | null
+          category: string
           created_at?: string
           description?: string | null
-          floor?: string | null
-          gender_restriction?: string | null
           id?: string
-          is_available?: boolean
-          monthly_rent?: number | null
-          occupied?: number
-          occupied_beds?: number
-          photo_url?: string | null
-          room_number: string
-          room_type?: string
-          status?: string
-          total_beds?: number
+          reporter_id: string
+          status?: Database["public"]["Enums"]["report_status"]
+          subject_id: string
+          subject_type: string
           updated_at?: string
         }
         Update: {
-          block?: string | null
-          building_id?: string
-          capacity?: number | null
+          category?: string
           created_at?: string
           description?: string | null
-          floor?: string | null
-          gender_restriction?: string | null
           id?: string
-          is_available?: boolean
-          monthly_rent?: number | null
-          occupied?: number
-          occupied_beds?: number
-          photo_url?: string | null
-          room_number?: string
-          room_type?: string
-          status?: string
-          total_beds?: number
+          reporter_id?: string
+          status?: Database["public"]["Enums"]["report_status"]
+          subject_id?: string
+          subject_type?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      conversation_participants: {
+        Row: {
+          conversation_id: string
+          last_read_at: string | null
+          user_id: string
+        }
+        Insert: {
+          conversation_id: string
+          last_read_at?: string | null
+          user_id: string
+        }
+        Update: {
+          conversation_id?: string
+          last_read_at?: string | null
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "rooms_building_id_fkey"
-            columns: ["building_id"]
+            foreignKeyName: "conversation_participants_conversation_id_fkey"
+            columns: ["conversation_id"]
             isOneToOne: false
-            referencedRelation: "buildings"
+            referencedRelation: "conversations"
             referencedColumns: ["id"]
           },
         ]
       }
-      student_reservations: {
+      conversations: {
         Row: {
-          applicant_name: string
-          bed_id: string | null
-          building_id: string | null
           created_at: string
-          created_by: string | null
-          email: string | null
+          created_by: string
           id: string
-          notes: string | null
-          phone: string | null
-          reserved_until: string | null
-          room_id: string | null
-          status: string
-          updated_at: string
+          subject: string | null
         }
         Insert: {
-          applicant_name: string
-          bed_id?: string | null
-          building_id?: string | null
           created_at?: string
-          created_by?: string | null
-          email?: string | null
+          created_by: string
           id?: string
-          notes?: string | null
-          phone?: string | null
-          reserved_until?: string | null
-          room_id?: string | null
-          status?: string
-          updated_at?: string
+          subject?: string | null
         }
         Update: {
-          applicant_name?: string
-          bed_id?: string | null
-          building_id?: string | null
           created_at?: string
-          created_by?: string | null
-          email?: string | null
+          created_by?: string
           id?: string
-          notes?: string | null
-          phone?: string | null
-          reserved_until?: string | null
-          room_id?: string | null
-          status?: string
-          updated_at?: string
+          subject?: string | null
+        }
+        Relationships: []
+      }
+      evidence_events: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          entity_id: string | null
+          entity_type: string | null
+          event_type: string
+          file_hash: string | null
+          id: string
+          metadata: Json
+          project_id: string | null
+          version: number | null
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          event_type: string
+          file_hash?: string | null
+          id?: string
+          metadata?: Json
+          project_id?: string | null
+          version?: number | null
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string | null
+          event_type?: string
+          file_hash?: string | null
+          id?: string
+          metadata?: Json
+          project_id?: string | null
+          version?: number | null
         }
         Relationships: [
           {
-            foreignKeyName: "student_reservations_bed_id_fkey"
-            columns: ["bed_id"]
+            foreignKeyName: "evidence_events_project_id_fkey"
+            columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "beds"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "student_reservations_building_id_fkey"
-            columns: ["building_id"]
-            isOneToOne: false
-            referencedRelation: "buildings"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "student_reservations_room_id_fkey"
-            columns: ["room_id"]
-            isOneToOne: false
-            referencedRelation: "rooms"
+            referencedRelation: "projects"
             referencedColumns: ["id"]
           },
         ]
       }
-      students: {
+      follows: {
         Row: {
-          applicant_type: Database["public"]["Enums"]["applicant_type"]
-          balance: number
-          bed_id: string | null
-          building_id: string | null
-          check_in_date: string | null
-          check_out_date: string | null
           created_at: string
-          custom_rent: number | null
+          followee_id: string | null
+          follower_id: string
+          id: string
+          project_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          followee_id?: string | null
+          follower_id: string
+          id?: string
+          project_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          followee_id?: string | null
+          follower_id?: string
+          id?: string
+          project_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "follows_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hashtags: {
+        Row: {
+          id: string
+          tag: string
+        }
+        Insert: {
+          id?: string
+          tag: string
+        }
+        Update: {
+          id?: string
+          tag?: string
+        }
+        Relationships: []
+      }
+      identities: {
+        Row: {
+          id: string
+          label: string
+          slug: string
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          label: string
+          slug: string
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          label?: string
+          slug?: string
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      ip_misuse_reports: {
+        Row: {
+          claimant_id: string
+          created_at: string
+          description: string
+          disputed_subject_id: string | null
+          disputed_subject_type: string
+          evidence_urls: string[]
+          good_faith_declaration: boolean
+          id: string
+          original_dates: string | null
+          original_project_id: string | null
+          registration_information: string | null
+          requested_outcome: string | null
+          respondent_responded_at: string | null
+          respondent_response: string | null
+          status: Database["public"]["Enums"]["report_status"]
+          updated_at: string
+        }
+        Insert: {
+          claimant_id: string
+          created_at?: string
+          description: string
+          disputed_subject_id?: string | null
+          disputed_subject_type: string
+          evidence_urls?: string[]
+          good_faith_declaration?: boolean
+          id?: string
+          original_dates?: string | null
+          original_project_id?: string | null
+          registration_information?: string | null
+          requested_outcome?: string | null
+          respondent_responded_at?: string | null
+          respondent_response?: string | null
+          status?: Database["public"]["Enums"]["report_status"]
+          updated_at?: string
+        }
+        Update: {
+          claimant_id?: string
+          created_at?: string
+          description?: string
+          disputed_subject_id?: string | null
+          disputed_subject_type?: string
+          evidence_urls?: string[]
+          good_faith_declaration?: boolean
+          id?: string
+          original_dates?: string | null
+          original_project_id?: string | null
+          registration_information?: string | null
+          requested_outcome?: string | null
+          respondent_responded_at?: string | null
+          respondent_response?: string | null
+          status?: Database["public"]["Enums"]["report_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ip_misuse_reports_original_project_id_fkey"
+            columns: ["original_project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          body: string
+          conversation_id: string
+          created_at: string
+          id: string
+          sender_id: string
+        }
+        Insert: {
+          body: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          sender_id: string
+        }
+        Update: {
+          body?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      moderation_actions: {
+        Row: {
+          action: string
+          actor_id: string
+          created_at: string
+          id: string
+          new_state: Json | null
+          previous_state: Json | null
+          reason: string
+          requires_human_review: boolean
+          subject_id: string
+          subject_type: string
+        }
+        Insert: {
+          action: string
+          actor_id: string
+          created_at?: string
+          id?: string
+          new_state?: Json | null
+          previous_state?: Json | null
+          reason: string
+          requires_human_review?: boolean
+          subject_id: string
+          subject_type: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string
+          created_at?: string
+          id?: string
+          new_state?: Json | null
+          previous_state?: Json | null
+          reason?: string
+          requires_human_review?: boolean
+          subject_id?: string
+          subject_type?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          kind: string
+          link_path: string | null
+          read_at: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind: string
+          link_path?: string | null
+          read_at?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          kind?: string
+          link_path?: string | null
+          read_at?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      post_hashtags: {
+        Row: {
+          hashtag_id: string
+          post_id: string
+        }
+        Insert: {
+          hashtag_id: string
+          post_id: string
+        }
+        Update: {
+          hashtag_id?: string
+          post_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_hashtags_hashtag_id_fkey"
+            columns: ["hashtag_id"]
+            isOneToOne: false
+            referencedRelation: "hashtags"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "post_hashtags_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      post_media: {
+        Row: {
+          created_at: string
+          duration_seconds: number | null
+          id: string
+          media_type: string
+          position: number
+          post_id: string
+          storage_path: string
+        }
+        Insert: {
+          created_at?: string
+          duration_seconds?: number | null
+          id?: string
+          media_type: string
+          position?: number
+          post_id: string
+          storage_path: string
+        }
+        Update: {
+          created_at?: string
+          duration_seconds?: number | null
+          id?: string
+          media_type?: string
+          position?: number
+          post_id?: string
+          storage_path?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_media_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      posts: {
+        Row: {
+          author_id: string
+          caption: string | null
+          created_at: string
+          id: string
+          is_removed: boolean
+          post_type: Database["public"]["Enums"]["post_type"]
+          project_id: string | null
+          purpose: string | null
+          reduced_distribution: boolean
+          requested_help: string | null
+          sector_id: string | null
+          updated_at: string
+          visibility: Database["public"]["Enums"]["visibility_level"]
+        }
+        Insert: {
+          author_id: string
+          caption?: string | null
+          created_at?: string
+          id?: string
+          is_removed?: boolean
+          post_type?: Database["public"]["Enums"]["post_type"]
+          project_id?: string | null
+          purpose?: string | null
+          reduced_distribution?: boolean
+          requested_help?: string | null
+          sector_id?: string | null
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["visibility_level"]
+        }
+        Update: {
+          author_id?: string
+          caption?: string | null
+          created_at?: string
+          id?: string
+          is_removed?: boolean
+          post_type?: Database["public"]["Enums"]["post_type"]
+          project_id?: string | null
+          purpose?: string | null
+          reduced_distribution?: boolean
+          requested_help?: string | null
+          sector_id?: string | null
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["visibility_level"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "posts_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posts_sector_id_fkey"
+            columns: ["sector_id"]
+            isOneToOne: false
+            referencedRelation: "sectors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      private_profile_data: {
+        Row: {
+          address: string | null
+          contact_email: string | null
+          created_at: string
           date_of_birth: string | null
-          email: string | null
-          emergency_contact_name: string | null
-          emergency_contact_phone: string | null
-          first_name: string
-          funding_type: string | null
-          gender: string | null
           id: string
-          id_number: string | null
-          institution: string | null
-          is_active: boolean
-          last_name: string
-          move_in_date: string | null
-          move_out_date: string | null
-          notes: string | null
-          nsfas_reference: string | null
+          legal_name: string | null
           phone: string | null
-          profile_id: string | null
-          profile_image_url: string | null
-          room_id: string | null
-          status: string
-          student_number: string | null
           updated_at: string
-          user_id: string | null
         }
         Insert: {
-          applicant_type?: Database["public"]["Enums"]["applicant_type"]
-          balance?: number
-          bed_id?: string | null
-          building_id?: string | null
-          check_in_date?: string | null
-          check_out_date?: string | null
+          address?: string | null
+          contact_email?: string | null
           created_at?: string
-          custom_rent?: number | null
           date_of_birth?: string | null
-          email?: string | null
-          emergency_contact_name?: string | null
-          emergency_contact_phone?: string | null
-          first_name: string
-          funding_type?: string | null
-          gender?: string | null
-          id?: string
-          id_number?: string | null
-          institution?: string | null
-          is_active?: boolean
-          last_name: string
-          move_in_date?: string | null
-          move_out_date?: string | null
-          notes?: string | null
-          nsfas_reference?: string | null
+          id: string
+          legal_name?: string | null
           phone?: string | null
-          profile_id?: string | null
-          profile_image_url?: string | null
-          room_id?: string | null
-          status?: string
-          student_number?: string | null
           updated_at?: string
-          user_id?: string | null
         }
         Update: {
-          applicant_type?: Database["public"]["Enums"]["applicant_type"]
-          balance?: number
-          bed_id?: string | null
-          building_id?: string | null
-          check_in_date?: string | null
-          check_out_date?: string | null
+          address?: string | null
+          contact_email?: string | null
           created_at?: string
-          custom_rent?: number | null
           date_of_birth?: string | null
-          email?: string | null
-          emergency_contact_name?: string | null
-          emergency_contact_phone?: string | null
-          first_name?: string
-          funding_type?: string | null
-          gender?: string | null
           id?: string
-          id_number?: string | null
-          institution?: string | null
-          is_active?: boolean
-          last_name?: string
-          move_in_date?: string | null
-          move_out_date?: string | null
-          notes?: string | null
-          nsfas_reference?: string | null
+          legal_name?: string | null
           phone?: string | null
-          profile_id?: string | null
-          profile_image_url?: string | null
-          room_id?: string | null
-          status?: string
-          student_number?: string | null
           updated_at?: string
-          user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "students_bed_id_fkey"
-            columns: ["bed_id"]
+            foreignKeyName: "private_profile_data_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profile_identities: {
+        Row: {
+          identity_id: string
+          profile_id: string
+        }
+        Insert: {
+          identity_id: string
+          profile_id: string
+        }
+        Update: {
+          identity_id?: string
+          profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_identities_identity_id_fkey"
+            columns: ["identity_id"]
             isOneToOne: false
-            referencedRelation: "beds"
+            referencedRelation: "identities"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "students_building_id_fkey"
-            columns: ["building_id"]
+            foreignKeyName: "profile_identities_profile_id_fkey"
+            columns: ["profile_id"]
             isOneToOne: false
-            referencedRelation: "buildings"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
+        ]
+      }
+      profile_sectors: {
+        Row: {
+          profile_id: string
+          sector_id: string
+        }
+        Insert: {
+          profile_id: string
+          sector_id: string
+        }
+        Update: {
+          profile_id?: string
+          sector_id?: string
+        }
+        Relationships: [
           {
-            foreignKeyName: "students_profile_id_fkey"
+            foreignKeyName: "profile_sectors_profile_id_fkey"
             columns: ["profile_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "students_room_id_fkey"
-            columns: ["room_id"]
+            foreignKeyName: "profile_sectors_sector_id_fkey"
+            columns: ["sector_id"]
             isOneToOne: false
-            referencedRelation: "rooms"
+            referencedRelation: "sectors"
             referencedColumns: ["id"]
           },
         ]
       }
-      system_audit_log: {
+      profile_skills: {
         Row: {
-          action: string
-          actor_id: string | null
-          created_at: string
-          details: Json | null
-          entity_id: string | null
-          entity_type: string | null
-          id: string
+          profile_id: string
+          skill_id: string
         }
         Insert: {
-          action: string
-          actor_id?: string | null
-          created_at?: string
-          details?: Json | null
-          entity_id?: string | null
-          entity_type?: string | null
-          id?: string
+          profile_id: string
+          skill_id: string
         }
         Update: {
-          action?: string
-          actor_id?: string | null
+          profile_id?: string
+          skill_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_skills_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profile_skills_skill_id_fkey"
+            columns: ["skill_id"]
+            isOneToOne: false
+            referencedRelation: "skills"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          city: string | null
+          country: string | null
+          cover_url: string | null
+          created_at: string
+          display_name: string
+          id: string
+          institution: string | null
+          investor_preferences: Json
+          is_verified: boolean
+          onboarding_completed_at: string | null
+          open_to_collaboration: boolean
+          open_to_mentorship: boolean
+          portfolio_url: string | null
+          profile_visibility: Database["public"]["Enums"]["visibility_level"]
+          province: string | null
+          under_35_optin: boolean
+          updated_at: string
+          username: string
+          website: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          city?: string | null
+          country?: string | null
+          cover_url?: string | null
           created_at?: string
-          details?: Json | null
-          entity_id?: string | null
-          entity_type?: string | null
+          display_name?: string
+          id: string
+          institution?: string | null
+          investor_preferences?: Json
+          is_verified?: boolean
+          onboarding_completed_at?: string | null
+          open_to_collaboration?: boolean
+          open_to_mentorship?: boolean
+          portfolio_url?: string | null
+          profile_visibility?: Database["public"]["Enums"]["visibility_level"]
+          province?: string | null
+          under_35_optin?: boolean
+          updated_at?: string
+          username: string
+          website?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          city?: string | null
+          country?: string | null
+          cover_url?: string | null
+          created_at?: string
+          display_name?: string
           id?: string
+          institution?: string | null
+          investor_preferences?: Json
+          is_verified?: boolean
+          onboarding_completed_at?: string | null
+          open_to_collaboration?: boolean
+          open_to_mentorship?: boolean
+          portfolio_url?: string | null
+          profile_visibility?: Database["public"]["Enums"]["visibility_level"]
+          province?: string | null
+          under_35_optin?: boolean
+          updated_at?: string
+          username?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      project_media: {
+        Row: {
+          caption: string | null
+          created_at: string
+          file_hash: string | null
+          file_size: number | null
+          id: string
+          media_type: string
+          project_id: string
+          storage_path: string
+          uploaded_by: string
+          visibility: Database["public"]["Enums"]["visibility_level"]
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          file_hash?: string | null
+          file_size?: number | null
+          id?: string
+          media_type: string
+          project_id: string
+          storage_path: string
+          uploaded_by: string
+          visibility?: Database["public"]["Enums"]["visibility_level"]
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          file_hash?: string | null
+          file_size?: number | null
+          id?: string
+          media_type?: string
+          project_id?: string
+          storage_path?: string
+          uploaded_by?: string
+          visibility?: Database["public"]["Enums"]["visibility_level"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_media_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_members: {
+        Row: {
+          can_edit: boolean
+          contribution_summary: string | null
+          created_at: string
+          id: string
+          project_id: string
+          role_title: string | null
+          user_id: string
+        }
+        Insert: {
+          can_edit?: boolean
+          contribution_summary?: string | null
+          created_at?: string
+          id?: string
+          project_id: string
+          role_title?: string | null
+          user_id: string
+        }
+        Update: {
+          can_edit?: boolean
+          contribution_summary?: string | null
+          created_at?: string
+          id?: string
+          project_id?: string
+          role_title?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_members_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_milestones: {
+        Row: {
+          contributor_ids: string[]
+          created_at: string
+          created_by: string
+          description: string | null
+          file_urls: string[]
+          id: string
+          media_urls: string[]
+          milestone_date: string | null
+          project_id: string
+          stage: Database["public"]["Enums"]["project_stage"] | null
+          title: string
+          updated_at: string
+          version: number
+          visibility: Database["public"]["Enums"]["visibility_level"]
+        }
+        Insert: {
+          contributor_ids?: string[]
+          created_at?: string
+          created_by: string
+          description?: string | null
+          file_urls?: string[]
+          id?: string
+          media_urls?: string[]
+          milestone_date?: string | null
+          project_id: string
+          stage?: Database["public"]["Enums"]["project_stage"] | null
+          title: string
+          updated_at?: string
+          version?: number
+          visibility?: Database["public"]["Enums"]["visibility_level"]
+        }
+        Update: {
+          contributor_ids?: string[]
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          file_urls?: string[]
+          id?: string
+          media_urls?: string[]
+          milestone_date?: string | null
+          project_id?: string
+          stage?: Database["public"]["Enums"]["project_stage"] | null
+          title?: string
+          updated_at?: string
+          version?: number
+          visibility?: Database["public"]["Enums"]["visibility_level"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_milestones_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          city: string | null
+          country: string | null
+          cover_url: string | null
+          created_at: string
+          demo_url: string | null
+          funding_amount: number | null
+          funding_status: string | null
+          id: string
+          logo_url: string | null
+          name: string
+          owner_id: string
+          ownership_declaration: string | null
+          pitch: string | null
+          problem: string | null
+          province: string | null
+          repository_url: string | null
+          required_skills: string[]
+          research_url: string | null
+          sector_id: string | null
+          seeking_collaborators: boolean
+          seeking_funding: boolean
+          slug: string
+          solution: string | null
+          stage: Database["public"]["Enums"]["project_stage"]
+          target_audience: string | null
+          technologies: string[]
+          updated_at: string
+          visibility: Database["public"]["Enums"]["visibility_level"]
+          website_url: string | null
+        }
+        Insert: {
+          city?: string | null
+          country?: string | null
+          cover_url?: string | null
+          created_at?: string
+          demo_url?: string | null
+          funding_amount?: number | null
+          funding_status?: string | null
+          id?: string
+          logo_url?: string | null
+          name: string
+          owner_id: string
+          ownership_declaration?: string | null
+          pitch?: string | null
+          problem?: string | null
+          province?: string | null
+          repository_url?: string | null
+          required_skills?: string[]
+          research_url?: string | null
+          sector_id?: string | null
+          seeking_collaborators?: boolean
+          seeking_funding?: boolean
+          slug: string
+          solution?: string | null
+          stage?: Database["public"]["Enums"]["project_stage"]
+          target_audience?: string | null
+          technologies?: string[]
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["visibility_level"]
+          website_url?: string | null
+        }
+        Update: {
+          city?: string | null
+          country?: string | null
+          cover_url?: string | null
+          created_at?: string
+          demo_url?: string | null
+          funding_amount?: number | null
+          funding_status?: string | null
+          id?: string
+          logo_url?: string | null
+          name?: string
+          owner_id?: string
+          ownership_declaration?: string | null
+          pitch?: string | null
+          problem?: string | null
+          province?: string | null
+          repository_url?: string | null
+          required_skills?: string[]
+          research_url?: string | null
+          sector_id?: string | null
+          seeking_collaborators?: boolean
+          seeking_funding?: boolean
+          slug?: string
+          solution?: string | null
+          stage?: Database["public"]["Enums"]["project_stage"]
+          target_audience?: string | null
+          technologies?: string[]
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["visibility_level"]
+          website_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "projects_sector_id_fkey"
+            columns: ["sector_id"]
+            isOneToOne: false
+            referencedRelation: "sectors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      protected_access_requests: {
+        Row: {
+          confidentiality_accepted: boolean
+          confidentiality_accepted_at: string | null
+          created_at: string
+          decided_at: string | null
+          decided_by: string | null
+          id: string
+          project_id: string
+          reason: string | null
+          requester_id: string
+          status: Database["public"]["Enums"]["access_request_status"]
+          updated_at: string
+        }
+        Insert: {
+          confidentiality_accepted?: boolean
+          confidentiality_accepted_at?: string | null
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          id?: string
+          project_id: string
+          reason?: string | null
+          requester_id: string
+          status?: Database["public"]["Enums"]["access_request_status"]
+          updated_at?: string
+        }
+        Update: {
+          confidentiality_accepted?: boolean
+          confidentiality_accepted_at?: string | null
+          created_at?: string
+          decided_at?: string | null
+          decided_by?: string | null
+          id?: string
+          project_id?: string
+          reason?: string | null
+          requester_id?: string
+          status?: Database["public"]["Enums"]["access_request_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "protected_access_requests_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reactions: {
+        Row: {
+          created_at: string
+          id: string
+          post_id: string
+          reaction: Database["public"]["Enums"]["reaction_type"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          post_id: string
+          reaction: Database["public"]["Enums"]["reaction_type"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          post_id?: string
+          reaction?: Database["public"]["Enums"]["reaction_type"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reactions_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      saves: {
+        Row: {
+          created_at: string
+          id: string
+          post_id: string | null
+          project_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          post_id?: string | null
+          project_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          post_id?: string | null
+          project_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saves_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "saves_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sectors: {
+        Row: {
+          id: string
+          is_approved: boolean
+          label: string
+          slug: string
+        }
+        Insert: {
+          id?: string
+          is_approved?: boolean
+          label: string
+          slug: string
+        }
+        Update: {
+          id?: string
+          is_approved?: boolean
+          label?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      skills: {
+        Row: {
+          id: string
+          is_approved: boolean
+          label: string
+          slug: string
+        }
+        Insert: {
+          id?: string
+          is_approved?: boolean
+          label: string
+          slug: string
+        }
+        Update: {
+          id?: string
+          is_approved?: boolean
+          label?: string
+          slug?: string
         }
         Relationships: []
       }
       user_roles: {
         Row: {
-          building_id: string | null
           created_at: string
+          granted_by: string | null
           id: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Insert: {
-          building_id?: string | null
           created_at?: string
+          granted_by?: string | null
           id?: string
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Update: {
-          building_id?: string | null
           created_at?: string
+          granted_by?: string | null
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
         }
         Relationships: []
       }
-      viewing_requests: {
-        Row: {
-          applicant_name: string
-          building_id: string | null
-          comments: string | null
-          created_at: string
-          email: string | null
-          id: string
-          institution: string | null
-          phone: string
-          preferred_date: string | null
-          preferred_time: string | null
-          status: string
-          updated_at: string
-        }
-        Insert: {
-          applicant_name: string
-          building_id?: string | null
-          comments?: string | null
-          created_at?: string
-          email?: string | null
-          id?: string
-          institution?: string | null
-          phone: string
-          preferred_date?: string | null
-          preferred_time?: string | null
-          status?: string
-          updated_at?: string
-        }
-        Update: {
-          applicant_name?: string
-          building_id?: string | null
-          comments?: string | null
-          created_at?: string
-          email?: string | null
-          id?: string
-          institution?: string | null
-          phone?: string
-          preferred_date?: string | null
-          preferred_time?: string | null
-          status?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "viewing_requests_building_id_fkey"
-            columns: ["building_id"]
-            isOneToOne: false
-            referencedRelation: "buildings"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      can_edit_project: {
+        Args: { _project_id: string; _user_id: string }
+        Returns: boolean
+      }
+      can_view_project: {
+        Args: { _project_id: string; _user_id: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1446,67 +1488,56 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_conversation_participant: {
+        Args: { _conversation_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
+      access_request_status: "pending" | "approved" | "rejected" | "revoked"
       app_role:
-        | "super_admin"
+        | "user"
+        | "verified_user"
+        | "verified_investor"
+        | "verified_organisation"
+        | "moderator"
         | "admin"
-        | "office_admin"
-        | "building_admin"
-        | "marketer"
-        | "security"
-        | "transport"
-        | "student"
-        | "tenant"
-        | "developer"
-      applicant_type:
-        | "nsfas"
-        | "self_pay_furnished"
-        | "self_pay_unfurnished"
-        | "private_tenant"
-      application_status:
-        | "draft"
-        | "submitted"
-        | "reviewing"
-        | "approved"
-        | "declined"
-        | "moved_in"
-        | "cancelled"
-        | "pending"
-        | "under_review"
-      complaint_status:
+        | "super_admin"
+      post_type:
+        | "post"
+        | "build_reel"
+        | "project_update"
+        | "research"
+        | "collaboration_request"
+        | "opportunity"
+      project_stage:
+        | "idea"
+        | "research"
+        | "concept"
+        | "prototype"
+        | "testing"
+        | "pilot"
+        | "early_market"
+        | "growth"
+        | "established"
+      reaction_type:
+        | "support"
+        | "innovative"
+        | "great_potential"
+        | "i_can_help"
+        | "lets_collaborate"
+        | "interested_in_investing"
+      report_status:
         | "open"
-        | "in_progress"
+        | "triaged"
+        | "restricted"
+        | "responded"
+        | "under_review"
         | "resolved"
-        | "closed"
-        | "escalated"
-        | "fixed"
-        | "overdue"
-        | "pending_parts"
-      lease_status:
-        | "draft"
-        | "active"
-        | "expired"
-        | "terminated"
-        | "pending_signature"
-        | "signed"
-        | "pending"
-        | "sent"
-        | "approved"
-        | "rejected"
-      payment_status:
-        | "pending"
-        | "confirmed"
-        | "failed"
-        | "refunded"
-        | "partial"
-      rent_period_status:
-        | "pending"
-        | "partial"
-        | "paid"
-        | "overpaid"
-        | "overdue"
-        | "waived"
+        | "dismissed"
+        | "referred"
+      visibility_level: "public" | "community" | "protected" | "private"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1634,66 +1665,54 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      access_request_status: ["pending", "approved", "rejected", "revoked"],
       app_role: [
-        "super_admin",
+        "user",
+        "verified_user",
+        "verified_investor",
+        "verified_organisation",
+        "moderator",
         "admin",
-        "office_admin",
-        "building_admin",
-        "marketer",
-        "security",
-        "transport",
-        "student",
-        "tenant",
-        "developer",
+        "super_admin",
       ],
-      applicant_type: [
-        "nsfas",
-        "self_pay_furnished",
-        "self_pay_unfurnished",
-        "private_tenant",
+      post_type: [
+        "post",
+        "build_reel",
+        "project_update",
+        "research",
+        "collaboration_request",
+        "opportunity",
       ],
-      application_status: [
-        "draft",
-        "submitted",
-        "reviewing",
-        "approved",
-        "declined",
-        "moved_in",
-        "cancelled",
-        "pending",
-        "under_review",
+      project_stage: [
+        "idea",
+        "research",
+        "concept",
+        "prototype",
+        "testing",
+        "pilot",
+        "early_market",
+        "growth",
+        "established",
       ],
-      complaint_status: [
+      reaction_type: [
+        "support",
+        "innovative",
+        "great_potential",
+        "i_can_help",
+        "lets_collaborate",
+        "interested_in_investing",
+      ],
+      report_status: [
         "open",
-        "in_progress",
+        "triaged",
+        "restricted",
+        "responded",
+        "under_review",
         "resolved",
-        "closed",
-        "escalated",
-        "fixed",
-        "overdue",
-        "pending_parts",
+        "dismissed",
+        "referred",
       ],
-      lease_status: [
-        "draft",
-        "active",
-        "expired",
-        "terminated",
-        "pending_signature",
-        "signed",
-        "pending",
-        "sent",
-        "approved",
-        "rejected",
-      ],
-      payment_status: ["pending", "confirmed", "failed", "refunded", "partial"],
-      rent_period_status: [
-        "pending",
-        "partial",
-        "paid",
-        "overpaid",
-        "overdue",
-        "waived",
-      ],
+      visibility_level: ["public", "community", "protected", "private"],
     },
   },
 } as const
