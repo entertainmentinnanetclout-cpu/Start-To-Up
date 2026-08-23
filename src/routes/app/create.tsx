@@ -4,7 +4,6 @@ import {
   FileText,
   FlaskConical,
   Handshake,
-  Image,
   Lightbulb,
   ListChecks,
   LockKeyhole,
@@ -69,19 +68,19 @@ function CreateHub() {
           </button>
         ))}
       </div>
-      <section className="draft-card">
+      <section className="draft-card publishing-standard-card">
         <div className="draft-art">
-          <Image />
+          <LockKeyhole />
         </div>
         <div>
-          <span className="content-kicker">CONTINUE DRAFT</span>
-          <h3>Community water monitoring sensor</h3>
-          <p>Project identity complete · Problem and solution still required</p>
-          <div className="progress-line">
-            <span style={{ width: "34%" }} />
-          </div>
+          <span className="content-kicker">THE PUBLISHING STANDARD</span>
+          <h3>Show enough to create trust. Protect what must remain controlled.</h3>
+          <p>
+            Define the problem, current stage, evidence, required skills and visibility before the
+            project enters discovery.
+          </p>
         </div>
-        <button>Continue</button>
+        <button>Review standard</button>
       </section>
     </AppShell>
   );
