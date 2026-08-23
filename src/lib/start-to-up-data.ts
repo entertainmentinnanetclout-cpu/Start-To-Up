@@ -20,6 +20,8 @@ export type LiveEvent = Tables["live_events"]["Row"];
 export type EcosystemProgram = Tables["ecosystem_programs"]["Row"];
 export type PlatformPlan = Tables["platform_plans"]["Row"];
 export type EditorialProductShowcase = Tables["editorial_product_showcases"]["Row"];
+export type NetworkMediaItem = Tables["network_media_items"]["Row"];
+export type CollaborationWorkspace = Tables["collaboration_workspaces"]["Row"];
 
 type LiveState<T> = { data: T; loading: boolean; error: string | null };
 
@@ -95,6 +97,52 @@ export function useEditorialShowcases() {
       .eq("status", "published")
       .order("featured", { ascending: false })
       .order("published_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (active) setState({ data: data ?? [], loading: false, error: error?.message ?? null });
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+  return state;
+}
+
+export function useRankedMediaFeed(audienceTags: string[]) {
+  const audienceKey = audienceTags.join(",");
+  const [state, setState] = useState<LiveState<NetworkMediaItem[]>>({
+    data: [],
+    loading: true,
+    error: null,
+  });
+  useEffect(() => {
+    let active = true;
+    const stableAudienceTags = audienceKey ? audienceKey.split(",") : [];
+    setState((current) => ({ ...current, loading: true, error: null }));
+    void supabase
+      .rpc("ranked_media_feed", { audience_tags: stableAudienceTags, result_limit: 24 })
+      .then(({ data, error }) => {
+        if (active) setState({ data: data ?? [], loading: false, error: error?.message ?? null });
+      });
+    return () => {
+      active = false;
+    };
+  }, [audienceKey]);
+  return state;
+}
+
+export function useCollaborationWorkspaces() {
+  const [state, setState] = useState<LiveState<CollaborationWorkspace[]>>({
+    data: [],
+    loading: true,
+    error: null,
+  });
+  useEffect(() => {
+    let active = true;
+    void supabase
+      .from("collaboration_workspaces")
+      .select("*")
+      .eq("is_public", true)
+      .order("created_at", { ascending: false })
       .then(({ data, error }) => {
         if (active) setState({ data: data ?? [], loading: false, error: error?.message ?? null });
       });
