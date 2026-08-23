@@ -3,6 +3,12 @@ import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 import { brokeredPreviewStorage } from './previewAuthStorage';
 
+// These are public client credentials for this application's Supabase project.
+// Vercel should still provide VITE_* values, but the public fallback keeps the
+// production web app operational if build-time environment injection is absent.
+const PUBLIC_SUPABASE_URL = 'https://clawrgsnnmzmcxutiodg.supabase.co';
+const PUBLIC_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_MSuUHwRG66BDmG4-B-Q1EQ_6cOA14K4';
+
 function isNewSupabaseApiKey(value: string): boolean {
   return value.startsWith('sb_publishable_') || value.startsWith('sb_secret_');
 }
@@ -29,16 +35,15 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
 
 function createSupabaseClient() {
   // VITE_* values are compiled for the browser. process.env is consulted only
-  // when a real Node-style process object exists during SSR.
+  // when a real Node-style process object exists during SSR. Public application
+  // defaults prevent a missing Vercel build variable from taking down the UI.
   const serverEnv = typeof process !== 'undefined' ? process.env : {};
-  const SUPABASE_URL = import.meta.env['VITE_SUPABASE_URL'] || serverEnv['SUPABASE_URL'];
+  const SUPABASE_URL =
+    import.meta.env['VITE_SUPABASE_URL'] || serverEnv['SUPABASE_URL'] || PUBLIC_SUPABASE_URL;
   const SUPABASE_PUBLISHABLE_KEY =
-    import.meta.env['VITE_SUPABASE_PUBLISHABLE_KEY'] || serverEnv['SUPABASE_PUBLISHABLE_KEY'];
-
-  if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-    console.error('[Platform] Required application configuration is incomplete.');
-    throw new Error('Application configuration is incomplete.');
-  }
+    import.meta.env['VITE_SUPABASE_PUBLISHABLE_KEY'] ||
+    serverEnv['SUPABASE_PUBLISHABLE_KEY'] ||
+    PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     global: {
