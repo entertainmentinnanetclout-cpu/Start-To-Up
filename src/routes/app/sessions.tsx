@@ -1,13 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CalendarDays, Video } from "lucide-react";
 import { AppShell } from "../../components/app-shell";
-import { AuthDeferred, DataState } from "../../components/live-data-ui";
-import { usePublicTrustData, useSessionState } from "../../lib/start-to-up-data";
+import { GuestActionForm } from "../../components/guest-action-form";
+import { DataState } from "../../components/live-data-ui";
+import { registerForExpertSession, usePublicTrustData } from "../../lib/start-to-up-data";
 
 export const Route = createFileRoute("/app/sessions")({ component: SessionsPage });
 function SessionsPage() {
   const trust = usePublicTrustData();
-  const { session } = useSessionState();
   return (
     <AppShell title="Expert sessions" eyebrow="SEMINARS · WEBINARS · KNOWLEDGE">
       <div className="phase-two-intro">
@@ -29,12 +29,18 @@ function SessionsPage() {
               <h2>{item.title}</h2>
               <p>{item.summary}</p>
               <small>{new Date(item.starts_at).toLocaleString()}</small>
-              <button disabled={!session}>Request registration</button>
+              <GuestActionForm
+                label="Request registration"
+                fieldLabel="What would you like to learn?"
+                placeholder="Briefly describe your interest in this session."
+                onSubmit={(motivation, email) =>
+                  registerForExpertSession(item.id, motivation, email)
+                }
+              />
             </article>
           ))}
         </div>
       </DataState>
-      {!session ? <AuthDeferred /> : null}
     </AppShell>
   );
 }

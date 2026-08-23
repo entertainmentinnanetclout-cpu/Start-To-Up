@@ -2739,6 +2739,79 @@ a {
   opacity: 0.45;
 }
 
+.guest-action-form {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+
+.guest-action-form label {
+  display: grid;
+  gap: 0.4rem;
+  color: var(--primary-text);
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+
+.guest-action-form textarea,
+.guest-action-form input,
+.guest-action-form select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: white;
+  color: var(--primary-text);
+  font: inherit;
+}
+
+.guest-action-form textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.guest-action-form > div {
+  display: flex;
+  gap: 0.55rem;
+  justify-content: flex-end;
+}
+
+.guest-action-form .button-quiet {
+  background: transparent;
+  color: var(--secondary-text);
+  border: 1px solid var(--line);
+}
+
+.form-result {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+}
+
+.form-result.success {
+  color: var(--success);
+}
+
+.form-result.error {
+  color: var(--danger);
+}
+
+.spin {
+  animation: form-spin 0.8s linear infinite;
+}
+
+@keyframes form-spin {
+  to { transform: rotate(360deg); }
+}
+
+.moderation-grid {
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+}
+
 .status-pill {
   align-self: flex-start;
   padding: 0.3rem 0.55rem;

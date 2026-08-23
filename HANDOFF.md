@@ -1,6 +1,6 @@
 # Handoff
 
-Phase 2 collaboration and trust is wired to the live Supabase schema without mock content. Authentication is deliberately excluded, so protected mutations show an unavailable-account state until the auth phase. The database security advisor is clean after migration `20260823090000_phase_2_collaboration_and_trust.sql`.
+Phase 2 collaboration and trust is wired to live Supabase without mock content. Authentication is deliberately excluded. Collaboration interest, expert-session registration and content reports submit through an insert-only guest intake; anonymous clients cannot read or manage submissions. Sensitive actions remain protected. The database security advisor is clean after migration `20260823103000_authless_guest_intake.sql`.
 
 Next product task: connect authentication and route guards, then activate the already-wired protected mutations and complete end-to-end role testing with real test accounts.
 
@@ -18,7 +18,7 @@ Next product task: connect authentication and route guards, then activate the al
 ## Not yet connected
 
 - Auth guards, sessions, and onboarding persistence
-- Auth-dependent creation, applications, messaging and moderation actions (data services and policies are ready)
+- Permanent-account creation, private messaging, protected access, IP claims and staff decisions
 - Media uploads, protected-project access, evidence vault UI, and notifications
 - Legal acceptance UI and final legal text
 - Full staff moderation console, native livestreaming, investor transaction workflows, and analytics

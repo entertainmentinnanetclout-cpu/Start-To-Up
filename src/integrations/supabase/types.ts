@@ -593,6 +593,45 @@ export type Database = {
           },
         ];
       };
+      guest_action_submissions: {
+        Row: {
+          action_type: Database["public"]["Enums"]["guest_action_type"];
+          category: string | null;
+          contact_email: string;
+          created_at: string;
+          id: string;
+          message: string;
+          reviewed_at: string | null;
+          reviewed_by: string | null;
+          status: string;
+          target_id: string;
+        };
+        Insert: {
+          action_type: Database["public"]["Enums"]["guest_action_type"];
+          category?: string | null;
+          contact_email: string;
+          created_at?: string;
+          id?: string;
+          message: string;
+          reviewed_at?: string | null;
+          reviewed_by?: string | null;
+          status?: string;
+          target_id: string;
+        };
+        Update: {
+          action_type?: Database["public"]["Enums"]["guest_action_type"];
+          category?: string | null;
+          contact_email?: string;
+          created_at?: string;
+          id?: string;
+          message?: string;
+          reviewed_at?: string | null;
+          reviewed_by?: string | null;
+          status?: string;
+          target_id?: string;
+        };
+        Relationships: [];
+      };
       hashtags: {
         Row: {
           id: string;
@@ -1729,6 +1768,7 @@ export type Database = {
         | "moderator"
         | "admin"
         | "super_admin";
+      guest_action_type: "collaboration_interest" | "session_registration" | "content_report";
       organization_member_role: "owner" | "admin" | "member";
       post_type:
         | "post"
@@ -1899,6 +1939,7 @@ export const Constants = {
         "admin",
         "super_admin",
       ],
+      guest_action_type: ["collaboration_interest", "session_registration", "content_report"],
       organization_member_role: ["owner", "admin", "member"],
       post_type: [
         "post",

@@ -205,21 +205,37 @@ export function usePrivateTrustData(userId?: string) {
   return state;
 }
 
-async function requireUser() {
+async function requirePermanentUser() {
   const { data } = await supabase.auth.getUser();
-  if (!data.user) throw new Error("Authentication will be connected in the dedicated auth phase.");
+  if (!data.user || data.user.is_anonymous)
+    throw new Error("This protected action requires a permanent account in the later auth phase.");
   return data.user;
 }
 
-export async function applyForCollaboration(requestId: string, message: string) {
-  const user = await requireUser();
-  return supabase
-    .from("collaboration_applications")
-    .insert({ request_id: requestId, applicant_id: user.id, message });
+async function permanentUserOrNull() {
+  const { data } = await supabase.auth.getSession();
+  const user = data.session?.user;
+  return user && !user.is_anonymous ? user : null;
+}
+
+export async function applyForCollaboration(requestId: string, message: string, email: string) {
+  const user = await permanentUserOrNull();
+  const result = user
+    ? await supabase
+        .from("collaboration_applications")
+        .insert({ request_id: requestId, applicant_id: user.id, message })
+    : await supabase.from("guest_action_submissions").insert({
+        action_type: "collaboration_interest",
+        target_id: requestId,
+        contact_email: email,
+        message,
+      });
+  if (result.error) throw result.error;
+  return result.data;
 }
 
 export async function requestProtectedAccess(projectId: string, reason: string, accepted: boolean) {
-  const user = await requireUser();
+  const user = await requirePermanentUser();
   if (!accepted) throw new Error("The confidentiality commitment must be accepted explicitly.");
   return supabase.from("protected_access_requests").insert({
     project_id: projectId,
@@ -231,17 +247,30 @@ export async function requestProtectedAccess(projectId: string, reason: string, 
 }
 
 export async function sendMessage(conversationId: string, body: string) {
-  const user = await requireUser();
+  const user = await requirePermanentUser();
   return supabase
     .from("messages")
     .insert({ conversation_id: conversationId, sender_id: user.id, body });
 }
 
-export async function registerForExpertSession(sessionId: string, motivation: string) {
-  const user = await requireUser();
-  return supabase
-    .from("expert_session_registrations")
-    .insert({ session_id: sessionId, user_id: user.id, motivation });
+export async function registerForExpertSession(
+  sessionId: string,
+  motivation: string,
+  email: string,
+) {
+  const user = await permanentUserOrNull();
+  const result = user
+    ? await supabase
+        .from("expert_session_registrations")
+        .insert({ session_id: sessionId, user_id: user.id, motivation })
+    : await supabase.from("guest_action_submissions").insert({
+        action_type: "session_registration",
+        target_id: sessionId,
+        contact_email: email,
+        message: motivation,
+      });
+  if (result.error) throw result.error;
+  return result.data;
 }
 
 export async function submitContentReport(
@@ -249,13 +278,24 @@ export async function submitContentReport(
   subjectId: string,
   category: string,
   description: string,
+  email: string,
 ) {
-  const user = await requireUser();
-  return supabase.from("content_reports").insert({
-    reporter_id: user.id,
-    subject_type: subjectType,
-    subject_id: subjectId,
-    category,
-    description,
-  });
+  const user = await permanentUserOrNull();
+  const result = user
+    ? await supabase.from("content_reports").insert({
+        reporter_id: user.id,
+        subject_type: subjectType,
+        subject_id: subjectId,
+        category,
+        description,
+      })
+    : await supabase.from("guest_action_submissions").insert({
+        action_type: "content_report",
+        target_id: subjectId,
+        contact_email: email,
+        message: description,
+        category,
+      });
+  if (result.error) throw result.error;
+  return result.data;
 }

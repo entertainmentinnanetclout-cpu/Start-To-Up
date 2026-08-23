@@ -6,6 +6,7 @@
 - Wired Home, Explore, Network, Profile and Phase 2 collaboration/trust routes to Supabase.
 - Added organizations, verification, expert sessions, secure storage buckets, evidence metadata and protected-access lifecycle fields.
 - Kept authentication excluded; protected actions are wired but unavailable without a session.
+- Activated authless collaboration interest, expert-session registration and content-safety reporting through insert-only guest intake.
 
 ## 2026-08-23 — Phase 0 checkpoint
 

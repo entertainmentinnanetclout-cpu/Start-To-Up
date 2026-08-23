@@ -1,13 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { BriefcaseBusiness, MapPin } from "lucide-react";
 import { AppShell } from "../../components/app-shell";
-import { AuthDeferred, DataState } from "../../components/live-data-ui";
-import { usePublicTrustData, useSessionState } from "../../lib/start-to-up-data";
+import { GuestActionForm } from "../../components/guest-action-form";
+import { DataState } from "../../components/live-data-ui";
+import { applyForCollaboration, usePublicTrustData } from "../../lib/start-to-up-data";
 
 export const Route = createFileRoute("/app/collaboration")({ component: CollaborationPage });
 function CollaborationPage() {
   const trust = usePublicTrustData();
-  const { session } = useSessionState();
   return (
     <AppShell title="Collaboration board" eyebrow="BUILD TOGETHER">
       <div className="phase-two-intro">
@@ -39,12 +39,16 @@ function CollaborationPage() {
               <small>
                 <MapPin /> {item.is_remote ? "Remote" : item.location || "Flexible"}
               </small>
-              <button disabled={!session}>Apply to collaborate</button>
+              <GuestActionForm
+                label="Apply to collaborate"
+                fieldLabel="Why are you a strong fit?"
+                placeholder="Describe your relevant skills, experience and availability."
+                onSubmit={(message, email) => applyForCollaboration(item.id, message, email)}
+              />
             </article>
           ))}
         </div>
       </DataState>
-      {!session ? <AuthDeferred /> : null}
     </AppShell>
   );
 }
