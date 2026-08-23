@@ -21,8 +21,10 @@ import {
 import { BrandPreloader } from "../components/brand-preloader";
 import { CompanyCarousel } from "../components/company-carousel";
 import { EditorialShowcasePost } from "../components/editorial-showcase";
+import { GenZHero } from "../components/genz-hero";
 import { DataState } from "../components/live-data-ui";
 import { useEditorialShowcases } from "../lib/start-to-up-data";
+import "../genz-landing.css";
 
 export const Route = createFileRoute("/")({ component: Index });
 
@@ -68,6 +70,7 @@ function Index() {
       </header>
 
       <main>
+        <GenZHero />
         <CompanyCarousel />
 
         <section className="signal-strip" aria-label="Start To Up operating capabilities">
@@ -149,7 +152,7 @@ function Index() {
           <div className="company-service-grid">
             <ServiceCard icon={<Lightbulb />} title="Venture strategy" text="Problem validation, business modelling, market positioning, founder roadmaps and commercial readiness." />
             <ServiceCard icon={<Code2 />} title="Product & technology" text="Premium websites, platforms, prototypes, business systems and production-minded software development." />
-            <ServiceCard icon={<LayoutTemplate />} title="Website Studio" text="Create branded, responsive business websites from our ResKonnect Premium template system, preview every device and prepare managed GitHub publishing." to="/website-studio" />
+            <ServiceCard icon={<LayoutTemplate />} title="Website Studio" text="Create branded, responsive business websites from a 24-template premium system, preview every device and export deployment-ready source." to="/website-studio" />
             <ServiceCard icon={<Blocks />} title="Brand & go-to-market" text="Brand foundations, product storytelling, launch preparation, distribution and early customer acquisition." />
             <ServiceCard icon={<BarChart3 />} title="Operations & scale" text="Metrics, process design, financial control, partnerships, operating cadence and scalable growth systems." />
             <ServiceCard icon={<GraduationCap />} title="Founder development" text="Practical startup operating education, expert sessions, playbooks and structured company-building programmes." />
