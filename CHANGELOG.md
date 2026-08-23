@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-08-23 — Interactive media and room navigation
+
+- Added an accessible cinematic motion-story viewer with keyboard dismissal and reduced-motion support.
+- Added native device sharing with clipboard fallback and direct media-to-collaboration routing.
+- Activated all collaboration workspace tabs with clear room-specific context and workstream navigation.
+- Replaced public CAPTCHA configuration language with a branded availability message.
+
 ## 2026-08-23 — Ranked media and in-platform collaboration
 
 - Added a signal-ranked Innovation Media feed for developers, entrepreneurs, innovators, investors and institutions.
