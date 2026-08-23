@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import uxSpeedCss from "../ux-speed.css?url";
 import startupAuthorityCss from "../startup-authority.css?url";
 import mobilePolishCss from "../mobile-polish.css?url";
+import websiteStudioV2Css from "../website-studio-v2.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 const primaryDomain = "https://www.start-to-up.co.za";
@@ -45,13 +46,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <h1 className="text-xl font-semibold tracking-tight text-foreground">We couldn't open this view</h1>
         <p className="mt-2 text-sm text-muted-foreground">The network is still available. Retry this view or return to the main experience.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >Retry view</button>
+          <button onClick={() => { router.invalidate(); reset(); }} className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">Retry view</button>
           <a href="/" className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent">Go to home</a>
         </div>
       </div>
@@ -66,10 +61,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { title: "Start To Up | Startup Operating Company & Innovation Network" },
-      {
-        name: "description",
-        content: "Start To Up helps founders, developers, entrepreneurs, innovators, investors and institutions validate, build, launch, operate and scale startups through practical company-building systems and a professional innovation network.",
-      },
+      { name: "description", content: "Start To Up helps founders, developers, entrepreneurs, innovators, investors and institutions validate, build, launch, operate and scale startups through practical company-building systems and a professional innovation network." },
       { name: "author", content: "Start To Up Innovation Group" },
       { name: "theme-color", content: "#071449" },
       { property: "og:title", content: "Start To Up | Build the company, not just the idea." },
@@ -87,6 +79,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: uxSpeedCss },
       { rel: "stylesheet", href: startupAuthorityCss },
       { rel: "stylesheet", href: mobilePolishCss },
+      { rel: "stylesheet", href: websiteStudioV2Css },
       { rel: "canonical", href: primaryDomain },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
       { rel: "apple-touch-icon", href: "/brand/apple-touch-icon.png" },
