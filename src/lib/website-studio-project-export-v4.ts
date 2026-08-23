@@ -1,6 +1,7 @@
 import { normalizeWebsiteDraft, type WebsiteStudioDraft } from "./website-studio";
 import { createZipBlob, generateDeployableProjectFiles as generateLegacyFiles, type GeneratedProjectFiles } from "./website-studio-project-export";
 import { getStructuralFamily, structuralFamilyLabels } from "./website-studio-structural";
+import { applyVisualContractDefaults } from "./website-studio-visual-contract-defaults";
 import { hasVisualContract, renderWebsiteStudioShell, websiteStudioCss } from "./website-studio-visual-contracts";
 
 const q = (value: unknown) => JSON.stringify(value);
@@ -23,8 +24,12 @@ function familyReadme(draft: WebsiteStudioDraft) {
   return `# Website Studio generated project\n\nThis project was generated from the **${structuralFamilyLabels[family]}** Website Studio family.\n\n${locked ? "This template is reference-locked to an approved visual contract. The marketplace preview, editor preview and exported source all use the same template renderer. Media remains replaceable through the Website Studio asset slots without changing the page architecture." : "This template uses the structural family renderer, which changes semantic page architecture, section order and conversion flow."}\n\n## Edit points\n- \`src/components/StructuralFamilyPage.tsx\` — generated template markup\n- \`src/styles.css\` — responsive template styling\n- \`src/site-config.ts\` — complete Website Studio blueprint\n- \`app/site.json\` — portable source configuration\n\nThe project remains a normal Vite + React + TypeScript application and can be committed to GitHub or imported into Vercel without code changes.\n`;
 }
 
+function ready(raw: WebsiteStudioDraft) {
+  return applyVisualContractDefaults(normalizeWebsiteDraft(raw));
+}
+
 export function generateDeployableProjectFiles(raw: WebsiteStudioDraft): GeneratedProjectFiles {
-  const draft = normalizeWebsiteDraft(raw);
+  const draft = ready(raw);
   const files = generateLegacyFiles(draft);
   files["src/App.tsx"] = generatedApp(draft);
   files["src/components/StructuralFamilyPage.tsx"] = structuralComponent(draft);
@@ -40,7 +45,7 @@ export function generateDeployableProjectFiles(raw: WebsiteStudioDraft): Generat
 }
 
 export function downloadProjectZip(raw: WebsiteStudioDraft) {
-  const draft = normalizeWebsiteDraft(raw);
+  const draft = ready(raw);
   const files = generateDeployableProjectFiles(draft);
   const blob = createZipBlob(files, draft.slug || "website");
   const url = URL.createObjectURL(blob);
