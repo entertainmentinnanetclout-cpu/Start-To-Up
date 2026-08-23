@@ -10,33 +10,128 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as AppCreateRouteImport } from './routes/app/create'
+import { Route as AppExploreRouteImport } from './routes/app/explore'
+import { Route as AppHomeRouteImport } from './routes/app/home'
+import { Route as AppNetworkRouteImport } from './routes/app/network'
+import { Route as AppProfileRouteImport } from './routes/app/profile'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppCreateRoute = AppCreateRouteImport.update({
+  id: '/app/create',
+  path: '/app/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppExploreRoute = AppExploreRouteImport.update({
+  id: '/app/explore',
+  path: '/app/explore',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppHomeRoute = AppHomeRouteImport.update({
+  id: '/app/home',
+  path: '/app/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppNetworkRoute = AppNetworkRouteImport.update({
+  id: '/app/network',
+  path: '/app/network',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/app/profile',
+  path: '/app/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/onboarding': typeof OnboardingRoute
+  '/app/create': typeof AppCreateRoute
+  '/app/explore': typeof AppExploreRoute
+  '/app/home': typeof AppHomeRoute
+  '/app/network': typeof AppNetworkRoute
+  '/app/profile': typeof AppProfileRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/onboarding': typeof OnboardingRoute
+  '/app/create': typeof AppCreateRoute
+  '/app/explore': typeof AppExploreRoute
+  '/app/home': typeof AppHomeRoute
+  '/app/network': typeof AppNetworkRoute
+  '/app/profile': typeof AppProfileRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/onboarding': typeof OnboardingRoute
+  '/app/create': typeof AppCreateRoute
+  '/app/explore': typeof AppExploreRoute
+  '/app/home': typeof AppHomeRoute
+  '/app/network': typeof AppNetworkRoute
+  '/app/profile': typeof AppProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/onboarding'
+    | '/app/create'
+    | '/app/explore'
+    | '/app/home'
+    | '/app/network'
+    | '/app/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/onboarding'
+    | '/app/create'
+    | '/app/explore'
+    | '/app/home'
+    | '/app/network'
+    | '/app/profile'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/onboarding'
+    | '/app/create'
+    | '/app/explore'
+    | '/app/home'
+    | '/app/network'
+    | '/app/profile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  OnboardingRoute: typeof OnboardingRoute
+  AppCreateRoute: typeof AppCreateRoute
+  AppExploreRoute: typeof AppExploreRoute
+  AppHomeRoute: typeof AppHomeRoute
+  AppNetworkRoute: typeof AppNetworkRoute
+  AppProfileRoute: typeof AppProfileRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +143,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/create': {
+      id: '/app/create'
+      path: '/app/create'
+      fullPath: '/app/create'
+      preLoaderRoute: typeof AppCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/explore': {
+      id: '/app/explore'
+      path: '/app/explore'
+      fullPath: '/app/explore'
+      preLoaderRoute: typeof AppExploreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/home': {
+      id: '/app/home'
+      path: '/app/home'
+      fullPath: '/app/home'
+      preLoaderRoute: typeof AppHomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/network': {
+      id: '/app/network'
+      path: '/app/network'
+      fullPath: '/app/network'
+      preLoaderRoute: typeof AppNetworkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/profile': {
+      id: '/app/profile'
+      path: '/app/profile'
+      fullPath: '/app/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  OnboardingRoute: OnboardingRoute,
+  AppCreateRoute: AppCreateRoute,
+  AppExploreRoute: AppExploreRoute,
+  AppHomeRoute: AppHomeRoute,
+  AppNetworkRoute: AppNetworkRoute,
+  AppProfileRoute: AppProfileRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

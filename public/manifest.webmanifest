@@ -1,0 +1,13 @@
+{
+  "name": "Start To Up",
+  "short_name": "Start To Up",
+  "description": "From ideas to impact. Share safely, build visibly and grow together.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f9fc",
+  "theme_color": "#071449",
+  "icons": [
+    { "src": "/brand/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/brand/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
