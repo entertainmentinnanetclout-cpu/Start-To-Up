@@ -4,7 +4,9 @@ import { useMemo, useState } from "react";
 import { AppShell } from "../../components/app-shell";
 import { applyStudioTemplate, studioTemplates } from "../../lib/website-studio-template-catalog";
 import { getStructuralFamily, structuralFamilyLabels } from "../../lib/website-studio-structural";
+import { hasVisualContract, renderWebsiteStudioHtml } from "../../lib/website-studio-visual-contracts";
 import "../../website-studio-templates.css";
+import "../../website-studio-visual-contracts.css";
 
 export const Route = createFileRoute("/app/website-studio-templates")({ component: WebsiteStudioTemplatesPage });
 
@@ -26,9 +28,9 @@ function WebsiteStudioTemplatesPage() {
     void navigate({ to: "/app/website-studio-v4" });
   }
 
-  return <AppShell title="Website templates" eyebrow={`${studioTemplates.length} PREMIUM STRUCTURAL SYSTEMS`} action={<Link to="/app/website-studio-v4" className="button button-secondary">Open structural editor</Link>}>
+  return <AppShell title="Website templates" eyebrow={`${studioTemplates.length} PREMIUM STRUCTURAL SYSTEMS`} action={<Link to="/app/website-studio-v4" className="button button-secondary">Open website editor</Link>}>
     <section className="template-library-hero">
-      <div><span><Sparkles/> START TO UP TEMPLATE LIBRARY V4</span><h2>Full template families, not visual presets.</h2><p>Each family now changes the hero DOM, section order, content semantics and conversion flow. Property gets listings. Restaurants get menus. Education gets courses. SaaS gets product architecture. Newsroom gets stories and impact.</p></div>
+      <div><span><Sparkles/> START TO UP TEMPLATE LIBRARY V5</span><h2>What you preview is what gets built.</h2><p>Marketplace cards now render the same source used by the editor, ZIP export, GitHub publication and Vercel deployment. The ten approved templates are reference-locked visual contracts; other catalogue entries show their actual structural renderer instead of invented mockups.</p></div>
       <div className="template-library-count"><strong>{studioTemplates.length}</strong><span>premium templates</span></div>
     </section>
 
@@ -41,14 +43,16 @@ function WebsiteStudioTemplatesPage() {
       {filtered.map((template) => {
         const sample = applyStudioTemplate(template);
         const structuralFamily = getStructuralFamily(sample);
+        const locked = hasVisualContract(sample);
         return <article className={`template-card mood-${template.preview.mood}`} key={template.key}>
-          <div className="template-card-preview" style={{ "--tp": template.preview.primary, "--ts": template.preview.secondary, "--ta": template.preview.accent, "--tf": template.preview.surface } as React.CSSProperties}>
+          <div className="template-card-preview template-card-live-preview">
             <div className="template-browser-bar"><i/><i/><i/><span>{template.name}</span></div>
-            <div className="template-mini-nav"><b/><span/><span/><button/></div>
-            <div className="template-mini-hero"><div><small>{structuralFamilyLabels[structuralFamily]}</small><strong/><strong/><p/><div><button/><button/></div></div><aside><i/><i/><i/></aside></div>
-            <div className="template-mini-cards"><i/><i/><i/></div>
+            <div className="template-card-iframe-stage" aria-hidden="true">
+              <iframe title={`${template.name} live template preview`} srcDoc={renderWebsiteStudioHtml(sample)} tabIndex={-1}/>
+            </div>
+            {locked ? <span className="template-contract-badge"><Check size={12}/> VISUAL CONTRACT</span> : <span className="template-contract-badge structural">LIVE RENDERER</span>}
           </div>
-          <div className="template-card-body"><div><span>{template.family}</span><h3>{template.name}</h3><p>{template.description}</p><small>{structuralFamilyLabels[structuralFamily]}</small></div><div className="template-tag-row">{template.tags.slice(0,3).map((tag) => <span key={tag}>{tag}</span>)}</div><button className="button button-primary" onClick={() => choose(template)}><Check size={16}/> Use structural template</button></div>
+          <div className="template-card-body"><div><span>{template.family}</span><h3>{template.name}</h3><p>{template.description}</p><small>{locked ? "Reference-locked structure · replaceable media" : structuralFamilyLabels[structuralFamily]}</small></div><div className="template-tag-row">{template.tags.slice(0,3).map((tag) => <span key={tag}>{tag}</span>)}</div><button className="button button-primary" onClick={() => choose(template)}><Check size={16}/> Use template</button></div>
         </article>;
       })}
     </section>
