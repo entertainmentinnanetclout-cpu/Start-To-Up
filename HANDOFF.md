@@ -1,6 +1,6 @@
 # Handoff
 
-The public website now represents Start To Up as a founder-led innovation and venture-development company, with Start To Up Network as its digital engine. It includes real company positioning, services, founder identity, registration-pending wording and direct contact details. Phase 3 remains wired to GitHub and Supabase without mock content or authentication.
+The public website represents Start To Up as a founder-led innovation and venture-development company, with Start To Up Network as its digital engine. Its premium company experience includes an editorial carousel, once-per-session animated brand preloader, venture services, founder identity, registration-pending wording and direct contact details. ResKonnect is presented as the first live Start To Up venture on the homepage and dedicated `/ventures` portfolio. Phase 3 remains wired to GitHub and Supabase without mock content or authentication.
 
 Next activation task: configure `VITE_TURNSTILE_SITE_KEY` in the frontend environment and `TURNSTILE_SECRET_KEY` as a Supabase Edge Function secret. Then connect a production media provider, followed by authentication and protected mutation testing when the auth phase is authorized.
 

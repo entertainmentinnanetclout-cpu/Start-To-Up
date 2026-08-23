@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-08-23 — Premium venture studio experience
+
+- Rebuilt the hero as an accessible, auto-advancing editorial carousel with three company stories.
+- Added a once-per-session animated brand preloader and motion-reduction support.
+- Added gold glassmorphism, responsive venture storytelling and premium interaction states.
+- Added ResKonnect as the first live Start To Up venture using its canonical product symbol.
+- Added a dedicated `/ventures` portfolio and ResKonnect case-study route.
+
 ## 2026-08-23 — Company launch positioning
 
 - Rebuilt the public homepage as the digital headquarters for Start To Up and its innovation network.

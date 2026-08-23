@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as VenturesRouteImport } from './routes/ventures'
 import { Route as AppCollaborationRouteImport } from './routes/app/collaboration'
 import { Route as AppCreateRouteImport } from './routes/app/create'
 import { Route as AppExploreRouteImport } from './routes/app/explore'
@@ -40,6 +41,11 @@ const AuthRoute = AuthRouteImport.update({
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VenturesRoute = VenturesRouteImport.update({
+  id: '/ventures',
+  path: '/ventures',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppCollaborationRoute = AppCollaborationRouteImport.update({
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/onboarding': typeof OnboardingRoute
+  '/ventures': typeof VenturesRoute
   '/app/collaboration': typeof AppCollaborationRoute
   '/app/create': typeof AppCreateRoute
   '/app/explore': typeof AppExploreRoute
@@ -136,6 +143,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/onboarding': typeof OnboardingRoute
+  '/ventures': typeof VenturesRoute
   '/app/collaboration': typeof AppCollaborationRoute
   '/app/create': typeof AppCreateRoute
   '/app/explore': typeof AppExploreRoute
@@ -156,6 +164,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/onboarding': typeof OnboardingRoute
+  '/ventures': typeof VenturesRoute
   '/app/collaboration': typeof AppCollaborationRoute
   '/app/create': typeof AppCreateRoute
   '/app/explore': typeof AppExploreRoute
@@ -177,6 +186,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/onboarding'
+    | '/ventures'
     | '/app/collaboration'
     | '/app/create'
     | '/app/explore'
@@ -196,6 +206,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/onboarding'
+    | '/ventures'
     | '/app/collaboration'
     | '/app/create'
     | '/app/explore'
@@ -215,6 +226,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/onboarding'
+    | '/ventures'
     | '/app/collaboration'
     | '/app/create'
     | '/app/explore'
@@ -235,6 +247,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   OnboardingRoute: typeof OnboardingRoute
+  VenturesRoute: typeof VenturesRoute
   AppCollaborationRoute: typeof AppCollaborationRoute
   AppCreateRoute: typeof AppCreateRoute
   AppExploreRoute: typeof AppExploreRoute
@@ -272,6 +285,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ventures': {
+      id: '/ventures'
+      path: '/ventures'
+      fullPath: '/ventures'
+      preLoaderRoute: typeof VenturesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/collaboration': {
@@ -379,6 +399,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   OnboardingRoute: OnboardingRoute,
+  VenturesRoute: VenturesRoute,
   AppCollaborationRoute: AppCollaborationRoute,
   AppCreateRoute: AppCreateRoute,
   AppExploreRoute: AppExploreRoute,

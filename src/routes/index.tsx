@@ -13,11 +13,10 @@ import {
   Mail,
   Network,
   Phone,
-  Rocket,
   ShieldCheck,
-  Sparkles,
-  TrendingUp,
 } from "lucide-react";
+import { BrandPreloader } from "../components/brand-preloader";
+import { CompanyCarousel } from "../components/company-carousel";
 
 export const Route = createFileRoute("/")({ component: Index });
 
@@ -33,6 +32,7 @@ const audiences = [
 function Index() {
   return (
     <div className="landing-page company-landing">
+      <BrandPreloader />
       <header className="landing-header shell-width">
         <Link to="/" aria-label="Start To Up home">
           <img className="brand-logo" src="/brand/start-to-up-logo-primary.png" alt="Start To Up" />
@@ -40,6 +40,7 @@ function Index() {
         <nav className="landing-nav" aria-label="Main navigation">
           <a href="#services">Services</a>
           <a href="#network">Network</a>
+          <a href="#ventures">Ventures</a>
           <a href="#about">About</a>
           <a href="#contact">Contact</a>
         </nav>
@@ -54,64 +55,7 @@ function Index() {
       </header>
 
       <main>
-        <section className="hero company-hero shell-width">
-          <div className="hero-copy">
-            <div className="eyebrow">
-              <Sparkles size={15} /> Innovation &amp; venture development
-            </div>
-            <h1>
-              We help ambitious ideas become <span>real, scalable ventures.</span>
-            </h1>
-            <p className="hero-lead">
-              Start To Up helps founders, innovators and growing businesses connect, validate,
-              build, launch and upscale—with practical venture support and a purpose-built digital
-              innovation network.
-            </p>
-            <div className="hero-actions">
-              <a href="#contact" className="button button-primary button-large">
-                Build with Start To Up <ArrowRight size={18} />
-              </a>
-              <Link to="/app/explore" className="button button-secondary button-large">
-                Explore the network
-              </Link>
-            </div>
-            <div className="trust-row company-trust-row">
-              <span>
-                <BadgeCheck size={17} /> Founder-led
-              </span>
-              <span>
-                <ShieldCheck size={17} /> Protected innovation
-              </span>
-              <span>
-                <TrendingUp size={17} /> Built for growth
-              </span>
-            </div>
-          </div>
-          <div className="company-hero-panel" aria-label="Start To Up venture journey">
-            <span className="panel-label">THE START TO UP JOURNEY</span>
-            <div className="journey-track">
-              {[
-                ["01", "Connect"],
-                ["02", "Validate"],
-                ["03", "Build"],
-                ["04", "Launch"],
-                ["05", "Upscale"],
-              ].map(([number, label]) => (
-                <div className="journey-step" key={number}>
-                  <span>{number}</span>
-                  <strong>{label}</strong>
-                </div>
-              ))}
-            </div>
-            <div className="company-panel-note">
-              <Rocket />
-              <div>
-                <strong>From a first idea to measurable impact</strong>
-                <span>Strategy, technology, visibility and the right connections.</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        <CompanyCarousel />
 
         <section className="signal-strip" aria-label="Start To Up capabilities">
           <div className="shell-width signal-inner">
@@ -126,6 +70,74 @@ function Index() {
             <span>NETWORK</span>
             <i />
             <span>GROWTH</span>
+          </div>
+        </section>
+
+        <section id="ventures" className="ventures-section">
+          <div className="shell-width">
+            <div className="ventures-heading">
+              <div>
+                <span className="section-label">VENTURES &amp; PRODUCTS</span>
+                <h2>Proof lives in what we build.</h2>
+              </div>
+              <p>
+                Start To Up develops and supports products that solve real problems, build
+                communities and create measurable paths forward.
+              </p>
+            </div>
+            <article className="featured-venture">
+              <div className="venture-brand-panel">
+                <span>START TO UP VENTURE · 01</span>
+                <div className="reskonnect-full-lockup">
+                  <img src="/brand/reskonnect-product-icon.png" alt="" />
+                  <div>
+                    <strong>RESKONNECT</strong>
+                    <small>LIVING · AI · OPPORTUNITY</small>
+                  </div>
+                </div>
+                <p>Connecting residents. Advancing futures.</p>
+              </div>
+              <div className="venture-story">
+                <span className="live-product-pill">
+                  <i /> LIVE DIGITAL PRODUCT
+                </span>
+                <h3>A connected living and youth-opportunity ecosystem.</h3>
+                <p>
+                  ResKonnect helps students, parents, private tenants, landlords and partners
+                  discover verified accommodation, prepare applications, access digital tools and
+                  connect with opportunity.
+                </p>
+                <div className="venture-capabilities">
+                  <span>Student living</span>
+                  <span>Application readiness</span>
+                  <span>Property partnerships</span>
+                  <span>WIL &amp; opportunities</span>
+                </div>
+                <div className="venture-actions">
+                  <a
+                    href="https://www.reskonnect.org/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="button button-primary button-large"
+                  >
+                    Explore ResKonnect <ArrowRight />
+                  </a>
+                  <Link to="/ventures" className="text-link">
+                    View our venture portfolio
+                  </Link>
+                </div>
+              </div>
+            </article>
+            <div className="venture-pipeline">
+              <span>NEXT IN THE PIPELINE</span>
+              <strong>
+                More ventures are being designed around innovation, digital infrastructure and youth
+                advancement.
+              </strong>
+              <a href="#contact">
+                Build a venture with us <ArrowRight />
+              </a>
+            </div>
           </div>
         </section>
 
@@ -323,6 +335,7 @@ function Index() {
           <div className="footer-links">
             <a href="#services">Services</a>
             <a href="#network">Network</a>
+            <a href="#ventures">Ventures</a>
             <a href="#about">Founder</a>
             <a href="#contact">Contact</a>
           </div>
