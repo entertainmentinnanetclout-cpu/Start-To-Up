@@ -22,4 +22,6 @@
 - Consent-aware program dashboards and recommendations
 - Multilingual support, monetization, and mobile apps
 
+**Checkpoint:** Build-media, livestream/webinar, consent-aware program, recommendation-event, plan and entitlement foundations are active in Supabase. Public media, program and plan routes use live records and honest empty states. Guest submissions now pass through a server-side Cloudflare Turnstile gate. Payments, native apps, production video processing and full interface translation remain later provider work.
+
 Every phase includes accessibility, privacy, security, moderation, and measurable success criteria.

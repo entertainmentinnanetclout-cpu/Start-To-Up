@@ -1,8 +1,8 @@
 # Handoff
 
-Phase 2 collaboration and trust is wired to live Supabase without mock content. Authentication is deliberately excluded. Collaboration interest, expert-session registration and content reports submit through an insert-only guest intake; anonymous clients cannot read or manage submissions. Sensitive actions remain protected. The database security advisor is clean after migration `20260823103000_authless_guest_intake.sql`.
+Phase 3 is wired to GitHub and Supabase without mock content or authentication. Build media, live events, ecosystem programs, recommendation events, plans and entitlements have additive schema and RLS. Guest collaboration interest, expert-session registration and content reports now go through the `guest-action-submit` Edge Function and server-side Cloudflare Turnstile verification; direct anonymous inserts are revoked.
 
-Next product task: connect authentication and route guards, then activate the already-wired protected mutations and complete end-to-end role testing with real test accounts.
+Next activation task: configure `VITE_TURNSTILE_SITE_KEY` in the frontend environment and `TURNSTILE_SECRET_KEY` as a Supabase Edge Function secret. Then connect a production media provider, followed by authentication and protected mutation testing when the auth phase is authorized.
 
 ## Working
 
@@ -14,13 +14,15 @@ Next product task: connect authentication and route guards, then activate the al
 - Initial identity/commitment onboarding screen
 - Complete application schema with RLS
 - PWA metadata, icons, favicon, and manifest
+- Build media, live-event, ecosystem-program and plan directories
+- CAPTCHA-protected guest intake Edge Function
 
 ## Not yet connected
 
 - Auth guards, sessions, and onboarding persistence
 - Permanent-account creation, private messaging, protected access, IP claims and staff decisions
-- Media uploads, protected-project access, evidence vault UI, and notifications
+- Production media upload/encoding, protected-project access, evidence vault UI, and notifications
 - Legal acceptance UI and final legal text
-- Full staff moderation console, native livestreaming, investor transaction workflows, and analytics
+- Full staff moderation console, native livestream delivery, payments, investor transaction workflows, and analytics
 
 Read `IMPLEMENTATION_STATUS.md`, `ROADMAP.md`, and `docs/KNOWN_ISSUES.md` before continuing. Keep migrations additive and never rewrite published Git history.

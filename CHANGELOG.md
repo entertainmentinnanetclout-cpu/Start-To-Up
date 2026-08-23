@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-08-23 — Phase 3 media and ecosystem foundation
+
+- Added media publications, live events, ecosystem programs, consented participation, recommendation events, platform plans and entitlements with RLS.
+- Added the private `build-media` Storage bucket and constrained owner-path policies.
+- Added connected Build media, Programs and Plans application routes with no demonstration records.
+- Replaced direct guest intake with a CAPTCHA-verified Supabase Edge Function and revoked public table inserts.
+- Expanded PWA metadata and shortcuts. Payments, auth, native streaming and media processing remain disabled.
+
 ## 2026-08-23 — Phase 2 data wiring
 
 - Removed hard-coded project, member, expert and opportunity demonstrations.

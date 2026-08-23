@@ -16,11 +16,14 @@ import { Route as AppCollaborationRouteImport } from './routes/app/collaboration
 import { Route as AppCreateRouteImport } from './routes/app/create'
 import { Route as AppExploreRouteImport } from './routes/app/explore'
 import { Route as AppHomeRouteImport } from './routes/app/home'
+import { Route as AppMediaRouteImport } from './routes/app/media'
 import { Route as AppMessagesRouteImport } from './routes/app/messages'
 import { Route as AppModerationRouteImport } from './routes/app/moderation'
 import { Route as AppNetworkRouteImport } from './routes/app/network'
 import { Route as AppOrganizationsRouteImport } from './routes/app/organizations'
+import { Route as AppPlansRouteImport } from './routes/app/plans'
 import { Route as AppProfileRouteImport } from './routes/app/profile'
+import { Route as AppProgramsRouteImport } from './routes/app/programs'
 import { Route as AppSessionsRouteImport } from './routes/app/sessions'
 import { Route as AppTrustRouteImport } from './routes/app/trust'
 
@@ -59,6 +62,11 @@ const AppHomeRoute = AppHomeRouteImport.update({
   path: '/app/home',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppMediaRoute = AppMediaRouteImport.update({
+  id: '/app/media',
+  path: '/app/media',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppMessagesRoute = AppMessagesRouteImport.update({
   id: '/app/messages',
   path: '/app/messages',
@@ -79,9 +87,19 @@ const AppOrganizationsRoute = AppOrganizationsRouteImport.update({
   path: '/app/organizations',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppPlansRoute = AppPlansRouteImport.update({
+  id: '/app/plans',
+  path: '/app/plans',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppProfileRoute = AppProfileRouteImport.update({
   id: '/app/profile',
   path: '/app/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppProgramsRoute = AppProgramsRouteImport.update({
+  id: '/app/programs',
+  path: '/app/programs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppSessionsRoute = AppSessionsRouteImport.update({
@@ -103,11 +121,14 @@ export interface FileRoutesByFullPath {
   '/app/create': typeof AppCreateRoute
   '/app/explore': typeof AppExploreRoute
   '/app/home': typeof AppHomeRoute
+  '/app/media': typeof AppMediaRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/moderation': typeof AppModerationRoute
   '/app/network': typeof AppNetworkRoute
   '/app/organizations': typeof AppOrganizationsRoute
+  '/app/plans': typeof AppPlansRoute
   '/app/profile': typeof AppProfileRoute
+  '/app/programs': typeof AppProgramsRoute
   '/app/sessions': typeof AppSessionsRoute
   '/app/trust': typeof AppTrustRoute
 }
@@ -119,11 +140,14 @@ export interface FileRoutesByTo {
   '/app/create': typeof AppCreateRoute
   '/app/explore': typeof AppExploreRoute
   '/app/home': typeof AppHomeRoute
+  '/app/media': typeof AppMediaRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/moderation': typeof AppModerationRoute
   '/app/network': typeof AppNetworkRoute
   '/app/organizations': typeof AppOrganizationsRoute
+  '/app/plans': typeof AppPlansRoute
   '/app/profile': typeof AppProfileRoute
+  '/app/programs': typeof AppProgramsRoute
   '/app/sessions': typeof AppSessionsRoute
   '/app/trust': typeof AppTrustRoute
 }
@@ -136,11 +160,14 @@ export interface FileRoutesById {
   '/app/create': typeof AppCreateRoute
   '/app/explore': typeof AppExploreRoute
   '/app/home': typeof AppHomeRoute
+  '/app/media': typeof AppMediaRoute
   '/app/messages': typeof AppMessagesRoute
   '/app/moderation': typeof AppModerationRoute
   '/app/network': typeof AppNetworkRoute
   '/app/organizations': typeof AppOrganizationsRoute
+  '/app/plans': typeof AppPlansRoute
   '/app/profile': typeof AppProfileRoute
+  '/app/programs': typeof AppProgramsRoute
   '/app/sessions': typeof AppSessionsRoute
   '/app/trust': typeof AppTrustRoute
 }
@@ -154,11 +181,14 @@ export interface FileRouteTypes {
     | '/app/create'
     | '/app/explore'
     | '/app/home'
+    | '/app/media'
     | '/app/messages'
     | '/app/moderation'
     | '/app/network'
     | '/app/organizations'
+    | '/app/plans'
     | '/app/profile'
+    | '/app/programs'
     | '/app/sessions'
     | '/app/trust'
   fileRoutesByTo: FileRoutesByTo
@@ -170,11 +200,14 @@ export interface FileRouteTypes {
     | '/app/create'
     | '/app/explore'
     | '/app/home'
+    | '/app/media'
     | '/app/messages'
     | '/app/moderation'
     | '/app/network'
     | '/app/organizations'
+    | '/app/plans'
     | '/app/profile'
+    | '/app/programs'
     | '/app/sessions'
     | '/app/trust'
   id:
@@ -186,11 +219,14 @@ export interface FileRouteTypes {
     | '/app/create'
     | '/app/explore'
     | '/app/home'
+    | '/app/media'
     | '/app/messages'
     | '/app/moderation'
     | '/app/network'
     | '/app/organizations'
+    | '/app/plans'
     | '/app/profile'
+    | '/app/programs'
     | '/app/sessions'
     | '/app/trust'
   fileRoutesById: FileRoutesById
@@ -203,11 +239,14 @@ export interface RootRouteChildren {
   AppCreateRoute: typeof AppCreateRoute
   AppExploreRoute: typeof AppExploreRoute
   AppHomeRoute: typeof AppHomeRoute
+  AppMediaRoute: typeof AppMediaRoute
   AppMessagesRoute: typeof AppMessagesRoute
   AppModerationRoute: typeof AppModerationRoute
   AppNetworkRoute: typeof AppNetworkRoute
   AppOrganizationsRoute: typeof AppOrganizationsRoute
+  AppPlansRoute: typeof AppPlansRoute
   AppProfileRoute: typeof AppProfileRoute
+  AppProgramsRoute: typeof AppProgramsRoute
   AppSessionsRoute: typeof AppSessionsRoute
   AppTrustRoute: typeof AppTrustRoute
 }
@@ -263,6 +302,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHomeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/media': {
+      id: '/app/media'
+      path: '/app/media'
+      fullPath: '/app/media'
+      preLoaderRoute: typeof AppMediaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/messages': {
       id: '/app/messages'
       path: '/app/messages'
@@ -291,11 +337,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppOrganizationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/plans': {
+      id: '/app/plans'
+      path: '/app/plans'
+      fullPath: '/app/plans'
+      preLoaderRoute: typeof AppPlansRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/profile': {
       id: '/app/profile'
       path: '/app/profile'
       fullPath: '/app/profile'
       preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/programs': {
+      id: '/app/programs'
+      path: '/app/programs'
+      fullPath: '/app/programs'
+      preLoaderRoute: typeof AppProgramsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/sessions': {
@@ -323,11 +383,14 @@ const rootRouteChildren: RootRouteChildren = {
   AppCreateRoute: AppCreateRoute,
   AppExploreRoute: AppExploreRoute,
   AppHomeRoute: AppHomeRoute,
+  AppMediaRoute: AppMediaRoute,
   AppMessagesRoute: AppMessagesRoute,
   AppModerationRoute: AppModerationRoute,
   AppNetworkRoute: AppNetworkRoute,
   AppOrganizationsRoute: AppOrganizationsRoute,
+  AppPlansRoute: AppPlansRoute,
   AppProfileRoute: AppProfileRoute,
+  AppProgramsRoute: AppProgramsRoute,
   AppSessionsRoute: AppSessionsRoute,
   AppTrustRoute: AppTrustRoute,
 }

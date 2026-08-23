@@ -15,6 +15,10 @@ export type VerificationRequest = Tables["verification_requests"]["Row"];
 export type AccessRequest = Tables["protected_access_requests"]["Row"];
 export type EvidenceEvent = Tables["evidence_events"]["Row"];
 export type ContentReport = Tables["content_reports"]["Row"];
+export type MediaPublication = Tables["media_publications"]["Row"];
+export type LiveEvent = Tables["live_events"]["Row"];
+export type EcosystemProgram = Tables["ecosystem_programs"]["Row"];
+export type PlatformPlan = Tables["platform_plans"]["Row"];
 
 type LiveState<T> = { data: T; loading: boolean; error: string | null };
 
@@ -205,6 +209,58 @@ export function usePrivateTrustData(userId?: string) {
   return state;
 }
 
+export function usePhaseThreeData() {
+  const initial = {
+    media: [] as MediaPublication[],
+    events: [] as LiveEvent[],
+    programs: [] as EcosystemProgram[],
+    plans: [] as PlatformPlan[],
+  };
+  const [state, setState] = useState<LiveState<typeof initial>>({
+    data: initial,
+    loading: true,
+    error: null,
+  });
+  useEffect(() => {
+    let active = true;
+    void Promise.all([
+      supabase
+        .from("media_publications")
+        .select("*")
+        .eq("status", "published")
+        .order("published_at", { ascending: false }),
+      supabase
+        .from("live_events")
+        .select("*")
+        .in("status", ["scheduled", "live", "ended"])
+        .order("starts_at"),
+      supabase
+        .from("ecosystem_programs")
+        .select("*")
+        .in("status", ["open", "active", "completed"])
+        .order("created_at", { ascending: false }),
+      supabase.from("platform_plans").select("*").eq("is_public", true).order("display_order"),
+    ]).then(([media, events, programs, plans]) => {
+      const error = media.error ?? events.error ?? programs.error ?? plans.error;
+      if (active)
+        setState({
+          data: {
+            media: media.data ?? [],
+            events: events.data ?? [],
+            programs: programs.data ?? [],
+            plans: plans.data ?? [],
+          },
+          loading: false,
+          error: error?.message ?? null,
+        });
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+  return state;
+}
+
 async function requirePermanentUser() {
   const { data } = await supabase.auth.getUser();
   if (!data.user || data.user.is_anonymous)
@@ -218,20 +274,40 @@ async function permanentUserOrNull() {
   return user && !user.is_anonymous ? user : null;
 }
 
-export async function applyForCollaboration(requestId: string, message: string, email: string) {
+async function submitCaptchaProtectedGuestAction(body: {
+  captchaToken: string;
+  actionType: "collaboration_interest" | "session_registration" | "content_report";
+  targetId: string;
+  contactEmail: string;
+  message: string;
+  category?: string;
+}) {
+  const { data, error } = await supabase.functions.invoke("guest-action-submit", { body });
+  if (error) throw error;
+  if (data?.error) throw new Error(data.error);
+  return data;
+}
+
+export async function applyForCollaboration(
+  requestId: string,
+  message: string,
+  email: string,
+  captchaToken: string,
+) {
   const user = await permanentUserOrNull();
   const result = user
     ? await supabase
         .from("collaboration_applications")
         .insert({ request_id: requestId, applicant_id: user.id, message })
-    : await supabase.from("guest_action_submissions").insert({
-        action_type: "collaboration_interest",
-        target_id: requestId,
-        contact_email: email,
+    : await submitCaptchaProtectedGuestAction({
+        actionType: "collaboration_interest",
+        targetId: requestId,
+        contactEmail: email,
         message,
+        captchaToken,
       });
-  if (result.error) throw result.error;
-  return result.data;
+  if ("error" in result && result.error) throw result.error;
+  return "data" in result ? result.data : result;
 }
 
 export async function requestProtectedAccess(projectId: string, reason: string, accepted: boolean) {
@@ -257,20 +333,22 @@ export async function registerForExpertSession(
   sessionId: string,
   motivation: string,
   email: string,
+  captchaToken: string,
 ) {
   const user = await permanentUserOrNull();
   const result = user
     ? await supabase
         .from("expert_session_registrations")
         .insert({ session_id: sessionId, user_id: user.id, motivation })
-    : await supabase.from("guest_action_submissions").insert({
-        action_type: "session_registration",
-        target_id: sessionId,
-        contact_email: email,
+    : await submitCaptchaProtectedGuestAction({
+        actionType: "session_registration",
+        targetId: sessionId,
+        contactEmail: email,
         message: motivation,
+        captchaToken,
       });
-  if (result.error) throw result.error;
-  return result.data;
+  if ("error" in result && result.error) throw result.error;
+  return "data" in result ? result.data : result;
 }
 
 export async function submitContentReport(
@@ -279,6 +357,7 @@ export async function submitContentReport(
   category: string,
   description: string,
   email: string,
+  captchaToken: string,
 ) {
   const user = await permanentUserOrNull();
   const result = user
@@ -289,13 +368,14 @@ export async function submitContentReport(
         category,
         description,
       })
-    : await supabase.from("guest_action_submissions").insert({
-        action_type: "content_report",
-        target_id: subjectId,
-        contact_email: email,
+    : await submitCaptchaProtectedGuestAction({
+        actionType: "content_report",
+        targetId: subjectId,
+        contactEmail: email,
         message: description,
         category,
+        captchaToken,
       });
-  if (result.error) throw result.error;
-  return result.data;
+  if ("error" in result && result.error) throw result.error;
+  return "data" in result ? result.data : result;
 }

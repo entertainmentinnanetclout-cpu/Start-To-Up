@@ -2779,6 +2779,31 @@ a {
   justify-content: flex-end;
 }
 
+.turnstile-slot {
+  min-height: 65px;
+  overflow: hidden;
+}
+
+.captcha-config {
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px solid #f2cc8f;
+  border-radius: 10px;
+  background: #fff8e8;
+  color: #714c00;
+  font-size: 0.78rem;
+}
+
+.phase-section {
+  margin-top: 2rem;
+}
+
+.content-heading h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
 .guest-action-form .button-quiet {
   background: transparent;
   color: var(--secondary-text);
@@ -2805,7 +2830,9 @@ a {
 }
 
 @keyframes form-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .moderation-grid {
@@ -2862,5 +2889,8 @@ a {
   .phase-two-intro,
   .auth-deferred {
     border-radius: 14px;
+  }
+  .moderation-grid {
+    grid-template-columns: 1fr;
   }
 }

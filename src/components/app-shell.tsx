@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
+  BarChart3,
   Bell,
   Building2,
   CalendarDays,
@@ -9,9 +10,11 @@ import {
   Menu,
   MessageCircle,
   Plus,
+  Play,
   Search,
   ShieldCheck,
   UserRound,
+  WalletCards,
 } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -29,6 +32,12 @@ const trustNavigation = [
   { to: "/app/organizations", label: "Organizations", icon: Building2 },
   { to: "/app/sessions", label: "Expert sessions", icon: CalendarDays },
   { to: "/app/trust", label: "Trust centre", icon: ShieldCheck },
+] as const;
+
+const scaleNavigation = [
+  { to: "/app/media", label: "Build media", icon: Play },
+  { to: "/app/programs", label: "Programs", icon: BarChart3 },
+  { to: "/app/plans", label: "Plans", icon: WalletCards },
 ] as const;
 
 export function AppShell({
@@ -66,6 +75,13 @@ export function AppShell({
           ))}
           <span className="sidebar-section-label">COLLABORATION & TRUST</span>
           {trustNavigation.map(({ to, label, icon: Icon }) => (
+            <Link key={to} to={to} className={`sidebar-link ${path === to ? "active" : ""}`}>
+              <Icon size={19} />
+              <span>{label}</span>
+            </Link>
+          ))}
+          <span className="sidebar-section-label">MEDIA &amp; SCALE</span>
+          {scaleNavigation.map(({ to, label, icon: Icon }) => (
             <Link key={to} to={to} className={`sidebar-link ${path === to ? "active" : ""}`}>
               <Icon size={19} />
               <span>{label}</span>

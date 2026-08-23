@@ -1,5 +1,57 @@
 import { CheckCircle2, LoaderCircle } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (element: HTMLElement, options: Record<string, unknown>) => string;
+      remove: (widgetId: string) => void;
+    };
+  }
+}
+
+function TurnstileWidget({ onToken }: { onToken: (token: string) => void }) {
+  const container = useRef<HTMLDivElement>(null);
+  const siteKey = import.meta.env["VITE_TURNSTILE_SITE_KEY"] as string | undefined;
+
+  useEffect(() => {
+    if (!siteKey || !container.current) return;
+    let widgetId: string | undefined;
+    const render = () => {
+      if (container.current && window.turnstile && !widgetId) {
+        widgetId = window.turnstile.render(container.current, {
+          sitekey: siteKey,
+          callback: onToken,
+          "expired-callback": () => onToken(""),
+          theme: "light",
+        });
+      }
+    };
+    const existing = document.querySelector<HTMLScriptElement>(
+      "script[data-start-to-up-turnstile]",
+    );
+    if (existing) {
+      existing.addEventListener("load", render);
+      render();
+    } else {
+      const script = document.createElement("script");
+      script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+      script.async = true;
+      script.defer = true;
+      script.dataset["startToUpTurnstile"] = "true";
+      script.addEventListener("load", render);
+      document.head.appendChild(script);
+    }
+    return () => {
+      existing?.removeEventListener("load", render);
+      if (widgetId && window.turnstile) window.turnstile.remove(widgetId);
+    };
+  }, [onToken, siteKey]);
+
+  if (!siteKey)
+    return <p className="captcha-config">CAPTCHA activation needs VITE_TURNSTILE_SITE_KEY.</p>;
+  return <div className="turnstile-slot" ref={container} aria-label="Security verification" />;
+}
 
 export function GuestActionForm({
   label,
@@ -10,11 +62,12 @@ export function GuestActionForm({
   label: string;
   fieldLabel: string;
   placeholder: string;
-  onSubmit: (value: string, email: string) => Promise<unknown>;
+  onSubmit: (value: string, email: string, captchaToken: string) => Promise<unknown>;
 }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [email, setEmail] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
 
@@ -23,7 +76,8 @@ export function GuestActionForm({
     setStatus("submitting");
     setMessage("");
     try {
-      await onSubmit(value.trim(), email.trim());
+      if (!captchaToken) throw new Error("Complete the security verification.");
+      await onSubmit(value.trim(), email.trim(), captchaToken);
       setStatus("success");
       setMessage("Submitted securely. You can return to this device to view its status.");
       setValue("");
@@ -47,6 +101,7 @@ export function GuestActionForm({
           required
         />
       </label>
+      <TurnstileWidget onToken={setCaptchaToken} />
       <label>
         <span>Contact email</span>
         <input
@@ -83,12 +138,14 @@ export function GuestReportForm({
     category: string,
     description: string,
     email: string,
+    captchaToken: string,
   ) => Promise<unknown>;
 }) {
   const [subjectId, setSubjectId] = useState("");
   const [category, setCategory] = useState("irrelevant_content");
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
 
@@ -96,7 +153,8 @@ export function GuestReportForm({
     event.preventDefault();
     setStatus("submitting");
     try {
-      await onSubmit(subjectId.trim(), category, description.trim(), email.trim());
+      if (!captchaToken) throw new Error("Complete the security verification.");
+      await onSubmit(subjectId.trim(), category, description.trim(), email.trim(), captchaToken);
       setStatus("success");
       setMessage("Report submitted for human review.");
       setDescription("");
@@ -118,6 +176,7 @@ export function GuestReportForm({
           required
         />
       </label>
+      <TurnstileWidget onToken={setCaptchaToken} />
       <label>
         <span>Report category</span>
         <select value={category} onChange={(event) => setCategory(event.target.value)}>

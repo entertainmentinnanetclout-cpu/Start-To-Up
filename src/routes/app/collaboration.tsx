@@ -43,7 +43,9 @@ function CollaborationPage() {
                 label="Apply to collaborate"
                 fieldLabel="Why are you a strong fit?"
                 placeholder="Describe your relevant skills, experience and availability."
-                onSubmit={(message, email) => applyForCollaboration(item.id, message, email)}
+                onSubmit={(message, email, captchaToken) =>
+                  applyForCollaboration(item.id, message, email, captchaToken)
+                }
               />
             </article>
           ))}

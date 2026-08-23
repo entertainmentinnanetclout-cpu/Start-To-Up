@@ -33,8 +33,8 @@ function SessionsPage() {
                 label="Request registration"
                 fieldLabel="What would you like to learn?"
                 placeholder="Briefly describe your interest in this session."
-                onSubmit={(motivation, email) =>
-                  registerForExpertSession(item.id, motivation, email)
+                onSubmit={(motivation, email, captchaToken) =>
+                  registerForExpertSession(item.id, motivation, email, captchaToken)
                 }
               />
             </article>

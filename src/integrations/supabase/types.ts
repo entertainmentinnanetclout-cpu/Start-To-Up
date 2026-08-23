@@ -8,6 +8,60 @@ export type Database = {
   };
   public: {
     Tables: {
+      account_entitlements: {
+        Row: {
+          created_at: string;
+          ends_at: string | null;
+          id: string;
+          organization_id: string | null;
+          plan_id: string;
+          provider_reference: string | null;
+          starts_at: string | null;
+          status: string;
+          updated_at: string;
+          user_id: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          ends_at?: string | null;
+          id?: string;
+          organization_id?: string | null;
+          plan_id: string;
+          provider_reference?: string | null;
+          starts_at?: string | null;
+          status?: string;
+          updated_at?: string;
+          user_id?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          ends_at?: string | null;
+          id?: string;
+          organization_id?: string | null;
+          plan_id?: string;
+          provider_reference?: string | null;
+          starts_at?: string | null;
+          status?: string;
+          updated_at?: string;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "account_entitlements_organization_id_fkey";
+            columns: ["organization_id"];
+            isOneToOne: false;
+            referencedRelation: "organizations";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "account_entitlements_plan_id_fkey";
+            columns: ["plan_id"];
+            isOneToOne: false;
+            referencedRelation: "platform_plans";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       admin_audit_log: {
         Row: {
           action: string;
@@ -408,6 +462,59 @@ export type Database = {
         };
         Relationships: [];
       };
+      ecosystem_programs: {
+        Row: {
+          created_at: string;
+          created_by: string;
+          description: string;
+          eligibility: Json;
+          ends_on: string | null;
+          id: string;
+          organization_id: string;
+          public_metrics_enabled: boolean;
+          starts_on: string | null;
+          status: Database["public"]["Enums"]["program_status"];
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          created_by: string;
+          description: string;
+          eligibility?: Json;
+          ends_on?: string | null;
+          id?: string;
+          organization_id: string;
+          public_metrics_enabled?: boolean;
+          starts_on?: string | null;
+          status?: Database["public"]["Enums"]["program_status"];
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          created_by?: string;
+          description?: string;
+          eligibility?: Json;
+          ends_on?: string | null;
+          id?: string;
+          organization_id?: string;
+          public_metrics_enabled?: boolean;
+          starts_on?: string | null;
+          status?: Database["public"]["Enums"]["program_status"];
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "ecosystem_programs_organization_id_fkey";
+            columns: ["organization_id"];
+            isOneToOne: false;
+            referencedRelation: "organizations";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       evidence_events: {
         Row: {
           actor_id: string | null;
@@ -733,6 +840,147 @@ export type Database = {
           },
         ];
       };
+      live_events: {
+        Row: {
+          created_at: string;
+          ends_at: string | null;
+          expert_session_id: string | null;
+          host_id: string;
+          id: string;
+          organization_id: string | null;
+          protected_join_url: string | null;
+          provider: string;
+          public_landing_url: string | null;
+          replay_media_id: string | null;
+          starts_at: string;
+          status: Database["public"]["Enums"]["live_event_status"];
+          summary: string;
+          title: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          ends_at?: string | null;
+          expert_session_id?: string | null;
+          host_id: string;
+          id?: string;
+          organization_id?: string | null;
+          protected_join_url?: string | null;
+          provider?: string;
+          public_landing_url?: string | null;
+          replay_media_id?: string | null;
+          starts_at: string;
+          status?: Database["public"]["Enums"]["live_event_status"];
+          summary: string;
+          title: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          ends_at?: string | null;
+          expert_session_id?: string | null;
+          host_id?: string;
+          id?: string;
+          organization_id?: string | null;
+          protected_join_url?: string | null;
+          provider?: string;
+          public_landing_url?: string | null;
+          replay_media_id?: string | null;
+          starts_at?: string;
+          status?: Database["public"]["Enums"]["live_event_status"];
+          summary?: string;
+          title?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "live_events_expert_session_id_fkey";
+            columns: ["expert_session_id"];
+            isOneToOne: false;
+            referencedRelation: "expert_sessions";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "live_events_organization_id_fkey";
+            columns: ["organization_id"];
+            isOneToOne: false;
+            referencedRelation: "organizations";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "live_events_replay_media_id_fkey";
+            columns: ["replay_media_id"];
+            isOneToOne: false;
+            referencedRelation: "media_publications";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      media_publications: {
+        Row: {
+          caption: string | null;
+          created_at: string;
+          creator_id: string;
+          duration_seconds: number | null;
+          id: string;
+          kind: Database["public"]["Enums"]["media_kind"];
+          language_code: string;
+          project_id: string | null;
+          published_at: string | null;
+          status: Database["public"]["Enums"]["media_status"];
+          storage_path: string;
+          thumbnail_path: string | null;
+          title: string;
+          transcript: string | null;
+          updated_at: string;
+          visibility: Database["public"]["Enums"]["visibility_level"];
+        };
+        Insert: {
+          caption?: string | null;
+          created_at?: string;
+          creator_id: string;
+          duration_seconds?: number | null;
+          id?: string;
+          kind: Database["public"]["Enums"]["media_kind"];
+          language_code?: string;
+          project_id?: string | null;
+          published_at?: string | null;
+          status?: Database["public"]["Enums"]["media_status"];
+          storage_path: string;
+          thumbnail_path?: string | null;
+          title: string;
+          transcript?: string | null;
+          updated_at?: string;
+          visibility?: Database["public"]["Enums"]["visibility_level"];
+        };
+        Update: {
+          caption?: string | null;
+          created_at?: string;
+          creator_id?: string;
+          duration_seconds?: number | null;
+          id?: string;
+          kind?: Database["public"]["Enums"]["media_kind"];
+          language_code?: string;
+          project_id?: string | null;
+          published_at?: string | null;
+          status?: Database["public"]["Enums"]["media_status"];
+          storage_path?: string;
+          thumbnail_path?: string | null;
+          title?: string;
+          transcript?: string | null;
+          updated_at?: string;
+          visibility?: Database["public"]["Enums"]["visibility_level"];
+        };
+        Relationships: [
+          {
+            foreignKeyName: "media_publications_project_id_fkey";
+            columns: ["project_id"];
+            isOneToOne: false;
+            referencedRelation: "projects";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       messages: {
         Row: {
           body: string;
@@ -911,6 +1159,42 @@ export type Database = {
           slug?: string;
           updated_at?: string;
           website?: string | null;
+        };
+        Relationships: [];
+      };
+      platform_plans: {
+        Row: {
+          audience: string;
+          created_at: string;
+          description: string;
+          display_order: number;
+          features: Json;
+          id: string;
+          is_public: boolean;
+          monthly_price_zar: number | null;
+          name: string;
+        };
+        Insert: {
+          audience: string;
+          created_at?: string;
+          description: string;
+          display_order?: number;
+          features?: Json;
+          id: string;
+          is_public?: boolean;
+          monthly_price_zar?: number | null;
+          name: string;
+        };
+        Update: {
+          audience?: string;
+          created_at?: string;
+          description?: string;
+          display_order?: number;
+          features?: Json;
+          id?: string;
+          is_public?: boolean;
+          monthly_price_zar?: number | null;
+          name?: string;
         };
         Relationships: [];
       };
@@ -1247,6 +1531,41 @@ export type Database = {
           website?: string | null;
         };
         Relationships: [];
+      };
+      program_participations: {
+        Row: {
+          aggregate_reporting_consent: boolean;
+          consented_at: string;
+          joined_at: string;
+          program_id: string;
+          status: string;
+          user_id: string;
+        };
+        Insert: {
+          aggregate_reporting_consent?: boolean;
+          consented_at: string;
+          joined_at?: string;
+          program_id: string;
+          status?: string;
+          user_id: string;
+        };
+        Update: {
+          aggregate_reporting_consent?: boolean;
+          consented_at?: string;
+          joined_at?: string;
+          program_id?: string;
+          status?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "program_participations_program_id_fkey";
+            columns: ["program_id"];
+            isOneToOne: false;
+            referencedRelation: "ecosystem_programs";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       project_media: {
         Row: {
@@ -1590,6 +1909,39 @@ export type Database = {
           },
         ];
       };
+      recommendation_events: {
+        Row: {
+          context: Json;
+          created_at: string;
+          entity_id: string;
+          entity_type: string;
+          event_type: string;
+          id: number;
+          session_key: string | null;
+          user_id: string | null;
+        };
+        Insert: {
+          context?: Json;
+          created_at?: string;
+          entity_id: string;
+          entity_type: string;
+          event_type: string;
+          id?: never;
+          session_key?: string | null;
+          user_id?: string | null;
+        };
+        Update: {
+          context?: Json;
+          created_at?: string;
+          entity_id?: string;
+          entity_type?: string;
+          event_type?: string;
+          id?: never;
+          session_key?: string | null;
+          user_id?: string | null;
+        };
+        Relationships: [];
+      };
       saves: {
         Row: {
           created_at: string;
@@ -1769,6 +2121,9 @@ export type Database = {
         | "admin"
         | "super_admin";
       guest_action_type: "collaboration_interest" | "session_registration" | "content_report";
+      live_event_status: "draft" | "scheduled" | "live" | "ended" | "cancelled";
+      media_kind: "build_reel" | "project_video" | "webinar_replay" | "research_demo";
+      media_status: "draft" | "processing" | "published" | "restricted" | "removed";
       organization_member_role: "owner" | "admin" | "member";
       post_type:
         | "post"
@@ -1777,6 +2132,7 @@ export type Database = {
         | "research"
         | "collaboration_request"
         | "opportunity";
+      program_status: "draft" | "open" | "active" | "completed" | "archived";
       project_stage:
         | "idea"
         | "research"
@@ -1940,6 +2296,9 @@ export const Constants = {
         "super_admin",
       ],
       guest_action_type: ["collaboration_interest", "session_registration", "content_report"],
+      live_event_status: ["draft", "scheduled", "live", "ended", "cancelled"],
+      media_kind: ["build_reel", "project_video", "webinar_replay", "research_demo"],
+      media_status: ["draft", "processing", "published", "restricted", "removed"],
       organization_member_role: ["owner", "admin", "member"],
       post_type: [
         "post",
@@ -1949,6 +2308,7 @@ export const Constants = {
         "collaboration_request",
         "opportunity",
       ],
+      program_status: ["draft", "open", "active", "completed", "archived"],
       project_stage: [
         "idea",
         "research",

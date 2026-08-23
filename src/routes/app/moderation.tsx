@@ -25,8 +25,8 @@ function ModerationPage() {
           <h2>Content report</h2>
           <p>Report irrelevant, fraudulent, abusive or unsafe platform activity.</p>
           <GuestReportForm
-            onSubmit={(subjectId, category, description, email) =>
-              submitContentReport("content", subjectId, category, description, email)
+            onSubmit={(subjectId, category, description, email, captchaToken) =>
+              submitContentReport("content", subjectId, category, description, email, captchaToken)
             }
           />
         </article>

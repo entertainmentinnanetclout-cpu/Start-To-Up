@@ -10,4 +10,6 @@ Before production: add upload scanning, rate limits, bot protection, retention r
 
 Phase 2 now includes private evidence and verification buckets, constrained file types/sizes, owner-path policies, minimum grants and RLS on every new table. Upload scanning, signed-URL application flows and full authenticated adversarial tests remain production gates.
 
-Authless public actions use `guest_action_submissions`: `anon` has INSERT only and cannot SELECT, UPDATE or DELETE. Contact details are staff-only. Restrictive policies prevent anonymous-session users from creating projects, organizations, conversations, protected-access requests, verification requests or IP claims.
+Authless public actions use `guest_action_submissions`, but browser roles have no direct write permission. The `guest-action-submit` Edge Function validates an allowlisted payload and a Cloudflare Turnstile token server-side before using the service role. It fails closed when `TURNSTILE_SECRET_KEY` is missing. Contact details remain staff-only. Restrictive policies prevent guests from creating projects, organizations, conversations, protected-access requests, verification requests or IP claims.
+
+The Turnstile site key is public and belongs in `VITE_TURNSTILE_SITE_KEY`. Its secret must exist only in Supabase Edge Function secrets. CAPTCHA reduces automated abuse; production still needs rate limiting, monitoring and a reviewed retention policy.
