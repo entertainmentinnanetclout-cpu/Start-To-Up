@@ -2,6 +2,7 @@ import { supabase } from "../integrations/supabase/client";
 import {
   buildPublicationManifest,
   createWebsiteDraft,
+  generateWebsiteHtml,
   type BusinessCategoryKey,
   type WebsiteStudioDraft,
 } from "./website-studio";
@@ -132,7 +133,13 @@ export async function queueGithubPublication(
   if (!draft.id) throw new Error("SAVE_PROJECT_FIRST");
   const user = await getWebsiteStudioUser();
   if (!user) throw new Error("SIGN_IN_REQUIRED");
-  const manifest = buildPublicationManifest(draft);
+  const manifest = {
+    ...buildPublicationManifest(draft),
+    generated_files: {
+      "index.html": generateWebsiteHtml(draft),
+      "site-blueprint.json": JSON.stringify(draft, null, 2),
+    },
+  };
   const { data, error } = await db
     .from("website_studio_publication_jobs")
     .insert({
@@ -150,6 +157,14 @@ export async function queueGithubPublication(
     })
     .select("*")
     .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function runGithubPublication(jobId: string) {
+  const { data, error } = await supabase.functions.invoke("website-studio-publish-github", {
+    body: { jobId },
+  });
   if (error) throw error;
   return data;
 }
