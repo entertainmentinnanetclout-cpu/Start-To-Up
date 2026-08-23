@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   BadgeCheck,
@@ -13,6 +13,7 @@ import {
   Sparkles,
   Users,
   Video,
+  X,
 } from "lucide-react";
 import { AppShell } from "../../components/app-shell";
 import { DataState } from "../../components/live-data-ui";
@@ -126,10 +127,34 @@ function MediaPage() {
 }
 
 function InnovationReel({ item, priority }: { item: NetworkMediaItem; priority: boolean }) {
+  const [storyOpen, setStoryOpen] = useState(false);
+  const [shared, setShared] = useState(false);
   const internalDestination =
     item.destination_url === "/app/create" || item.destination_url === "/app/collaboration"
       ? item.destination_url
       : null;
+
+  useEffect(() => {
+    if (!storyOpen) return;
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setStoryOpen(false);
+    };
+    document.addEventListener("keydown", close);
+    document.body.classList.add("preview-locked");
+    return () => {
+      document.removeEventListener("keydown", close);
+      document.body.classList.remove("preview-locked");
+    };
+  }, [storyOpen]);
+
+  async function shareStory() {
+    const shareData = { title: item.title, text: item.caption, url: window.location.href };
+    if (navigator.share) await navigator.share(shareData);
+    else await navigator.clipboard.writeText(window.location.href);
+    setShared(true);
+    window.setTimeout(() => setShared(false), 1800);
+  }
+
   return (
     <article className={`innovation-reel${priority ? " priority-reel" : ""}`}>
       <div className="innovation-reel-media">
@@ -140,7 +165,7 @@ function InnovationReel({ item, priority }: { item: NetworkMediaItem; priority: 
           <i />
           <i />
         </div>
-        <button type="button" aria-label={`Play ${item.title}`}>
+        <button type="button" aria-label={`Open ${item.title}`} onClick={() => setStoryOpen(true)}>
           <Play />
         </button>
         <div className="reel-kind">
@@ -176,24 +201,84 @@ function InnovationReel({ item, priority }: { item: NetworkMediaItem; priority: 
           ) : null}
         </div>
         <nav className="reel-actions" aria-label="Media actions">
-          <button>
+          <button type="button" onClick={() => setStoryOpen(true)}>
             <Heart />
-            <span>Support</span>
+            <span>View</span>
           </button>
-          <button>
+          <Link to="/app/collaboration">
             <MessageCircle />
             <span>Discuss</span>
-          </button>
+          </Link>
           <Link to="/app/collaboration">
             <Users />
             <span>Build</span>
           </Link>
-          <button>
+          <button type="button" onClick={() => void shareStory()}>
             <Share2 />
-            <span>Share</span>
+            <span>{shared ? "Copied" : "Share"}</span>
           </button>
         </nav>
       </div>
+      {storyOpen ? (
+        <div
+          className="motion-story-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label={item.title}
+        >
+          <button
+            type="button"
+            className="motion-story-backdrop"
+            aria-label="Close media story"
+            onClick={() => setStoryOpen(false)}
+          />
+          <section className="motion-story-player">
+            <button
+              type="button"
+              aria-label="Close media story"
+              onClick={() => setStoryOpen(false)}
+            >
+              <X />
+            </button>
+            <div className="motion-story-visual">
+              <img src={item.poster_url} alt="" />
+              <div className="reel-media-gradient" />
+              <div className="reel-motion-lines">
+                <i />
+                <i />
+                <i />
+              </div>
+              <span>
+                <Play /> MOTION STORY
+              </span>
+            </div>
+            <div className="motion-story-copy">
+              <span>
+                {item.media_kind.replaceAll("_", " ")} · {item.author_name}
+              </span>
+              <h2>{item.title}</h2>
+              <p>{item.caption}</p>
+              <div className="reel-topics">
+                {item.topic_tags.map((tag) => (
+                  <span key={tag}>#{tag.replaceAll(" ", "")}</span>
+                ))}
+              </div>
+              <div className="motion-story-actions">
+                <Link to="/app/collaboration" className="button button-primary">
+                  Enter collaboration <ArrowRight />
+                </Link>
+                <button
+                  type="button"
+                  className="button button-secondary"
+                  onClick={() => void shareStory()}
+                >
+                  <Share2 /> {shared ? "Link copied" : "Share story"}
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      ) : null}
     </article>
   );
 }
