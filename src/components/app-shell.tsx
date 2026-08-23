@@ -35,9 +35,18 @@ const trustNavigation = [
 ] as const;
 
 const scaleNavigation = [
-  { to: "/app/media", label: "Build media", icon: Play },
+  { to: "/app/media", label: "Innovation media", icon: Play },
   { to: "/app/programs", label: "Programs", icon: BarChart3 },
   { to: "/app/plans", label: "Plans", icon: WalletCards },
+] as const;
+
+const mobileNavigation = [
+  navigation[0],
+  navigation[1],
+  navigation[2],
+  { to: "/app/media", label: "Media", icon: Play, primary: false },
+  navigation[3],
+  navigation[4],
 ] as const;
 
 export function AppShell({
@@ -126,7 +135,7 @@ export function AppShell({
         <main className="app-main">{children}</main>
       </div>
       <nav className="mobile-navigation" aria-label="Mobile navigation">
-        {navigation.map(({ to, label, icon: Icon, primary }) => (
+        {mobileNavigation.map(({ to, label, icon: Icon, primary }) => (
           <Link
             key={to}
             to={to}
