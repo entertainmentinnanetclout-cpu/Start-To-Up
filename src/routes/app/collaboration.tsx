@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import {
   ArrowRight,
   BadgeCheck,
@@ -23,6 +24,16 @@ import {
 export const Route = createFileRoute("/app/collaboration")({ component: CollaborationPage });
 
 type Workstream = { name: string; lead: string; status: string; needs: string[] };
+type WorkspaceTab = "Overview" | "Discussion" | "Workstreams" | "Files" | "Decisions" | "Updates";
+
+const workspaceTabs: WorkspaceTab[] = [
+  "Overview",
+  "Discussion",
+  "Workstreams",
+  "Files",
+  "Decisions",
+  "Updates",
+];
 
 function getWorkstreams(workspace: CollaborationWorkspace): Workstream[] {
   if (!Array.isArray(workspace.workstreams)) return [];
@@ -111,6 +122,7 @@ function CollaborationPage() {
 
 function WorkspaceRoom({ workspace }: { workspace: CollaborationWorkspace }) {
   const streams = getWorkstreams(workspace);
+  const [activeTab, setActiveTab] = useState<WorkspaceTab>("Overview");
   return (
     <article className="collaboration-workspace">
       <header>
@@ -131,41 +143,59 @@ function WorkspaceRoom({ workspace }: { workspace: CollaborationWorkspace }) {
         <strong>{workspace.current_focus}</strong>
       </div>
       <div className="workspace-tabs" role="tablist" aria-label="Collaboration workspace sections">
-        <button className="active">Overview</button>
-        <button>Discussion</button>
-        <button>Workstreams</button>
-        <button>Files</button>
-        <button>Decisions</button>
-        <button>Updates</button>
+        {workspaceTabs.map((tab) => (
+          <button
+            key={tab}
+            role="tab"
+            aria-selected={activeTab === tab}
+            className={activeTab === tab ? "active" : ""}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab}
+          </button>
+        ))}
       </div>
       <div className="workspace-content-grid">
         <section className="workstream-board">
           <div className="workspace-section-heading">
             <div>
-              <span>ACTIVE WORKSTREAMS</span>
-              <h3>Where collaboration can begin</h3>
+              <span>
+                {activeTab === "Workstreams" ? "ACTIVE WORKSTREAMS" : activeTab.toUpperCase()}
+              </span>
+              <h3>{workspacePanelTitle(activeTab)}</h3>
             </div>
             <small>{streams.length} focused tracks</small>
           </div>
-          <div className="workstream-grid">
-            {streams.map((stream, index) => (
-              <article key={stream.name}>
-                <div>
-                  <span>0{index + 1}</span>
-                  <strong>{stream.status}</strong>
-                </div>
-                <h3>{stream.name}</h3>
-                <small>Coordinated by {stream.lead}</small>
-                <ul>
-                  {stream.needs.map((need) => (
-                    <li key={need}>
-                      <ArrowRight /> {need}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
+          {activeTab === "Overview" || activeTab === "Workstreams" ? (
+            <div className="workstream-grid">
+              {streams.map((stream, index) => (
+                <article key={stream.name}>
+                  <div>
+                    <span>0{index + 1}</span>
+                    <strong>{stream.status}</strong>
+                  </div>
+                  <h3>{stream.name}</h3>
+                  <small>Coordinated by {stream.lead}</small>
+                  <ul>
+                    {stream.needs.map((need) => (
+                      <li key={need}>
+                        <ArrowRight /> {need}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="workspace-preview-panel">
+              <WorkspacePanelIcon tab={activeTab} />
+              <strong>{workspacePanelTitle(activeTab)}</strong>
+              <p>{workspacePanelCopy(activeTab)}</p>
+              <button type="button" onClick={() => setActiveTab("Workstreams")}>
+                View active workstreams <ArrowRight />
+              </button>
+            </div>
+          )}
         </section>
         <aside className="workspace-join-panel">
           <span>ENTER THE ROOM</span>
@@ -199,4 +229,41 @@ function WorkspaceRoom({ workspace }: { workspace: CollaborationWorkspace }) {
       </footer>
     </article>
   );
+}
+
+function workspacePanelTitle(tab: WorkspaceTab) {
+  const titles: Record<WorkspaceTab, string> = {
+    Overview: "Where collaboration can begin",
+    Discussion: "One conversation, attached to the work",
+    Workstreams: "Choose the track where you can deliver",
+    Files: "Shared context with a clear source",
+    Decisions: "A durable record of what the team agrees",
+    Updates: "Progress that stays visible to the room",
+  };
+  return titles[tab];
+}
+
+function workspacePanelCopy(tab: WorkspaceTab) {
+  const copy: Record<WorkspaceTab, string> = {
+    Overview: "Review the active collaboration tracks and enter with a specific contribution.",
+    Discussion:
+      "Room conversations will stay linked to the project, workstream and people responsible for delivery.",
+    Workstreams:
+      "Each track states its focus, coordination point and the capabilities currently needed.",
+    Files:
+      "Briefs, specifications and evidence will carry ownership, version context and access controls.",
+    Decisions:
+      "Key decisions will preserve the proposal, outcome, contributors and project attribution.",
+    Updates:
+      "Milestones and build updates will create a readable delivery history for collaborators and stakeholders.",
+  };
+  return copy[tab];
+}
+
+function WorkspacePanelIcon({ tab }: { tab: WorkspaceTab }) {
+  if (tab === "Discussion") return <MessageSquareText />;
+  if (tab === "Files") return <FileText />;
+  if (tab === "Decisions") return <ShieldCheck />;
+  if (tab === "Updates") return <CheckCircle2 />;
+  return <GitBranch />;
 }
