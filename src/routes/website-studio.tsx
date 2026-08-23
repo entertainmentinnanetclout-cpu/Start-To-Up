@@ -25,7 +25,7 @@ export const Route = createFileRoute("/website-studio")({
       { title: "Website Studio | Start To Up" },
       {
         name: "description",
-        content: "Choose from 24 premium business website systems, customise the brand, connect GitHub, Vercel, Supabase and Lovable, then export a complete deployment-ready Vite/React source ZIP.",
+        content: `Choose from ${studioTemplates.length} premium business website systems, customise the brand, connect GitHub, Vercel, Supabase and Lovable, then export a complete deployment-ready Vite/React source ZIP.`,
       },
     ],
   }),
@@ -47,7 +47,7 @@ function WebsiteStudioServicePage() {
               <span className="section-label">START TO UP WEBSITE STUDIO V2</span>
               <h1>Premium templates. Full control. Your source.</h1>
               <p>Start from an original Elementor-quality business system, customise the visual language and customer journey, connect the tools around the site, then export the complete Vite/React project or deploy through managed workflows.</p>
-              <div className="studio-public-actions"><Link preload="intent" to="/app/website-studio-templates" className="button button-primary button-large">Explore 24 templates <ArrowRight /></Link><Link preload="intent" to="/app/website-studio" className="button button-secondary button-large">Open current project</Link></div>
+              <div className="studio-public-actions"><Link preload="intent" to="/app/website-studio-templates" className="button button-primary button-large">Explore {studioTemplates.length} templates <ArrowRight /></Link><Link preload="intent" to="/app/website-studio" className="button button-secondary button-large">Open current project</Link></div>
             </div>
             <div className="studio-public-browser" aria-label="Website Studio source project example">
               <header><i/><i/><i/><span>website-studio / client-business</span></header>
@@ -62,7 +62,7 @@ function WebsiteStudioServicePage() {
         </section>
 
         <section id="templates" className="studio-public-section shell-width">
-          <div className="studio-public-heading"><span>PREMIUM TEMPLATE LIBRARY</span><h2>Twenty-four original starting systems for serious businesses.</h2><p>Each template carries a distinct visual direction, colour architecture, typography, hero treatment, navigation, card system and conversion pattern. Choose one, then change everything.</p></div>
+          <div className="studio-public-heading"><span>PREMIUM TEMPLATE LIBRARY</span><h2>{studioTemplates.length} original starting systems for serious businesses.</h2><p>Each template carries a distinct visual direction, colour architecture, typography, hero treatment, navigation, card system and conversion pattern. Choose one, then change everything.</p></div>
           <div className="template-library-grid">
             {studioTemplates.slice(0, 6).map((template) => <article className={`template-card mood-${template.preview.mood}`} key={template.key}>
               <div className="template-card-preview" style={{ "--tp": template.preview.primary, "--ts": template.preview.secondary, "--ta": template.preview.accent, "--tf": template.preview.surface } as React.CSSProperties}>
@@ -80,7 +80,7 @@ function WebsiteStudioServicePage() {
         <section id="features" className="studio-public-section shell-width">
           <div className="studio-public-heading"><span>MORE THAN A PAGE BUILDER</span><h2>Design controls, operational integrations and portable code.</h2><p>Every project keeps its brand, business content, responsive design settings, SEO, version history, source package and deployment destinations together.</p></div>
           <div className="studio-feature-grid">
-            <Feature icon={<LayoutTemplate/>} title="24 premium systems" text="Choose an original design direction for SaaS, property, food, fashion, legal, healthcare, education, events, institutions and more."/>
+            <Feature icon={<LayoutTemplate/>} title={`${studioTemplates.length} premium systems`} text="Choose an original design direction for SaaS, property, food, fashion, legal, healthcare, education, events, institutions and more."/>
             <Feature icon={<Palette/>} title="Advanced customisation" text="Control colours, typography, hero layout, navigation style, buttons, cards, radius, content width, spacing, galleries and sections."/>
             <Feature icon={<Eye/>} title="Live responsive preview" text="Desktop, tablet and mobile previews update immediately as the website configuration changes."/>
             <Feature icon={<Smartphone/>} title="Mobile-first output" text="Generated websites contain responsive grids, navigation, calls to action, content hierarchy and conversion-ready contact sections."/>
