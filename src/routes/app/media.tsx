@@ -1,176 +1,108 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  ArrowRight,
-  BadgeCheck,
-  Bookmark,
-  Captions,
-  EyeOff,
-  Heart,
-  MessageCircle,
-  MonitorPlay,
-  Play,
-  Radio,
-  Share2,
-  Sparkles,
-  Users,
-  Video,
-  X,
+  BadgeCheck, Bookmark, ChevronDown, ChevronUp, EyeOff, Heart, MessageCircle, Radio,
+  Send, Share2, Sparkles, UserPlus, Users, Video, WalletCards, X,
 } from "lucide-react";
 import { AppShell } from "../../components/app-shell";
 import { DataState } from "../../components/live-data-ui";
+import { recordMediaSignal, type ProfessionalMediaItem } from "../../lib/pro-network-data";
 import {
-  type ProfessionalMediaItem,
-  recordMediaSignal,
-  useLiveStudioEvents,
-  useProfessionalMediaFeed,
-} from "../../lib/pro-network-data";
-import "../../pro-network.css";
+  addMediaComment, markMediaNotificationOpen, threadComments, toggleCreatorFollow,
+  toggleInvestorWatchlist, useInvestorWatchlist, useMediaComments, useMediaNotifications,
+  useRankedMediaFeedV2, useRecommendationState,
+} from "../../lib/media-v2-data";
+import "../../media-v2.css";
 
-export const Route = createFileRoute("/app/media")({ component: MediaPage });
+export const Route = createFileRoute("/app/media")({ component: MediaV2Page });
 
 const audiences = [
-  ["For you", ""],
-  ["Developers", "developers"],
-  ["Entrepreneurs", "entrepreneurs"],
-  ["Innovators", "innovators"],
-  ["Investors", "investors"],
-  ["Institutions", "institutions"],
+  ["For you", ""], ["Developers", "developers"], ["Entrepreneurs", "entrepreneurs"],
+  ["Innovators", "innovators"], ["Investors", "investors"], ["Institutions", "institutions"],
 ] as const;
 
-function MediaPage() {
+function MediaV2Page() {
   const [audience, setAudience] = useState("");
   const [hidden, setHidden] = useState<Set<string>>(() => new Set());
-  const media = useProfessionalMediaFeed(audience ? [audience] : []);
-  const liveEvents = useLiveStudioEvents();
-  const visibleMedia = useMemo(() => media.data.filter((item) => !hidden.has(item.id)), [media.data, hidden]);
+  const feed = useRankedMediaFeedV2(audience ? [audience] : []);
+  const recommendations = useRecommendationState();
+  const watchlist = useInvestorWatchlist();
+  const notifications = useMediaNotifications();
+  const watchIds = useMemo(() => new Set(watchlist.data.map((item) => item.project_id)), [watchlist.data]);
+  const items = useMemo(() => feed.data.filter((item) => !hidden.has(item.id)), [feed.data, hidden]);
 
   return (
-    <AppShell title="Media studio" eyebrow="WATCH · LEARN · DEMONSTRATE · COLLABORATE">
-      <section className="media-command-bar pro-media-command">
+    <AppShell
+      title="Media V2"
+      eyebrow="VERTICAL DISCOVERY · LIVE · PROJECT INTELLIGENCE"
+      action={<Link to="/app/creator" className="button button-secondary"><Sparkles /> Creator studio</Link>}
+    >
+      <section className="v2-command">
         <div>
-          <span>
-            <Sparkles /> PERSONALIZED PROFESSIONAL DISCOVERY
-          </span>
-          <h2>A feed built to move real projects forward.</h2>
-          <p>
-            Build Reels, technical walkthroughs, product demonstrations, research, live sessions and
-            collaboration calls—ranked around usefulness, expertise, watch quality and credible intent.
-          </p>
+          <span><Sparkles /> RECOMMENDATION V2</span>
+          <h2>Professional discovery that learns from what moves you to act.</h2>
+          <p>Autoplay, creator affinity, threaded discussion, live rooms, watchlists and notification signals now shape each signed-in feed.</p>
         </div>
-        <div className="pro-media-command-actions">
-          <Link to="/app/create" className="button button-primary">
-            <Video /> Publish media
-          </Link>
-          <Link to="/app/create" search={{ mode: "live" } as never} className="button button-secondary">
-            <Radio /> Schedule live
-          </Link>
+        <div className="v2-command-actions">
+          <Link to="/app/sessions" className="button button-primary"><Radio /> Live studio</Link>
+          <Link to="/app/watchlist" className="button button-secondary"><WalletCards /> Investor watchlist</Link>
         </div>
       </section>
 
-      <nav className="media-audience-tabs pro-audience-tabs" aria-label="Personalize media feed">
+      {notifications.data.length ? (
+        <section className="v2-notification-strip" aria-label="Recommended updates">
+          <strong>Recommended for you</strong>
+          <div>
+            {notifications.data.slice(0, 4).map((item) => (
+              <button key={item.id} onClick={() => void markMediaNotificationOpen(item.id, item.media_id).then(() => notifications.refresh())}>
+                <span>{item.reason.replaceAll("_", " ")}</span>
+                <b>{item.media?.title ?? "New project update"}</b>
+              </button>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      <nav className="v2-audience-tabs" aria-label="Media audience">
         {audiences.map(([label, value]) => (
-          <button
-            key={label}
-            className={audience === value ? "active" : ""}
-            onClick={() => setAudience(value)}
-          >
-            {label}
-          </button>
+          <button key={label} className={audience === value ? "active" : ""} onClick={() => setAudience(value)}>{label}</button>
         ))}
+        <span className="v2-cohort">Cohort: {recommendations.data.cohort.replaceAll("_", " ")}</span>
       </nav>
 
-      <div className="media-discovery-layout pro-media-layout">
-        <section className="innovation-reel-feed pro-reel-feed" aria-label="Ranked innovation media">
-          <DataState loading={media.loading} error={media.error} empty={!visibleMedia.length}>
-            {visibleMedia.map((item, index) => (
-              <InnovationReel
+      <div className="v2-media-layout">
+        <section className="v2-vertical-feed" aria-label="Vertical professional media feed">
+          <DataState loading={feed.loading} error={feed.error} empty={!items.length}>
+            {items.map((item, index) => (
+              <VerticalMediaCard
                 key={item.id}
                 item={item}
-                priority={index === 0}
+                priority={index < 2}
+                watched={Boolean(item.project_id && watchIds.has(item.project_id))}
+                onWatchlistChange={() => void watchlist.refresh()}
                 onHide={() => setHidden((current) => new Set(current).add(item.id))}
               />
             ))}
           </DataState>
-          {!media.loading && !media.error && !visibleMedia.length ? (
-            <section className="pro-feed-reset">
-              <Sparkles />
-              <div>
-                <strong>Your discovery lane is ready for a fresh signal.</strong>
-                <span>Switch an audience above or publish a Build Reel to shape the network.</span>
-              </div>
-              <button onClick={() => setHidden(new Set())}>Restore hidden media</button>
-            </section>
+          {!feed.loading && !items.length ? (
+            <div className="v2-empty"><Sparkles /><h3>Your lane is ready for new signals.</h3><button onClick={() => setHidden(new Set())}>Restore hidden media</button></div>
           ) : null}
         </section>
 
-        <aside className="media-studio-rail pro-studio-rail">
-          <article className="live-studio-card pro-live-card">
-            <div className="live-studio-orbit">
-              <Radio />
-              <i />
-              <i />
+        <aside className="v2-intelligence-rail">
+          <article>
+            <span>YOUR FEED MODEL</span>
+            <h3>{recommendations.data.cohort.replaceAll("_", " ")}</h3>
+            <p>Exploration {Math.round(recommendations.data.exploration_rate * 100)}% · notification influence {Math.round(recommendations.data.notification_weight * 100)}%</p>
+            <div className="v2-affinity-list">
+              {recommendations.data.topics.slice(0, 6).map((topic) => <i key={topic.topic}>#{topic.topic} <b>{Number(topic.score).toFixed(1)}</b></i>)}
             </div>
-            <span>START TO UP LIVE STUDIO</span>
-            <h2>Demo the build while the project context stays one tap away.</h2>
-            <ul>
-              <li>
-                <Video /> Product demos and technical walkthroughs
-              </li>
-              <li>
-                <Users /> Collaboration rooms, reviews and expert panels
-              </li>
-              <li>
-                <Captions /> Captions, replay and searchable context
-              </li>
-              <li>
-                <MonitorPlay /> Screen sharing, prototypes and project links
-              </li>
-            </ul>
-            {liveEvents.data.length ? (
-              <div className="pro-live-event-list">
-                {liveEvents.data.slice(0, 3).map((event) => (
-                  <Link to="/app/sessions" key={event.id} className={event.status === "live" ? "is-live" : ""}>
-                    <i />
-                    <div>
-                      <strong>{event.title}</strong>
-                      <span>
-                        {event.status === "live"
-                          ? "LIVE NOW"
-                          : new Intl.DateTimeFormat("en-ZA", {
-                              day: "numeric",
-                              month: "short",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            }).format(new Date(event.starts_at))}
-                      </span>
-                    </div>
-                    <ArrowRight />
-                  </Link>
-                ))}
-              </div>
-            ) : null}
-            <Link to="/app/sessions" className="button button-primary">
-              Open live studio <ArrowRight />
-            </Link>
           </article>
-
-          <article className="algorithm-card pro-algorithm-card">
-            <span>DISCOVERY ENGINE</span>
-            <h3>High-intent behavior beats empty virality.</h3>
-            <p>
-              Ranking learns from completion, rewatching, saves, shares, collaboration entry and topic
-              affinity while actively reducing repeated creators, fast skips, hides and unsafe content.
-            </p>
-            <div className="pro-signal-grid">
-              <span>Watch quality</span>
-              <span>Collaboration intent</span>
-              <span>Topic affinity</span>
-              <span>Creator diversity</span>
-              <span>Freshness</span>
-              <span>Safety</span>
-            </div>
-            <small>Personalization uses signed-in interaction signals; professional relevance remains the baseline.</small>
+          <article>
+            <span>MEDIA OPERATING SYSTEM</span>
+            <h3>Watch → discuss → collaborate → diligence.</h3>
+            <p>Every high-intent action feeds the ranking engine and can move directly into a project room, live room or investor watchlist.</p>
+            <Link to="/app/collaboration">Open collaboration rooms →</Link>
           </article>
         </aside>
       </div>
@@ -178,249 +110,134 @@ function MediaPage() {
   );
 }
 
-function InnovationReel({
-  item,
-  priority,
-  onHide,
+function VerticalMediaCard({
+  item, priority, watched, onWatchlistChange, onHide,
 }: {
-  item: ProfessionalMediaItem;
-  priority: boolean;
-  onHide: () => void;
+  item: ProfessionalMediaItem; priority: boolean; watched: boolean; onWatchlistChange: () => void; onHide: () => void;
 }) {
-  const [storyOpen, setStoryOpen] = useState(false);
-  const [shared, setShared] = useState(false);
+  const cardRef = useRef<HTMLElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const milestones = useRef(new Set<number>());
+  const impressed = useRef(false);
+  const [muted, setMuted] = useState(true);
   const [supported, setSupported] = useState(false);
   const [saved, setSaved] = useState(false);
-  const articleRef = useRef<HTMLElement>(null);
-  const watchedMilestones = useRef(new Set<number>());
-  const completed = useRef(false);
-  const impressed = useRef(false);
+  const [following, setFollowing] = useState(false);
+  const [watching, setWatching] = useState(watched);
+  const [commentsOpen, setCommentsOpen] = useState(false);
 
-  const internalDestination =
-    item.destination_url === "/app/create" || item.destination_url === "/app/collaboration"
-      ? item.destination_url
-      : null;
+  useEffect(() => setWatching(watched), [watched]);
 
   useEffect(() => {
-    const node = articleRef.current;
-    if (!node || impressed.current || typeof IntersectionObserver === "undefined") return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.6)) {
+    const node = cardRef.current;
+    if (!node || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      const video = videoRef.current;
+      if (entry?.isIntersecting && entry.intersectionRatio >= 0.62) {
+        if (!impressed.current) {
           impressed.current = true;
-          void recordMediaSignal(item.id, "impression", { audience_tags: item.audience_tags }).catch(() => undefined);
-          observer.disconnect();
+          void recordMediaSignal(item.id, "impression", { source: "vertical_v2", audience_tags: item.audience_tags }).catch(() => undefined);
         }
-      },
-      { threshold: [0.6] },
-    );
+        if (video) void video.play().catch(() => undefined);
+      } else if (video) video.pause();
+    }, { threshold: [0.2, 0.62, 0.9] });
     observer.observe(node);
     return () => observer.disconnect();
   }, [item.id, item.audience_tags]);
 
-  useEffect(() => {
-    if (!storyOpen) return;
-    const close = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setStoryOpen(false);
-    };
-    document.addEventListener("keydown", close);
-    document.body.classList.add("preview-locked");
-    return () => {
-      document.removeEventListener("keydown", close);
-      document.body.classList.remove("preview-locked");
-    };
-  }, [storyOpen]);
-
-  function openStory() {
-    setStoryOpen(true);
-    void recordMediaSignal(item.id, completed.current ? "rewatch" : "play", {
-      media_kind: item.media_kind,
-    }).catch(() => undefined);
-  }
-
-  function onProgress(video: HTMLVideoElement) {
+  function progress(video: HTMLVideoElement) {
     if (!video.duration || !Number.isFinite(video.duration)) return;
-    const progress = video.currentTime / video.duration;
-    for (const milestone of [0.25, 0.5, 0.75]) {
-      if (progress >= milestone && !watchedMilestones.current.has(milestone * 100)) {
-        watchedMilestones.current.add(milestone * 100);
-        void recordMediaSignal(item.id, "watch", {
-          progress: Number(progress.toFixed(3)),
-          watch_seconds: Math.round(video.currentTime),
-          duration_seconds: Math.round(video.duration),
-        }).catch(() => undefined);
+    const ratio = video.currentTime / video.duration;
+    for (const marker of [25, 50, 75]) {
+      if (ratio * 100 >= marker && !milestones.current.has(marker)) {
+        milestones.current.add(marker);
+        void recordMediaSignal(item.id, "watch", { source: "vertical_v2", progress: Number(ratio.toFixed(3)), watch_seconds: Math.round(video.currentTime), duration_seconds: Math.round(video.duration) }).catch(() => undefined);
       }
     }
   }
 
-  function onComplete(video: HTMLVideoElement) {
-    completed.current = true;
-    void recordMediaSignal(item.id, "complete", {
-      progress: 1,
-      duration_seconds: Math.round(video.duration || item.duration_seconds || 0),
-    }).catch(() => undefined);
-  }
-
-  async function shareStory() {
-    const shareData = { title: item.title, text: item.caption, url: window.location.href };
-    if (navigator.share) await navigator.share(shareData);
-    else await navigator.clipboard.writeText(window.location.href);
-    setShared(true);
-    void recordMediaSignal(item.id, "share", { source: "media_feed" }).catch(() => undefined);
-    window.setTimeout(() => setShared(false), 1800);
-  }
-
-  function toggleSupport() {
-    const next = !supported;
-    setSupported(next);
-    if (next) void recordMediaSignal(item.id, "support", { source: "media_feed" }).catch(() => undefined);
-  }
-
-  function toggleSave() {
-    const next = !saved;
-    setSaved(next);
-    if (next) void recordMediaSignal(item.id, "save", { source: "media_feed" }).catch(() => undefined);
-  }
-
-  function hideStory() {
-    void recordMediaSignal(item.id, "hide", { source: "media_feed" }).catch(() => undefined);
-    onHide();
+  async function share() {
+    const payload = { title: item.title, text: item.caption, url: window.location.href };
+    if (navigator.share) await navigator.share(payload); else await navigator.clipboard.writeText(window.location.href);
+    void recordMediaSignal(item.id, "share", { source: "vertical_v2" }).catch(() => undefined);
   }
 
   return (
-    <article ref={articleRef} className={`innovation-reel pro-innovation-reel${priority ? " priority-reel" : ""}`}>
-      <div className="innovation-reel-media pro-reel-media">
-        <img src={item.poster_url} alt="" loading={priority ? "eager" : "lazy"} />
-        <div className="reel-media-gradient" />
-        <button type="button" className="pro-main-play" aria-label={`Open ${item.title}`} onClick={openStory}>
-          <Play />
-        </button>
-        <div className={`reel-kind ${item.stream_state === "live" ? "is-live" : ""}`}>
-          {item.stream_state === "live" ? <Radio /> : <Video />} {item.stream_state === "live" ? "LIVE" : item.media_kind.replaceAll("_", " ")}
-        </div>
-        <div className="reel-copy pro-reel-copy">
-          <header>
-            <div className="reel-avatar">{item.author_name.slice(0, 2).toUpperCase()}</div>
-            <div>
-              <strong>
-                {item.author_name} {item.credibility_score >= 0.7 ? <BadgeCheck /> : null}
-              </strong>
-              <span>
-                {item.author_handle} · {item.author_role}
-              </span>
-            </div>
-          </header>
+    <article ref={cardRef} className="v2-reel" data-kind={item.stream_state}>
+      <div className="v2-reel-visual">
+        {item.playback_url ? (
+          <video
+            ref={videoRef} src={item.playback_url} poster={item.poster_url} muted={muted} loop playsInline preload={priority ? "auto" : "metadata"}
+            onClick={(event) => event.currentTarget.paused ? void event.currentTarget.play() : event.currentTarget.pause()}
+            onPlay={() => void recordMediaSignal(item.id, "play", { source: "vertical_v2" }).catch(() => undefined)}
+            onTimeUpdate={(event) => progress(event.currentTarget)}
+            onEnded={(event) => void recordMediaSignal(item.id, "complete", { source: "vertical_v2", progress: 1, duration_seconds: Math.round(event.currentTarget.duration || item.duration_seconds || 0) }).catch(() => undefined)}
+          >{item.captions_url ? <track kind="captions" src={item.captions_url} default /> : null}</video>
+        ) : <img src={item.poster_url} alt="" loading={priority ? "eager" : "lazy"} />}
+        <div className="v2-reel-gradient" />
+        <button className="v2-sound" onClick={() => setMuted((value) => !value)}>{muted ? "Sound off" : "Sound on"}</button>
+        <span className={`v2-kind ${item.stream_state === "live" ? "live" : ""}`}>{item.stream_state === "live" ? <Radio /> : <Video />} {item.stream_state === "live" ? "LIVE" : item.media_kind.replaceAll("_", " ")}</span>
+
+        <div className="v2-reel-copy">
+          <div className="v2-author-row">
+            <i>{item.author_name.slice(0, 2).toUpperCase()}</i>
+            <div><strong>{item.author_name} {item.credibility_score >= 0.7 ? <BadgeCheck /> : null}</strong><span>{item.author_handle} · {item.author_role}</span></div>
+            {item.creator_id ? <button className={following ? "active" : ""} onClick={() => void toggleCreatorFollow(item.creator_id!).then((value) => { setFollowing(value); if (value) void recordMediaSignal(item.id, "follow", { source: "vertical_v2" }); })}><UserPlus /> {following ? "Following" : "Follow"}</button> : null}
+          </div>
           <h2>{item.title}</h2>
           <p>{item.caption}</p>
-          <div className="reel-topics">
-            {item.topic_tags.slice(0, 5).map((tag) => (
-              <span key={tag}>#{tag.replaceAll(" ", "")}</span>
-            ))}
+          <div className="v2-tags">{item.topic_tags.slice(0, 5).map((tag) => <span key={tag}>#{tag.replaceAll(" ", "")}</span>)}</div>
+          <div className="v2-project-actions">
+            {item.allow_collaboration ? <Link to="/app/collaboration" onClick={() => void recordMediaSignal(item.id, "collaboration_enter", { source: "vertical_v2" })}>Open project room</Link> : null}
+            {item.project_id ? <button className={watching ? "active" : ""} onClick={() => void toggleInvestorWatchlist(item.project_id!, item.id).then((value) => { setWatching(value); onWatchlistChange(); if (value) void recordMediaSignal(item.id, "save", { source: "investor_watchlist" }); })}><WalletCards /> {watching ? "Watching" : "Investor watch"}</button> : null}
           </div>
-          {internalDestination ? (
-            <Link
-              to={internalDestination}
-              className="reel-cta"
-              onClick={() => void recordMediaSignal(item.id, "collaboration_enter", { destination: internalDestination }).catch(() => undefined)}
-            >
-              {item.call_to_action} <ArrowRight />
-            </Link>
-          ) : item.destination_url ? (
-            <a href={item.destination_url} target="_blank" rel="noreferrer" className="reel-cta">
-              {item.call_to_action} <ArrowRight />
-            </a>
-          ) : null}
         </div>
-        <nav className="reel-actions pro-reel-actions" aria-label="Media actions">
-          <button type="button" className={supported ? "active" : ""} onClick={toggleSupport}>
-            <Heart />
-            <span>{supported ? "Supported" : "Support"}</span>
-          </button>
-          <button type="button" className={saved ? "active" : ""} onClick={toggleSave}>
-            <Bookmark />
-            <span>{saved ? "Saved" : "Save"}</span>
-          </button>
-          <Link
-            to="/app/collaboration"
-            onClick={() => void recordMediaSignal(item.id, "collaboration_enter", { source: "discuss" }).catch(() => undefined)}
-          >
-            <MessageCircle />
-            <span>Discuss</span>
-          </Link>
-          <button type="button" onClick={() => void shareStory()}>
-            <Share2 />
-            <span>{shared ? "Copied" : "Share"}</span>
-          </button>
-          <button type="button" onClick={hideStory}>
-            <EyeOff />
-            <span>Hide</span>
-          </button>
+
+        <nav className="v2-action-rail" aria-label="Media actions">
+          <button className={supported ? "active" : ""} onClick={() => { setSupported((v) => !v); if (!supported) void recordMediaSignal(item.id, "support", { source: "vertical_v2" }); }}><Heart /><span>Support</span></button>
+          <button className={saved ? "active" : ""} onClick={() => { setSaved((v) => !v); if (!saved) void recordMediaSignal(item.id, "save", { source: "vertical_v2" }); }}><Bookmark /><span>Save</span></button>
+          <button onClick={() => setCommentsOpen(true)}><MessageCircle /><span>Discuss</span></button>
+          <button onClick={() => void share()}><Share2 /><span>Share</span></button>
+          <button onClick={() => { void recordMediaSignal(item.id, "hide", { source: "vertical_v2" }); onHide(); }}><EyeOff /><span>Hide</span></button>
         </nav>
       </div>
-
-      {storyOpen ? (
-        <div className="motion-story-overlay pro-story-overlay" role="dialog" aria-modal="true" aria-label={item.title}>
-          <button type="button" className="motion-story-backdrop" aria-label="Close media" onClick={() => setStoryOpen(false)} />
-          <section className="motion-story-player pro-story-player">
-            <button type="button" className="pro-story-close" aria-label="Close media" onClick={() => setStoryOpen(false)}>
-              <X />
-            </button>
-            <div className="motion-story-visual pro-story-visual">
-              {item.playback_url ? (
-                <video
-                  src={item.playback_url}
-                  poster={item.poster_url}
-                  controls
-                  playsInline
-                  autoPlay
-                  preload="metadata"
-                  onPlay={() => {
-                    if (completed.current) void recordMediaSignal(item.id, "rewatch", { source: "player" }).catch(() => undefined);
-                  }}
-                  onTimeUpdate={(event) => onProgress(event.currentTarget)}
-                  onEnded={(event) => onComplete(event.currentTarget)}
-                >
-                  {item.captions_url ? <track kind="captions" src={item.captions_url} default /> : null}
-                </video>
-              ) : (
-                <>
-                  <img src={item.poster_url} alt="" />
-                  <div className="reel-media-gradient" />
-                  <span>
-                    <Play /> PRODUCT STORY
-                  </span>
-                </>
-              )}
-            </div>
-            <div className="motion-story-copy pro-story-copy">
-              <span>
-                {item.stream_state === "live" ? "LIVE" : item.media_kind.replaceAll("_", " ")} · {item.author_name}
-              </span>
-              <h2>{item.title}</h2>
-              <p>{item.caption}</p>
-              <div className="reel-topics">
-                {item.topic_tags.map((tag) => (
-                  <span key={tag}>#{tag.replaceAll(" ", "")}</span>
-                ))}
-              </div>
-              <div className="motion-story-actions">
-                {item.allow_collaboration ? (
-                  <Link
-                    to="/app/collaboration"
-                    className="button button-primary"
-                    onClick={() => void recordMediaSignal(item.id, "collaboration_enter", { source: "player" }).catch(() => undefined)}
-                  >
-                    Enter collaboration <ArrowRight />
-                  </Link>
-                ) : null}
-                <button type="button" className="button button-secondary" onClick={() => void shareStory()}>
-                  <Share2 /> {shared ? "Link copied" : "Share"}
-                </button>
-              </div>
-            </div>
-          </section>
-        </div>
-      ) : null}
+      {commentsOpen ? <CommentDrawer media={item} onClose={() => setCommentsOpen(false)} /> : null}
     </article>
+  );
+}
+
+function CommentDrawer({ media, onClose }: { media: ProfessionalMediaItem; onClose: () => void }) {
+  const comments = useMediaComments(media.id);
+  const threaded = threadComments(comments.data);
+  const [body, setBody] = useState("");
+  const [replyTo, setReplyTo] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
+
+  async function submit() {
+    if (!body.trim()) return;
+    setSending(true);
+    try { await addMediaComment(media.id, body, replyTo); setBody(""); setReplyTo(null); await comments.refresh(); }
+    finally { setSending(false); }
+  }
+
+  return (
+    <aside className="v2-comment-drawer" aria-label={`Discussion for ${media.title}`}>
+      <header><div><span>PROJECT DISCUSSION</span><h3>{media.title}</h3></div><button onClick={onClose}><X /></button></header>
+      <div className="v2-comment-list">
+        {threaded.map(({ root, replies }) => (
+          <article key={root.id}>
+            <div className="v2-comment"><i>{(root.author?.display_name ?? root.author?.username ?? "M").slice(0, 2).toUpperCase()}</i><div><strong>{root.author?.display_name ?? root.author?.username ?? "Member"}</strong><p>{root.body}</p><button onClick={() => setReplyTo(root.id)}>Reply</button></div></div>
+            {replies.map((reply) => <div className="v2-comment reply" key={reply.id}><i>{(reply.author?.display_name ?? reply.author?.username ?? "M").slice(0, 2).toUpperCase()}</i><div><strong>{reply.author?.display_name ?? reply.author?.username ?? "Member"}</strong><p>{reply.body}</p></div></div>)}
+          </article>
+        ))}
+        {!comments.loading && !threaded.length ? <div className="v2-no-comments"><Users /><p>Start the technical or commercial discussion around this build.</p></div> : null}
+      </div>
+      <footer>
+        {replyTo ? <button className="v2-replying" onClick={() => setReplyTo(null)}>Replying to thread <X /></button> : null}
+        <textarea value={body} onChange={(event) => setBody(event.target.value)} placeholder="Add evidence, feedback, a question or collaboration insight…" />
+        <button disabled={sending || !body.trim()} onClick={() => void submit()}><Send /> {sending ? "Sending" : "Post"}</button>
+      </footer>
+    </aside>
   );
 }
