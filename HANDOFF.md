@@ -1,6 +1,8 @@
 # Handoff
 
-The public website represents Start To Up as a premium venture-development company and product studio. ResKonnect is the first real Supabase-backed editorial product showcase: it publishes a public build update, invites relevant companies to collaborate and gives visitors curated key-page previews before they open the live product. The experience appears across the company landing page, Home, Explore and Ventures. Founder information has moved to the footer-linked `/company` route. Authentication remains intentionally excluded.
+The public website represents Start To Up as a premium venture-development company and product studio. ResKonnect is the first real editorial product showcase: it publishes a public build update, invites relevant companies to collaborate and gives visitors curated key-page previews before they open the live product. The experience appears across the company landing page, Home, Explore and Ventures. Founder information lives on the footer-linked `/company` route. Authentication remains intentionally excluded.
+
+Innovation Media now uses the public `ranked_media_feed` RPC with explicit quality, collaboration, freshness and audience-relevance signals. Collaboration has a public workspace model with workstreams and operating rules designed to keep discussion, scope, files, decisions and progress inside Start To Up. ResKonnect is the first active example room.
 
 Next activation task: configure `VITE_TURNSTILE_SITE_KEY` in the frontend environment and `TURNSTILE_SECRET_KEY` as a Supabase Edge Function secret. Then connect a production media provider, followed by authentication and protected mutation testing when the auth phase is authorized.
 
@@ -16,6 +18,9 @@ Next activation task: configure `VITE_TURNSTILE_SITE_KEY` in the frontend enviro
 - PWA metadata, icons, favicon, and manifest
 - Build media, live-event, ecosystem-program and plan directories
 - CAPTCHA-protected guest intake Edge Function
+- Ranked Innovation Media feed and audience filters
+- Public collaboration workspaces and ResKonnect workstreams
+- Vercel-targeted Nitro production output
 
 ## Not yet connected
 
