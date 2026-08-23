@@ -49,7 +49,11 @@ function TurnstileWidget({ onToken }: { onToken: (token: string) => void }) {
   }, [onToken, siteKey]);
 
   if (!siteKey)
-    return <p className="captcha-config">CAPTCHA activation needs VITE_TURNSTILE_SITE_KEY.</p>;
+    return (
+      <p className="captcha-config">
+        Secure verification is temporarily unavailable. Please return shortly.
+      </p>
+    );
   return <div className="turnstile-slot" ref={container} aria-label="Security verification" />;
 }
 
