@@ -56,7 +56,7 @@ const mobileNavigation = [
 ] as const;
 
 const mobileMoreNavigation = [
-  { to: "/app/website-studio-templates", label: "Website templates", icon: LayoutTemplate, description: "Choose from 24 premium business starters" },
+  { to: "/app/website-studio-templates", label: "Website templates", icon: LayoutTemplate, description: "Choose from 20+ premium business starters" },
   { to: "/app/website-studio", label: "Website studio", icon: LayoutTemplate, description: "Build, integrate, export and deploy websites" },
   { to: "/app/collaboration", label: "Collaboration rooms", icon: Handshake, description: "Build with teams inside Start To Up" },
   { to: "/app/messages", label: "Messages", icon: MessageCircle, description: "Continue project conversations" },
