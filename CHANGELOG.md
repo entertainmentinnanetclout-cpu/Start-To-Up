@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-08-23 — Ranked media and in-platform collaboration
+
+- Added a signal-ranked Innovation Media feed for developers, entrepreneurs, innovators, investors and institutions.
+- Added a live collaboration-workspace model with workstreams, operating principles and a public ResKonnect product room.
+- Published three truthful ResKonnect and Start To Up motion stories without fabricated users, engagement counts or outcomes.
+- Rebuilt Network around a discover → project → room → delivery workflow and made Media available in mobile navigation.
+- Pinned the Nitro deployment target to Vercel and verified the complete production build output.
+- Kept member-only mutations inactive until the authorized authentication phase; public room-interest intake remains CAPTCHA protected.
+
 ## 2026-08-23 — ResKonnect network showcase
 
 - Published ResKonnect as the first real editorial product showcase in Supabase with a public build update and six collaboration categories.
