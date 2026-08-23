@@ -89,7 +89,7 @@ function LiveRoomStage({ eventId, onClose }: { eventId: string; onClose: () => v
   return (
     <section className="live-room-stage">
       <header><div><span>{room.event?.status === "live" ? "LIVE NOW" : "LIVE STUDIO"}</span><h2>{room.event?.title ?? "Live room"}</h2></div><button onClick={onClose}><X /></button></header>
-      {room.error ? <div className="network-notice">{room.error}</div> : null}
+      {room.error ? <div className="network-notice">The live room is reconnecting. Please try the action again.</div> : null}
       <div className="live-room-layout">
         <div className="live-video-stage">
           <div className="live-video-grid">
