@@ -14,11 +14,13 @@ export type WebsiteStudioAssetSlot =
   | "brand-material";
 
 export type UploadedWebsiteStudioAsset = {
+  id?: string;
   path: string;
   publicUrl: string;
   originalName: string;
   contentType: string;
   bytes: number;
+  slot?: WebsiteStudioAssetSlot;
 };
 
 function cleanFilename(name: string) {
@@ -40,7 +42,7 @@ function validate(file: File, slot: WebsiteStudioAssetSlot) {
   if (!allowed.has(file.type)) throw new Error(slot === "brand-material" ? "UNSUPPORTED_BRAND_FILE" : "IMAGE_REQUIRED");
 }
 
-export async function uploadWebsiteStudioAsset(file: File, slot: WebsiteStudioAssetSlot): Promise<UploadedWebsiteStudioAsset> {
+export async function uploadWebsiteStudioAsset(file: File, slot: WebsiteStudioAssetSlot, projectId?: string): Promise<UploadedWebsiteStudioAsset> {
   validate(file, slot);
   const { data: authData, error: authError } = await supabase.auth.getUser();
   if (authError || !authData.user) throw new Error("SIGN_IN_REQUIRED");
@@ -55,21 +57,67 @@ export async function uploadWebsiteStudioAsset(file: File, slot: WebsiteStudioAs
   if (error) throw error;
 
   const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
-  if (!data.publicUrl) throw new Error("PUBLIC_URL_FAILED");
+  if (!data.publicUrl) {
+    await supabase.storage.from(BUCKET).remove([path]).catch(() => undefined);
+    throw new Error("PUBLIC_URL_FAILED");
+  }
+
+  // The generated Database type may lag a new migration during local development,
+  // so this narrow cast is intentionally isolated to the just-added asset library.
+  const database = supabase as any;
+  const { data: row, error: recordError } = await database.from("website_studio_assets").insert({
+    owner_id: authData.user.id,
+    project_id: projectId || null,
+    slot,
+    storage_path: path,
+    public_url: data.publicUrl,
+    original_filename: file.name,
+    mime_type: file.type,
+    byte_size: file.size,
+  }).select("id").single();
+
+  if (recordError) {
+    await supabase.storage.from(BUCKET).remove([path]).catch(() => undefined);
+    throw recordError;
+  }
+
   return {
+    id: row?.id,
     path,
     publicUrl: data.publicUrl,
     originalName: file.name,
     contentType: file.type,
     bytes: file.size,
+    slot,
   };
 }
 
-export async function uploadWebsiteStudioAssets(files: FileList | File[], slot: WebsiteStudioAssetSlot = "gallery") {
+export async function uploadWebsiteStudioAssets(files: FileList | File[], slot: WebsiteStudioAssetSlot = "gallery", projectId?: string) {
   const input = Array.from(files);
   const uploaded: UploadedWebsiteStudioAsset[] = [];
-  for (const file of input) uploaded.push(await uploadWebsiteStudioAsset(file, slot));
+  for (const file of input) uploaded.push(await uploadWebsiteStudioAsset(file, slot, projectId));
   return uploaded;
+}
+
+export async function listWebsiteStudioAssets(limit = 36): Promise<UploadedWebsiteStudioAsset[]> {
+  const { data: authData, error: authError } = await supabase.auth.getUser();
+  if (authError || !authData.user) return [];
+  const database = supabase as any;
+  const { data, error } = await database.from("website_studio_assets")
+    .select("id,slot,storage_path,public_url,original_filename,mime_type,byte_size")
+    .eq("owner_id", authData.user.id)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) throw error;
+  return (data || []).map((row: any) => ({
+    id: row.id,
+    path: row.storage_path,
+    publicUrl: row.public_url,
+    originalName: row.original_filename,
+    contentType: row.mime_type,
+    bytes: Number(row.byte_size || 0),
+    slot: row.slot,
+  }));
 }
 
 export function websiteStudioAssetErrorMessage(error: unknown) {
