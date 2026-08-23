@@ -12,7 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
-const primaryDomain = "https://www.scale-to-up.co.za";
+const primaryDomain = "https://www.start-to-up.co.za";
 
 function NotFoundComponent() {
   return (
@@ -73,6 +73,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  // Production recovery mode: the Vercel function was failing during route-component SSR.
+  // Keep the document shell server-rendered, but render the application routes in the browser.
+  // This preserves full app functionality while the SSR-only failure is isolated.
+  ssr: false,
   head: () => ({
     meta: [
       { charSet: "utf-8" },
