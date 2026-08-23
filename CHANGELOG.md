@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-08-23 — Company launch positioning
+
+- Rebuilt the public homepage as the digital headquarters for Start To Up and its innovation network.
+- Added venture services, audience pathways, founder positioning, CIPC-pending status and direct company contact details.
+- Added the canonical founder portrait and updated company-focused metadata.
+
 ## 2026-08-23 — Phase 3 media and ecosystem foundation
 
 - Added media publications, live events, ecosystem programs, consented participation, recommendation events, platform plans and entitlements with RLS.

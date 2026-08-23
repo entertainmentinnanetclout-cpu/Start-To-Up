@@ -77,21 +77,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Start To Up | From Ideas to Impact" },
+      { title: "Start To Up | Innovation & Venture Development" },
       {
         name: "description",
         content:
-          "The protected social network where innovators build visibly, find collaborators and connect with opportunity.",
+          "Start To Up helps founders, innovators and growing businesses connect, validate, build, launch and upscale through venture support and an innovation network.",
       },
-      { name: "author", content: "Start To Up" },
+      { name: "author", content: "Start To Up · Founder Ayanda Lawrence Msizi Dube" },
       { name: "theme-color", content: "#071449" },
-      { property: "og:title", content: "Start To Up | From Ideas to Impact" },
-      { property: "og:description", content: "Share safely. Build visibly. Grow together." },
+      { property: "og:title", content: "Start To Up | Connect. Build. Launch. Upscale." },
+      {
+        property: "og:description",
+        content:
+          "Innovation and venture development, powered by a purpose-built network for serious builders.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "/brand/start-to-up-og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Start To Up" },
-      { name: "twitter:description", content: "From ideas to impact." },
+      {
+        name: "twitter:description",
+        content: "Helping ambitious ideas become real, scalable ventures.",
+      },
       { name: "twitter:image", content: "/brand/start-to-up-og-image.png" },
     ],
     links: [

@@ -2,251 +2,354 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   ArrowRight,
   BadgeCheck,
+  BarChart3,
+  Blocks,
+  Building2,
+  Check,
+  Code2,
+  GraduationCap,
+  Handshake,
   Lightbulb,
-  LockKeyhole,
+  Mail,
   Network,
-  Play,
+  Phone,
+  Rocket,
   ShieldCheck,
   Sparkles,
   TrendingUp,
-  Users,
 } from "lucide-react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
+export const Route = createFileRoute("/")({ component: Index });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+const audiences = [
+  "Founders & startups",
+  "Innovators & developers",
+  "Researchers & technicians",
+  "Growing businesses",
+  "Investors & experts",
+  "Institutions & government",
+] as const;
+
 function Index() {
   return (
-    <div className="landing-page">
+    <div className="landing-page company-landing">
       <header className="landing-header shell-width">
         <Link to="/" aria-label="Start To Up home">
-          <img
-            className="brand-logo"
-            src="/brand/start-to-up-logo-primary.png"
-            alt="Start To Up — From Ideas to Impact"
-          />
+          <img className="brand-logo" src="/brand/start-to-up-logo-primary.png" alt="Start To Up" />
         </Link>
         <nav className="landing-nav" aria-label="Main navigation">
-          <a href="#how-it-works">How it works</a>
-          <a href="#protection">Protection</a>
-          <a href="#community">Community</a>
+          <a href="#services">Services</a>
+          <a href="#network">Network</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
         </nav>
         <div className="header-actions">
-          <Link to="/auth" className="button button-ghost">
-            Sign in
-          </Link>
-          <Link to="/onboarding" className="button button-primary">
-            Join the network
+          <a href="#contact" className="button button-ghost">
+            Work with us
+          </a>
+          <Link to="/app/home" className="button button-primary">
+            Enter the network
           </Link>
         </div>
       </header>
 
       <main>
-        <section className="hero shell-width">
+        <section className="hero company-hero shell-width">
           <div className="hero-copy">
             <div className="eyebrow">
-              <Sparkles size={15} /> Africa's protected innovation network
+              <Sparkles size={15} /> Innovation &amp; venture development
             </div>
             <h1>
-              Turn what you are building into <span>visible impact.</span>
+              We help ambitious ideas become <span>real, scalable ventures.</span>
             </h1>
             <p className="hero-lead">
-              Share projects, document progress, find serious collaborators and connect your
-              innovation with the people and opportunities that can move it forward.
+              Start To Up helps founders, innovators and growing businesses connect, validate,
+              build, launch and upscale—with practical venture support and a purpose-built digital
+              innovation network.
             </p>
             <div className="hero-actions">
-              <Link to="/onboarding" className="button button-primary button-large">
-                Join the Innovation Network <ArrowRight size={18} />
-              </Link>
+              <a href="#contact" className="button button-primary button-large">
+                Build with Start To Up <ArrowRight size={18} />
+              </a>
               <Link to="/app/explore" className="button button-secondary button-large">
-                <Play size={17} /> Explore innovations
+                Explore the network
               </Link>
             </div>
-            <div className="trust-row">
+            <div className="trust-row company-trust-row">
               <span>
-                <ShieldCheck size={17} /> Protected sharing
+                <BadgeCheck size={17} /> Founder-led
               </span>
               <span>
-                <BadgeCheck size={17} /> Contribution history
+                <ShieldCheck size={17} /> Protected innovation
               </span>
               <span>
-                <Users size={17} /> Serious collaborators
+                <TrendingUp size={17} /> Built for growth
               </span>
             </div>
           </div>
-          <div className="hero-visual" aria-label="Start To Up innovation feed preview">
-            <div className="orbit orbit-one" />
-            <div className="orbit orbit-two" />
-            <article className="hero-feed-card">
-              <div className="feed-card-head">
-                <div className="avatar avatar-gradient">ST</div>
-                <div>
-                  <strong>Live innovation profile</strong>
-                  <span>Published by a verified member</span>
+          <div className="company-hero-panel" aria-label="Start To Up venture journey">
+            <span className="panel-label">THE START TO UP JOURNEY</span>
+            <div className="journey-track">
+              {[
+                ["01", "Connect"],
+                ["02", "Validate"],
+                ["03", "Build"],
+                ["04", "Launch"],
+                ["05", "Upscale"],
+              ].map(([number, label]) => (
+                <div className="journey-step" key={number}>
+                  <span>{number}</span>
+                  <strong>{label}</strong>
                 </div>
-                <span className="stage-badge">Prototype</span>
-              </div>
-              <div className="prototype-visual">
-                <div className="prototype-grid" />
-                <div className="prototype-device">
-                  <Lightbulb size={34} />
-                  <span>Project media</span>
-                </div>
-              </div>
-              <div className="feed-card-body">
-                <span className="content-kicker">BUILD UPDATE · CLEAN ENERGY</span>
-                <h3>Real project updates will appear here when creators publish them.</h3>
-                <div className="progress-line">
-                  <span />
-                </div>
-                <div className="feed-stats">
-                  <span>Support</span>
-                  <span>Offer help</span>
-                  <span>Collaborate</span>
-                </div>
-              </div>
-            </article>
-            <div className="floating-card floating-top">
-              <TrendingUp size={18} />
-              <div>
-                <strong>Milestones</strong>
-                <span>Build progress</span>
-              </div>
+              ))}
             </div>
-            <div className="floating-card floating-bottom">
-              <Network size={18} />
+            <div className="company-panel-note">
+              <Rocket />
               <div>
-                <strong>Skill matches</strong>
-                <span>Recommended collaborators</span>
+                <strong>From a first idea to measurable impact</strong>
+                <span>Strategy, technology, visibility and the right connections.</span>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="signal-strip" aria-label="Platform audiences">
+        <section className="signal-strip" aria-label="Start To Up capabilities">
           <div className="shell-width signal-inner">
-            <span>FOUNDERS</span>
+            <span>STRATEGY</span>
             <i />
-            <span>DEVELOPERS</span>
+            <span>PRODUCT</span>
             <i />
-            <span>RESEARCHERS</span>
+            <span>TECHNOLOGY</span>
             <i />
-            <span>TECHNICIANS</span>
+            <span>BRANDING</span>
             <i />
-            <span>INVESTORS</span>
+            <span>NETWORK</span>
             <i />
-            <span>INSTITUTIONS</span>
+            <span>GROWTH</span>
           </div>
         </section>
 
-        <section id="how-it-works" className="section shell-width">
+        <section id="services" className="section shell-width company-services">
           <div className="section-heading">
-            <span>BUILT FOR PROGRESS</span>
-            <h2>More than a social feed.</h2>
-            <p>Every interaction is designed to move genuine innovation forward.</p>
+            <span>START TO UP SERVICES</span>
+            <h2>Professional support for every stage of the build.</h2>
+            <p>
+              Focused assistance for founders and businesses that need more than advice—they need a
+              practical route forward.
+            </p>
           </div>
-          <div className="feature-grid">
-            <FeatureCard
-              number="01"
+          <div className="company-service-grid">
+            <ServiceCard
               icon={<Lightbulb />}
-              title="Show what you're building"
-              text="Turn prototypes, research and technical work into rich project profiles and visual Build Reels."
+              title="Venture strategy"
+              text="Idea validation, business modelling, market positioning, roadmaps and founder readiness."
             />
-            <FeatureCard
-              number="02"
-              icon={<Network />}
-              title="Find the missing person"
-              text="Discover co-founders, engineers, technicians, researchers, mentors and institutional partners."
+            <ServiceCard
+              icon={<Code2 />}
+              title="Digital products"
+              text="Premium websites, platforms, business systems, prototypes and software development."
             />
-            <FeatureCard
-              number="03"
-              icon={<TrendingUp />}
-              title="Prove your progress"
-              text="Document milestones, contributions and evidence in a chronological Build Journey."
+            <ServiceCard
+              icon={<Blocks />}
+              title="Brand & launch"
+              text="Brand foundations, digital presence, product storytelling and go-to-market preparation."
+            />
+            <ServiceCard
+              icon={<BarChart3 />}
+              title="Growth & upscale"
+              text="Operational improvement, digital transformation, partnerships and scalable growth systems."
+            />
+            <ServiceCard
+              icon={<GraduationCap />}
+              title="Founder development"
+              text="Workshops, expert sessions, practical learning and structured venture-building programmes."
+            />
+            <ServiceCard
+              icon={<Building2 />}
+              title="Ecosystem programmes"
+              text="Innovation, youth entrepreneurship and enterprise-development programmes for institutions."
             />
           </div>
         </section>
 
-        <section id="protection" className="protection-section">
-          <div className="shell-width protection-grid">
-            <div className="protection-mark">
-              <img src="/brand/start-to-up-symbol.png" alt="" />
-              <div className="protection-ring">
-                <LockKeyhole />
-              </div>
-            </div>
-            <div className="protection-copy">
-              <span className="section-label">SHARE WITH CONTROL</span>
-              <h2>Your work deserves more than a disclaimer.</h2>
+        <section id="network" className="network-company-section">
+          <div className="shell-width network-company-grid">
+            <div>
+              <span className="section-label">THE DIGITAL ENGINE</span>
+              <h2>Start To Up Network</h2>
               <p>
-                Projects begin privately. You decide who can see them, when they can access them and
-                what confidentiality terms apply.
+                A focused social network where serious builders showcase work, document progress,
+                find collaborators, learn from experts and connect with opportunity.
               </p>
-              <ul>
+              <ul className="company-check-list">
                 <li>
-                  <ShieldCheck /> Four visibility levels, private by default
+                  <Check /> Project profiles, Build Reels and milestone journeys
                 </li>
                 <li>
-                  <ShieldCheck /> Protected access requests and confidentiality acceptance
+                  <Check /> Founder, researcher, developer and technician discovery
                 </li>
                 <li>
-                  <ShieldCheck /> Timestamped evidence and contribution history
+                  <Check /> Protected sharing and contribution evidence
+                </li>
+                <li>
+                  <Check /> Collaboration, expert programmes and innovation media
                 </li>
               </ul>
-              <p className="legal-note">
-                Protection tools support evidence and access control; they do not automatically
-                create a patent or guarantee against copying.
-              </p>
+              <Link to="/app/home" className="button button-primary button-large">
+                Enter Start To Up Network <ArrowRight size={18} />
+              </Link>
+            </div>
+            <div className="network-identity-card">
+              <img src="/brand/start-to-up-symbol.png" alt="" />
+              <span>ONE ECOSYSTEM</span>
+              <strong>
+                Connect socially.
+                <br />
+                Build professionally.
+                <br />
+                Grow intentionally.
+              </strong>
+              <div>
+                <Network />
+                <span>Innovation-only community</span>
+              </div>
+              <div>
+                <Handshake />
+                <span>Structured collaboration</span>
+              </div>
+              <div>
+                <ShieldCheck />
+                <span>Controlled project visibility</span>
+              </div>
             </div>
           </div>
         </section>
 
-        <section id="community" className="section shell-width final-cta">
-          <img src="/brand/start-to-up-symbol.png" alt="" />
-          <span className="section-label">FROM IDEAS TO IMPACT</span>
-          <h2>The next breakthrough may already be under construction.</h2>
-          <p>Join the network built for the people doing the work.</p>
-          <Link to="/onboarding" className="button button-primary button-large">
-            Create your Innovation Passport <ArrowRight size={18} />
-          </Link>
+        <section className="section shell-width audience-section">
+          <div className="section-heading">
+            <span>BUILT FOR THE ECOSYSTEM</span>
+            <h2>One platform. Different paths to progress.</h2>
+          </div>
+          <div className="audience-grid">
+            {audiences.map((audience, index) => (
+              <article key={audience}>
+                <span>0{index + 1}</span>
+                <strong>{audience}</strong>
+                <ArrowRight />
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="about" className="founder-section">
+          <div className="shell-width founder-grid">
+            <div className="founder-portrait-wrap">
+              <img
+                src="/brand/founder-ayanda-dube.webp"
+                alt="Ayanda Lawrence Msizi Dube, Founder and Director of Start To Up"
+              />
+              <div>
+                <span>FOUNDER &amp; DIRECTOR</span>
+                <strong>Ayanda Lawrence Msizi Dube</strong>
+              </div>
+            </div>
+            <div className="founder-copy">
+              <span className="section-label">FOUNDER-LED BY DESIGN</span>
+              <h2>Built from the same reality our founders face.</h2>
+              <p className="founder-statement">
+                “Start To Up exists to give serious ideas a clearer path—from uncertainty and
+                isolation to visibility, collaboration and measurable growth.”
+              </p>
+              <p>
+                Founded by Ayanda Lawrence Msizi Dube, Start To Up combines practical startup
+                experience, digital product development and ecosystem thinking. The company begins
+                lean, works with specialist delivery partners where required and grows alongside the
+                ventures it supports.
+              </p>
+              <div className="registration-status">
+                <BadgeCheck />
+                <div>
+                  <strong>Company registration submitted</strong>
+                  <span>
+                    Start To Up Innovation Group name and registration are currently being processed
+                    by CIPC.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" className="section shell-width contact-section">
+          <div className="contact-copy">
+            <span className="section-label">LET&apos;S BUILD WHAT&apos;S NEXT</span>
+            <h2>Bring us the ambition. We’ll help shape the route forward.</h2>
+            <p>
+              For startup support, digital product development, partnerships or institutional
+              programmes, speak directly with Start To Up.
+            </p>
+          </div>
+          <div className="contact-card">
+            <a href="mailto:starttoscale@gmail.com">
+              <Mail />
+              <div>
+                <span>EMAIL</span>
+                <strong>starttoscale@gmail.com</strong>
+              </div>
+            </a>
+            <a href="tel:+27751995752">
+              <Phone />
+              <div>
+                <span>CALL / WHATSAPP</span>
+                <strong>075 199 5752</strong>
+              </div>
+            </a>
+            <a
+              className="button button-primary button-large"
+              href="mailto:starttoscale@gmail.com?subject=Start%20To%20Up%20Enquiry"
+            >
+              Start a conversation <ArrowRight />
+            </a>
+          </div>
         </section>
       </main>
-      <footer className="landing-footer">
+
+      <footer className="landing-footer company-footer">
         <div className="shell-width">
-          <img src="/brand/start-to-up-logo-white.png" alt="Start To Up" />
-          <p>Share safely. Build visibly. Grow together.</p>
-          <span>© 2026 Start To Up. Legal policies require professional review before launch.</span>
+          <div>
+            <img src="/brand/start-to-up-logo-white.png" alt="Start To Up" />
+            <p>Connect. Build. Launch. Upscale.</p>
+          </div>
+          <div className="footer-links">
+            <a href="#services">Services</a>
+            <a href="#network">Network</a>
+            <a href="#about">Founder</a>
+            <a href="#contact">Contact</a>
+          </div>
+          <span>
+            © 2026 Start To Up. Start To Up Innovation Group registration pending CIPC confirmation.
+          </span>
         </div>
       </footer>
     </div>
   );
 }
 
-function FeatureCard({
-  number,
+function ServiceCard({
   icon,
   title,
   text,
 }: {
-  number: string;
   icon: React.ReactNode;
   title: string;
   text: string;
 }) {
   return (
-    <article className="feature-card">
-      <div className="feature-card-top">
-        <span>{number}</span>
-        <div>{icon}</div>
-      </div>
+    <article className="company-service-card">
+      <div>{icon}</div>
       <h3>{title}</h3>
       <p>{text}</p>
-      <ArrowRight size={19} />
+      <ArrowRight />
     </article>
   );
 }

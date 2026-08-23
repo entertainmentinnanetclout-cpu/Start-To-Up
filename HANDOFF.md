@@ -1,6 +1,6 @@
 # Handoff
 
-Phase 3 is wired to GitHub and Supabase without mock content or authentication. Build media, live events, ecosystem programs, recommendation events, plans and entitlements have additive schema and RLS. Guest collaboration interest, expert-session registration and content reports now go through the `guest-action-submit` Edge Function and server-side Cloudflare Turnstile verification; direct anonymous inserts are revoked.
+The public website now represents Start To Up as a founder-led innovation and venture-development company, with Start To Up Network as its digital engine. It includes real company positioning, services, founder identity, registration-pending wording and direct contact details. Phase 3 remains wired to GitHub and Supabase without mock content or authentication.
 
 Next activation task: configure `VITE_TURNSTILE_SITE_KEY` in the frontend environment and `TURNSTILE_SECRET_KEY` as a Supabase Edge Function secret. Then connect a production media provider, followed by authentication and protected mutation testing when the auth phase is authorized.
 
