@@ -12,11 +12,17 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as AppCollaborationRouteImport } from './routes/app/collaboration'
 import { Route as AppCreateRouteImport } from './routes/app/create'
 import { Route as AppExploreRouteImport } from './routes/app/explore'
 import { Route as AppHomeRouteImport } from './routes/app/home'
+import { Route as AppMessagesRouteImport } from './routes/app/messages'
+import { Route as AppModerationRouteImport } from './routes/app/moderation'
 import { Route as AppNetworkRouteImport } from './routes/app/network'
+import { Route as AppOrganizationsRouteImport } from './routes/app/organizations'
 import { Route as AppProfileRouteImport } from './routes/app/profile'
+import { Route as AppSessionsRouteImport } from './routes/app/sessions'
+import { Route as AppTrustRouteImport } from './routes/app/trust'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -31,6 +37,11 @@ const AuthRoute = AuthRouteImport.update({
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppCollaborationRoute = AppCollaborationRouteImport.update({
+  id: '/app/collaboration',
+  path: '/app/collaboration',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppCreateRoute = AppCreateRouteImport.update({
@@ -48,9 +59,24 @@ const AppHomeRoute = AppHomeRouteImport.update({
   path: '/app/home',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppMessagesRoute = AppMessagesRouteImport.update({
+  id: '/app/messages',
+  path: '/app/messages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppModerationRoute = AppModerationRouteImport.update({
+  id: '/app/moderation',
+  path: '/app/moderation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppNetworkRoute = AppNetworkRouteImport.update({
   id: '/app/network',
   path: '/app/network',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppOrganizationsRoute = AppOrganizationsRouteImport.update({
+  id: '/app/organizations',
+  path: '/app/organizations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppProfileRoute = AppProfileRouteImport.update({
@@ -58,37 +84,65 @@ const AppProfileRoute = AppProfileRouteImport.update({
   path: '/app/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppSessionsRoute = AppSessionsRouteImport.update({
+  id: '/app/sessions',
+  path: '/app/sessions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppTrustRoute = AppTrustRouteImport.update({
+  id: '/app/trust',
+  path: '/app/trust',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/onboarding': typeof OnboardingRoute
+  '/app/collaboration': typeof AppCollaborationRoute
   '/app/create': typeof AppCreateRoute
   '/app/explore': typeof AppExploreRoute
   '/app/home': typeof AppHomeRoute
+  '/app/messages': typeof AppMessagesRoute
+  '/app/moderation': typeof AppModerationRoute
   '/app/network': typeof AppNetworkRoute
+  '/app/organizations': typeof AppOrganizationsRoute
   '/app/profile': typeof AppProfileRoute
+  '/app/sessions': typeof AppSessionsRoute
+  '/app/trust': typeof AppTrustRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/onboarding': typeof OnboardingRoute
+  '/app/collaboration': typeof AppCollaborationRoute
   '/app/create': typeof AppCreateRoute
   '/app/explore': typeof AppExploreRoute
   '/app/home': typeof AppHomeRoute
+  '/app/messages': typeof AppMessagesRoute
+  '/app/moderation': typeof AppModerationRoute
   '/app/network': typeof AppNetworkRoute
+  '/app/organizations': typeof AppOrganizationsRoute
   '/app/profile': typeof AppProfileRoute
+  '/app/sessions': typeof AppSessionsRoute
+  '/app/trust': typeof AppTrustRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/onboarding': typeof OnboardingRoute
+  '/app/collaboration': typeof AppCollaborationRoute
   '/app/create': typeof AppCreateRoute
   '/app/explore': typeof AppExploreRoute
   '/app/home': typeof AppHomeRoute
+  '/app/messages': typeof AppMessagesRoute
+  '/app/moderation': typeof AppModerationRoute
   '/app/network': typeof AppNetworkRoute
+  '/app/organizations': typeof AppOrganizationsRoute
   '/app/profile': typeof AppProfileRoute
+  '/app/sessions': typeof AppSessionsRoute
+  '/app/trust': typeof AppTrustRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -96,42 +150,66 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/onboarding'
+    | '/app/collaboration'
     | '/app/create'
     | '/app/explore'
     | '/app/home'
+    | '/app/messages'
+    | '/app/moderation'
     | '/app/network'
+    | '/app/organizations'
     | '/app/profile'
+    | '/app/sessions'
+    | '/app/trust'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/onboarding'
+    | '/app/collaboration'
     | '/app/create'
     | '/app/explore'
     | '/app/home'
+    | '/app/messages'
+    | '/app/moderation'
     | '/app/network'
+    | '/app/organizations'
     | '/app/profile'
+    | '/app/sessions'
+    | '/app/trust'
   id:
     | '__root__'
     | '/'
     | '/auth'
     | '/onboarding'
+    | '/app/collaboration'
     | '/app/create'
     | '/app/explore'
     | '/app/home'
+    | '/app/messages'
+    | '/app/moderation'
     | '/app/network'
+    | '/app/organizations'
     | '/app/profile'
+    | '/app/sessions'
+    | '/app/trust'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   OnboardingRoute: typeof OnboardingRoute
+  AppCollaborationRoute: typeof AppCollaborationRoute
   AppCreateRoute: typeof AppCreateRoute
   AppExploreRoute: typeof AppExploreRoute
   AppHomeRoute: typeof AppHomeRoute
+  AppMessagesRoute: typeof AppMessagesRoute
+  AppModerationRoute: typeof AppModerationRoute
   AppNetworkRoute: typeof AppNetworkRoute
+  AppOrganizationsRoute: typeof AppOrganizationsRoute
   AppProfileRoute: typeof AppProfileRoute
+  AppSessionsRoute: typeof AppSessionsRoute
+  AppTrustRoute: typeof AppTrustRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -157,6 +235,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/collaboration': {
+      id: '/app/collaboration'
+      path: '/app/collaboration'
+      fullPath: '/app/collaboration'
+      preLoaderRoute: typeof AppCollaborationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/create': {
       id: '/app/create'
       path: '/app/create'
@@ -178,11 +263,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppHomeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/messages': {
+      id: '/app/messages'
+      path: '/app/messages'
+      fullPath: '/app/messages'
+      preLoaderRoute: typeof AppMessagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/moderation': {
+      id: '/app/moderation'
+      path: '/app/moderation'
+      fullPath: '/app/moderation'
+      preLoaderRoute: typeof AppModerationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/network': {
       id: '/app/network'
       path: '/app/network'
       fullPath: '/app/network'
       preLoaderRoute: typeof AppNetworkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/organizations': {
+      id: '/app/organizations'
+      path: '/app/organizations'
+      fullPath: '/app/organizations'
+      preLoaderRoute: typeof AppOrganizationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/profile': {
@@ -192,6 +298,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/sessions': {
+      id: '/app/sessions'
+      path: '/app/sessions'
+      fullPath: '/app/sessions'
+      preLoaderRoute: typeof AppSessionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/trust': {
+      id: '/app/trust'
+      path: '/app/trust'
+      fullPath: '/app/trust'
+      preLoaderRoute: typeof AppTrustRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -199,11 +319,17 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   OnboardingRoute: OnboardingRoute,
+  AppCollaborationRoute: AppCollaborationRoute,
   AppCreateRoute: AppCreateRoute,
   AppExploreRoute: AppExploreRoute,
   AppHomeRoute: AppHomeRoute,
+  AppMessagesRoute: AppMessagesRoute,
+  AppModerationRoute: AppModerationRoute,
   AppNetworkRoute: AppNetworkRoute,
+  AppOrganizationsRoute: AppOrganizationsRoute,
   AppProfileRoute: AppProfileRoute,
+  AppSessionsRoute: AppSessionsRoute,
+  AppTrustRoute: AppTrustRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

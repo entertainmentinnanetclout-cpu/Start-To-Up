@@ -84,10 +84,10 @@ function Index() {
             <div className="orbit orbit-two" />
             <article className="hero-feed-card">
               <div className="feed-card-head">
-                <div className="avatar avatar-gradient">NK</div>
+                <div className="avatar avatar-gradient">ST</div>
                 <div>
-                  <strong>Naledi Khumalo</strong>
-                  <span>Engineer · Pretoria</span>
+                  <strong>Live innovation profile</strong>
+                  <span>Published by a verified member</span>
                 </div>
                 <span className="stage-badge">Prototype</span>
               </div>
@@ -95,33 +95,33 @@ function Index() {
                 <div className="prototype-grid" />
                 <div className="prototype-device">
                   <Lightbulb size={34} />
-                  <span>SolarSense</span>
+                  <span>Project media</span>
                 </div>
               </div>
               <div className="feed-card-body">
                 <span className="content-kicker">BUILD UPDATE · CLEAN ENERGY</span>
-                <h3>Our low-cost solar monitor passed its first field test.</h3>
+                <h3>Real project updates will appear here when creators publish them.</h3>
                 <div className="progress-line">
                   <span />
                 </div>
                 <div className="feed-stats">
-                  <span>1.2K supporters</span>
-                  <span>34 can help</span>
-                  <span>18 collaborators</span>
+                  <span>Support</span>
+                  <span>Offer help</span>
+                  <span>Collaborate</span>
                 </div>
               </div>
             </article>
             <div className="floating-card floating-top">
               <TrendingUp size={18} />
               <div>
-                <strong>+24%</strong>
+                <strong>Milestones</strong>
                 <span>Build progress</span>
               </div>
             </div>
             <div className="floating-card floating-bottom">
               <Network size={18} />
               <div>
-                <strong>8 matches</strong>
+                <strong>Skill matches</strong>
                 <span>Recommended collaborators</span>
               </div>
             </div>

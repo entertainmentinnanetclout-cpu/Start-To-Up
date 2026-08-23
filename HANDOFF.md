@@ -1,13 +1,15 @@
 # Handoff
 
-Phase 0 is implemented and awaiting final screenshot-based browser verification. TypeScript and the production build pass, and the database security advisor is clean after migration `20260823072000_secure_internal_definer_functions.sql`.
+Phase 2 collaboration and trust is wired to the live Supabase schema without mock content. Authentication is deliberately excluded, so protected mutations show an unavailable-account state until the auth phase. The database security advisor is clean after migration `20260823090000_phase_2_collaboration_and_trust.sql`.
 
-Next product task: connect authentication state and profiles to onboarding, then replace the demonstration Home/Explore/Profile content with Supabase queries and mutations.
+Next product task: connect authentication and route guards, then activate the already-wired protected mutations and complete end-to-end role testing with real test accounts.
 
 ## Working
 
 - Responsive branded landing page and application shell
-- Home, Explore, Create, Network, and Profile presentation routes
+- Home, Explore, Network, and Profile live-data routes with honest empty states
+- Collaboration board, messages, trust centre, organizations, expert sessions, reports and moderation routes
+- Organizations, verification, expert-session registrations, storage buckets and protected-access/evidence enhancements
 - Supabase email/password sign-in and sign-up
 - Initial identity/commitment onboarding screen
 - Complete application schema with RLS
@@ -16,9 +18,9 @@ Next product task: connect authentication state and profiles to onboarding, then
 ## Not yet connected
 
 - Auth guards, sessions, and onboarding persistence
-- Live feed, project creation, reactions, comments, follows, and messaging
+- Auth-dependent creation, applications, messaging and moderation actions (data services and policies are ready)
 - Media uploads, protected-project access, evidence vault UI, and notifications
 - Legal acceptance UI and final legal text
-- Moderation/admin interfaces, livestreaming, webinars, investor workflows, and analytics
+- Full staff moderation console, native livestreaming, investor transaction workflows, and analytics
 
 Read `IMPLEMENTATION_STATUS.md`, `ROADMAP.md`, and `docs/KNOWN_ISSUES.md` before continuing. Keep migrations additive and never rewrite published Git history.

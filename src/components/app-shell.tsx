@@ -1,5 +1,18 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Bell, Compass, Home, Menu, MessageCircle, Plus, Search, UserRound } from "lucide-react";
+import {
+  Bell,
+  Building2,
+  CalendarDays,
+  Compass,
+  Handshake,
+  Home,
+  Menu,
+  MessageCircle,
+  Plus,
+  Search,
+  ShieldCheck,
+  UserRound,
+} from "lucide-react";
 import type { ReactNode } from "react";
 
 const navigation = [
@@ -8,6 +21,14 @@ const navigation = [
   { to: "/app/create", label: "Create", icon: Plus, primary: true },
   { to: "/app/network", label: "Network", icon: MessageCircle, primary: false },
   { to: "/app/profile", label: "Profile", icon: UserRound, primary: false },
+] as const;
+
+const trustNavigation = [
+  { to: "/app/collaboration", label: "Collaborate", icon: Handshake },
+  { to: "/app/messages", label: "Messages", icon: MessageCircle },
+  { to: "/app/organizations", label: "Organizations", icon: Building2 },
+  { to: "/app/sessions", label: "Expert sessions", icon: CalendarDays },
+  { to: "/app/trust", label: "Trust centre", icon: ShieldCheck },
 ] as const;
 
 export function AppShell({
@@ -43,6 +64,13 @@ export function AppShell({
               <span>{label}</span>
             </Link>
           ))}
+          <span className="sidebar-section-label">COLLABORATION & TRUST</span>
+          {trustNavigation.map(({ to, label, icon: Icon }) => (
+            <Link key={to} to={to} className={`sidebar-link ${path === to ? "active" : ""}`}>
+              <Icon size={19} />
+              <span>{label}</span>
+            </Link>
+          ))}
         </nav>
         <div className="sidebar-trust">
           <img src="/brand/start-to-up-symbol.png" alt="" />
@@ -68,10 +96,14 @@ export function AppShell({
               <Search size={18} />
               <input aria-label="Search Start To Up" placeholder="Search innovations" />
             </label>
-            <button aria-label="Notifications" className="icon-button">
+            <Link
+              to="/app/trust"
+              aria-label="Notifications and trust centre"
+              className="icon-button"
+            >
               <Bell size={20} />
               <i />
-            </button>
+            </Link>
             {action}
           </div>
         </header>

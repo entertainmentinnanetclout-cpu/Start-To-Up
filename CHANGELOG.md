@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-08-23 — Phase 2 data wiring
+
+- Removed hard-coded project, member, expert and opportunity demonstrations.
+- Wired Home, Explore, Network, Profile and Phase 2 collaboration/trust routes to Supabase.
+- Added organizations, verification, expert sessions, secure storage buckets, evidence metadata and protected-access lifecycle fields.
+- Kept authentication excluded; protected actions are wired but unavailable without a session.
+
 ## 2026-08-23 — Phase 0 checkpoint
 
 - Added brand system, landing page, app shell, core route concepts, authentication, onboarding start, and PWA metadata.

@@ -14,6 +14,8 @@
 - Evidence-vault UI, attribution, reporting, moderation, and appeals
 - Verified identities, organization profiles, investor discovery, and expert sessions
 
+**Checkpoint:** Database models, storage, policies, live-data services and responsive route surfaces are complete. Authentication-dependent actions remain inactive by instruction until the dedicated auth phase.
+
 ## Phase 3 — Media and ecosystem scale
 
 - Project video, livestreams, webinars, and replay libraries
