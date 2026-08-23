@@ -1053,6 +1053,114 @@ export type Database = {
           },
         ];
       };
+      network_media_items: {
+        Row: {
+          audience_tags: string[];
+          author_handle: string;
+          author_name: string;
+          author_role: string;
+          call_to_action: string | null;
+          caption: string;
+          collaboration_score: number;
+          created_at: string;
+          destination_url: string | null;
+          duration_seconds: number | null;
+          featured: boolean;
+          freshness_boost: number;
+          id: string;
+          media_kind: string;
+          playback_url: string | null;
+          poster_url: string;
+          published_at: string | null;
+          quality_score: number;
+          showcase_id: string | null;
+          status: string;
+          title: string;
+          topic_tags: string[];
+          updated_at: string;
+        };
+        Insert: {
+          audience_tags?: string[];
+          author_handle: string;
+          author_name: string;
+          author_role: string;
+          call_to_action?: string | null;
+          caption: string;
+          collaboration_score?: number;
+          created_at?: string;
+          destination_url?: string | null;
+          duration_seconds?: number | null;
+          featured?: boolean;
+          freshness_boost?: number;
+          id?: string;
+          media_kind: string;
+          playback_url?: string | null;
+          poster_url: string;
+          published_at?: string | null;
+          quality_score?: number;
+          showcase_id?: string | null;
+          status?: string;
+          title: string;
+          topic_tags?: string[];
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["network_media_items"]["Insert"]>;
+        Relationships: [
+          {
+            foreignKeyName: "network_media_items_showcase_id_fkey";
+            columns: ["showcase_id"];
+            isOneToOne: false;
+            referencedRelation: "editorial_product_showcases";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      collaboration_workspaces: {
+        Row: {
+          collaboration_modes: string[];
+          created_at: string;
+          current_focus: string | null;
+          id: string;
+          is_public: boolean;
+          name: string;
+          next_review_at: string | null;
+          operating_principles: string[];
+          owner_name: string;
+          showcase_id: string;
+          slug: string;
+          status: string;
+          summary: string;
+          updated_at: string;
+          workstreams: Json;
+        };
+        Insert: {
+          collaboration_modes?: string[];
+          created_at?: string;
+          current_focus?: string | null;
+          id?: string;
+          is_public?: boolean;
+          name: string;
+          next_review_at?: string | null;
+          operating_principles?: string[];
+          owner_name: string;
+          showcase_id: string;
+          slug: string;
+          status?: string;
+          summary: string;
+          updated_at?: string;
+          workstreams?: Json;
+        };
+        Update: Partial<Database["public"]["Tables"]["collaboration_workspaces"]["Insert"]>;
+        Relationships: [
+          {
+            foreignKeyName: "collaboration_workspaces_showcase_id_fkey";
+            columns: ["showcase_id"];
+            isOneToOne: false;
+            referencedRelation: "editorial_product_showcases";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       messages: {
         Row: {
           body: string;
@@ -2180,7 +2288,10 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      ranked_media_feed: {
+        Args: { audience_tags?: string[]; result_limit?: number };
+        Returns: Database["public"]["Tables"]["network_media_items"]["Row"][];
+      };
     };
     Enums: {
       access_request_status: "pending" | "approved" | "rejected" | "revoked";
