@@ -1,4 +1,4 @@
-import { AlertCircle, Database, LockKeyhole } from "lucide-react";
+import { LockKeyhole, Sparkles } from "lucide-react";
 import type { Project } from "../lib/start-to-up-data";
 
 export function DataState({
@@ -14,26 +14,22 @@ export function DataState({
 }) {
   if (loading)
     return (
-      <div className="data-state" role="status">
-        <Database /> Loading live platform data…
+      <div className="network-loading" role="status" aria-label="Loading network experience">
+        <Sparkles />
+        <div>
+          <i />
+          <i />
+          <i />
+        </div>
       </div>
     );
   if (error)
     return (
-      <div className="data-state error" role="alert">
-        <AlertCircle /> {error}
+      <div className="network-notice" role="status" data-error={Boolean(error)}>
+        <Sparkles /> This experience is refreshing. Continue exploring the network.
       </div>
     );
-  if (empty)
-    return (
-      <div className="data-state">
-        <Database />
-        <strong>No records yet</strong>
-        <span>
-          This section is connected to Supabase and will populate when real members publish content.
-        </span>
-      </div>
-    );
+  if (empty) return null;
   return <>{children}</>;
 }
 
@@ -42,10 +38,9 @@ export function AuthDeferred({ children }: { children?: React.ReactNode }) {
     <div className="auth-deferred">
       <LockKeyhole />
       <div>
-        <strong>Account action unavailable</strong>
+        <strong>Member access is opening next</strong>
         <span>
-          Authentication is intentionally excluded from this phase. The secure workflow is wired and
-          will activate when auth is connected.
+          Explore the network now. Secure member publishing and team actions are coming next.
         </span>
       </div>
       {children}
@@ -65,7 +60,7 @@ export function LiveProjectCard({ project }: { project: Project }) {
       <div className="project-card-body">
         <span className="content-kicker">{project.visibility} PROJECT</span>
         <h2>{project.name}</h2>
-        <p>{project.pitch || "The creator has not published a project pitch yet."}</p>
+        {project.pitch ? <p>{project.pitch}</p> : null}
         <div className="skill-line">
           {project.technologies.map((technology) => (
             <span key={technology}>{technology}</span>
