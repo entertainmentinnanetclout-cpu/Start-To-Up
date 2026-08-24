@@ -1,0 +1,12 @@
+{
+  "templateKey": "neon-foundry",
+  "referenceFilename": "Codex Image Aug 23, 2026, 05_28_32 PM.png",
+  "preview": "preview.png",
+  "logo": "logo.png",
+  "hero": null,
+  "gallery": [],
+  "extraction": {
+    "method": "lossless-pixel-crop",
+    "generatedImagery": false
+  }
+}

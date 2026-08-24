@@ -333,7 +333,7 @@ function WebsiteStudioPage() {
       if (draft.integrations.supabase.mode === "managed" && !draft.integrations.supabase.publicSubmitToken) {
         exportDraft = await ensureSaved();
       }
-      const result = downloadProjectZip(exportDraft);
+      const result = await downloadProjectZip(exportDraft);
       if (exportDraft.id) await markWebsiteStudioExported(exportDraft.id).catch(() => undefined);
       setNotice(`Full source ZIP exported: ${result.files.length} files, ready for GitHub and Vercel.`);
     } catch (error) {

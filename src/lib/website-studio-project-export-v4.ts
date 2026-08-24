@@ -3,6 +3,7 @@ import { createZipBlob, generateDeployableProjectFiles as generateLegacyFiles, t
 import { getStructuralFamily, structuralFamilyLabels } from "./website-studio-structural";
 import { applyVisualContractDefaults } from "./website-studio-visual-contract-defaults";
 import { hasVisualContract, renderWebsiteStudioShell, websiteStudioCss } from "./website-studio-visual-contracts";
+import { applyVisualContractMediaDefaults } from "./website-studio-template-assets";
 
 const q = (value: unknown) => JSON.stringify(value);
 
@@ -25,7 +26,7 @@ function familyReadme(draft: WebsiteStudioDraft) {
 }
 
 function ready(raw: WebsiteStudioDraft) {
-  return applyVisualContractDefaults(normalizeWebsiteDraft(raw));
+  return applyVisualContractDefaults(applyVisualContractMediaDefaults(normalizeWebsiteDraft(raw)));
 }
 
 export function generateDeployableProjectFiles(raw: WebsiteStudioDraft): GeneratedProjectFiles {
@@ -44,9 +45,61 @@ export function generateDeployableProjectFiles(raw: WebsiteStudioDraft): Generat
   return files;
 }
 
-export function downloadProjectZip(raw: WebsiteStudioDraft) {
+export type WebsiteStudioAssetLoader = (url: string) => Promise<{ bytes: Uint8Array; mimeType?: string }>;
+
+async function fetchAsset(url: string) {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Unable to bundle website asset: ${url}`);
+  const bytes = new Uint8Array(await response.arrayBuffer());
+  const mimeType = response.headers.get("content-type");
+  return mimeType ? { bytes, mimeType } : { bytes };
+}
+
+function encodeBase64(bytes: Uint8Array) {
+  let binary = "";
+  for (let offset = 0; offset < bytes.length; offset += 0x8000) binary += String.fromCharCode(...bytes.subarray(offset, Math.min(offset + 0x8000, bytes.length)));
+  return btoa(binary);
+}
+
+function assetExtension(url: string, mimeType = "") {
+  const match = url.split(/[?#]/)[0].match(/\.([a-z0-9]{2,5})$/i);
+  const extension = match?.[1]?.toLowerCase();
+  if (extension) return extension === "jpeg" ? "jpg" : extension;
+  if (mimeType.includes("svg")) return "svg";
+  if (mimeType.includes("webp")) return "webp";
+  if (mimeType.includes("jpeg")) return "jpg";
+  return "png";
+}
+
+export async function generateDeployableProjectBundle(raw: WebsiteStudioDraft, loadAsset: WebsiteStudioAssetLoader = fetchAsset): Promise<GeneratedProjectFiles> {
   const draft = ready(raw);
-  const files = generateDeployableProjectFiles(draft);
+  const binaries: GeneratedProjectFiles = {};
+  const cached = new Map<string, string>();
+  const portable = async (url: string, name: string) => {
+    if (!url) return "";
+    const existing = cached.get(url);
+    if (existing) return existing;
+    const loaded = await loadAsset(url);
+    const publicUrl = `/assets/${name}.${assetExtension(url, loaded.mimeType)}`;
+    binaries[`public${publicUrl}`] = { encoding: "base64", data: encodeBase64(loaded.bytes) };
+    cached.set(url, publicUrl);
+    return publicUrl;
+  };
+
+  const brand = { ...draft.brand, logoUrl: await portable(draft.brand.logoUrl, "logo"), faviconUrl: await portable(draft.brand.faviconUrl, "favicon") };
+  const site = {
+    ...draft.site,
+    heroImageUrl: await portable(draft.site.heroImageUrl, "hero"),
+    gallery: await Promise.all(draft.site.gallery.map((url, index) => portable(url, `gallery-${String(index + 1).padStart(2, "0")}`))),
+  };
+  const seo = { ...draft.seo, ogImageUrl: await portable(draft.seo.ogImageUrl, "social-share") };
+  const files = generateDeployableProjectFiles(normalizeWebsiteDraft({ ...draft, brand, site, seo }));
+  Object.assign(files, binaries);
+  return files;
+}
+export async function downloadProjectZip(raw: WebsiteStudioDraft) {
+  const draft = ready(raw);
+  const files = await generateDeployableProjectBundle(draft);
   const blob = createZipBlob(files, draft.slug || "website");
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");

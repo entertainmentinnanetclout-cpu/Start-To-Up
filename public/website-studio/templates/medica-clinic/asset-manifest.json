@@ -1,0 +1,15 @@
+{
+  "templateKey": "medica-clinic",
+  "referenceFilename": "Codex Image Aug 23, 2026, 05_29_15 PM.png",
+  "preview": "preview.png",
+  "logo": "logo.png",
+  "hero": "hero.png",
+  "gallery": [
+    "gallery-01.png",
+    "gallery-02.png"
+  ],
+  "extraction": {
+    "method": "lossless-pixel-crop",
+    "generatedImagery": false
+  }
+}

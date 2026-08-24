@@ -1,0 +1,12 @@
+{
+  "templateKey": "pulse-saas",
+  "referenceFilename": "Codex Image Aug 23, 2026, 05_28_22 PM.png",
+  "preview": "preview.png",
+  "logo": "logo.png",
+  "hero": "hero.png",
+  "gallery": [],
+  "extraction": {
+    "method": "lossless-pixel-crop",
+    "generatedImagery": false
+  }
+}

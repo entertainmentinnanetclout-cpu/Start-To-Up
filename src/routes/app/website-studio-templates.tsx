@@ -7,6 +7,7 @@ import { getStructuralFamily, structuralFamilyLabels } from "../../lib/website-s
 import { applyVisualContractDefaults } from "../../lib/website-studio-visual-contract-defaults";
 import { hasVisualContract, renderWebsiteStudioHtml } from "../../lib/website-studio-visual-contracts";
 import "../../website-studio-templates.css";
+import { getVisualContractAssetPack } from "../../lib/website-studio-template-assets";
 import "../../website-studio-visual-contracts.css";
 
 export const Route = createFileRoute("/app/website-studio-templates")({ component: WebsiteStudioTemplatesPage });
@@ -43,13 +44,17 @@ function WebsiteStudioTemplatesPage() {
     <section className="template-library-grid">
       {filtered.map((template) => {
         const sample = applyVisualContractDefaults(applyStudioTemplate(template));
+        const contractAssets = getVisualContractAssetPack(template.key);
         const structuralFamily = getStructuralFamily(sample);
         const locked = hasVisualContract(sample);
         return <article className={`template-card mood-${template.preview.mood}`} key={template.key}>
           <div className="template-card-preview template-card-live-preview">
             <div className="template-browser-bar"><i/><i/><i/><span>{template.name}</span></div>
             <div className="template-card-iframe-stage" aria-hidden="true">
-              <iframe title={`${template.name} live template preview`} srcDoc={renderWebsiteStudioHtml(sample)} tabIndex={-1}/>
+              {contractAssets
+                ? <img className="template-card-reference-image" src={contractAssets.preview} alt="" loading="lazy" style={{ width: "100%", height: "100%", minHeight: 260, display: "block", objectFit: "cover", objectPosition: "center top" }}/>
+                : <iframe title={`${template.name} live template preview`} srcDoc={renderWebsiteStudioHtml(sample)} tabIndex={-1}/>
+              }
             </div>
             {locked ? <span className="template-contract-badge"><Check size={12}/> VISUAL CONTRACT</span> : <span className="template-contract-badge structural">LIVE RENDERER</span>}
           </div>

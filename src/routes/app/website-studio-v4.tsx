@@ -285,7 +285,7 @@ function WebsiteStudioV4Page() {
           </section> : null}
 
           {tab === "export" ? <section className="studio-editor-section"><header><h3>Portable source</h3><p>Exports the same {locked ? "reference-locked template" : "family architecture"} shown in the preview.</p></header>
-            <button className="studio-zip-hero" onClick={() => { const result = downloadProjectZip(draft); setNotice(`${result.files.length} generated project files exported.`); }}><Download/><div><span>{locked ? "VISUAL CONTRACT" : structuralFamilyLabels[family]}</span><strong>Download deployable ZIP</strong><p>{Object.keys(files).length} files · React + Vite + TypeScript</p></div></button>
+            <button className="studio-zip-hero" onClick={() => void (async () => { const result = await downloadProjectZip(draft); setNotice(`${result.files.length} generated project files exported with local media.`); })()}><Download/><div><span>{locked ? "VISUAL CONTRACT" : structuralFamilyLabels[family]}</span><strong>Download deployable ZIP</strong><p>{Object.keys(files).length} files · React + Vite + TypeScript</p></div></button>
             <div className="studio-portability-badges"><span><Check/> Same renderer as preview</span><span><Check/> GitHub ready</span><span><Check/> Vercel ready</span></div>
             <div className="studio-source-tree"><header><LayoutTemplate/><div><span>STRUCTURE</span><strong>{locked ? String(draft.templateKey) : family}</strong></div></header><div className="studio-file-list">{Object.keys(files).filter((name) => name.includes("Structural") || name.startsWith("app/")).slice(0,14).map((name) => <code key={name}>{name}</code>)}</div></div>
           </section> : null}
