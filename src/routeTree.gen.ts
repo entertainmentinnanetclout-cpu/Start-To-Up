@@ -13,9 +13,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CompanyRouteImport } from './routes/company'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as StartupPlaybookRouteImport } from './routes/startup-playbook'
 import { Route as VenturesRouteImport } from './routes/ventures'
+import { Route as WebsiteStudioRouteImport } from './routes/website-studio'
 import { Route as AppCollaborationRouteImport } from './routes/app/collaboration'
 import { Route as AppCreateRouteImport } from './routes/app/create'
+import { Route as AppCreatorRouteImport } from './routes/app/creator'
 import { Route as AppExploreRouteImport } from './routes/app/explore'
 import { Route as AppHomeRouteImport } from './routes/app/home'
 import { Route as AppMediaRouteImport } from './routes/app/media'
@@ -28,6 +31,10 @@ import { Route as AppProfileRouteImport } from './routes/app/profile'
 import { Route as AppProgramsRouteImport } from './routes/app/programs'
 import { Route as AppSessionsRouteImport } from './routes/app/sessions'
 import { Route as AppTrustRouteImport } from './routes/app/trust'
+import { Route as AppWatchlistRouteImport } from './routes/app/watchlist'
+import { Route as AppWebsiteStudioRouteImport } from './routes/app/website-studio'
+import { Route as AppWebsiteStudioTemplatesRouteImport } from './routes/app/website-studio-templates'
+import { Route as AppWebsiteStudioV4RouteImport } from './routes/app/website-studio-v4'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -49,9 +56,19 @@ const OnboardingRoute = OnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StartupPlaybookRoute = StartupPlaybookRouteImport.update({
+  id: '/startup-playbook',
+  path: '/startup-playbook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VenturesRoute = VenturesRouteImport.update({
   id: '/ventures',
   path: '/ventures',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WebsiteStudioRoute = WebsiteStudioRouteImport.update({
+  id: '/website-studio',
+  path: '/website-studio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppCollaborationRoute = AppCollaborationRouteImport.update({
@@ -62,6 +79,11 @@ const AppCollaborationRoute = AppCollaborationRouteImport.update({
 const AppCreateRoute = AppCreateRouteImport.update({
   id: '/app/create',
   path: '/app/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppCreatorRoute = AppCreatorRouteImport.update({
+  id: '/app/creator',
+  path: '/app/creator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppExploreRoute = AppExploreRouteImport.update({
@@ -124,15 +146,39 @@ const AppTrustRoute = AppTrustRouteImport.update({
   path: '/app/trust',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppWatchlistRoute = AppWatchlistRouteImport.update({
+  id: '/app/watchlist',
+  path: '/app/watchlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppWebsiteStudioRoute = AppWebsiteStudioRouteImport.update({
+  id: '/app/website-studio',
+  path: '/app/website-studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppWebsiteStudioTemplatesRoute =
+  AppWebsiteStudioTemplatesRouteImport.update({
+    id: '/app/website-studio-templates',
+    path: '/app/website-studio-templates',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AppWebsiteStudioV4Route = AppWebsiteStudioV4RouteImport.update({
+  id: '/app/website-studio-v4',
+  path: '/app/website-studio-v4',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/company': typeof CompanyRoute
   '/onboarding': typeof OnboardingRoute
+  '/startup-playbook': typeof StartupPlaybookRoute
   '/ventures': typeof VenturesRoute
+  '/website-studio': typeof WebsiteStudioRoute
   '/app/collaboration': typeof AppCollaborationRoute
   '/app/create': typeof AppCreateRoute
+  '/app/creator': typeof AppCreatorRoute
   '/app/explore': typeof AppExploreRoute
   '/app/home': typeof AppHomeRoute
   '/app/media': typeof AppMediaRoute
@@ -145,15 +191,22 @@ export interface FileRoutesByFullPath {
   '/app/programs': typeof AppProgramsRoute
   '/app/sessions': typeof AppSessionsRoute
   '/app/trust': typeof AppTrustRoute
+  '/app/watchlist': typeof AppWatchlistRoute
+  '/app/website-studio': typeof AppWebsiteStudioRoute
+  '/app/website-studio-templates': typeof AppWebsiteStudioTemplatesRoute
+  '/app/website-studio-v4': typeof AppWebsiteStudioV4Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/company': typeof CompanyRoute
   '/onboarding': typeof OnboardingRoute
+  '/startup-playbook': typeof StartupPlaybookRoute
   '/ventures': typeof VenturesRoute
+  '/website-studio': typeof WebsiteStudioRoute
   '/app/collaboration': typeof AppCollaborationRoute
   '/app/create': typeof AppCreateRoute
+  '/app/creator': typeof AppCreatorRoute
   '/app/explore': typeof AppExploreRoute
   '/app/home': typeof AppHomeRoute
   '/app/media': typeof AppMediaRoute
@@ -166,6 +219,10 @@ export interface FileRoutesByTo {
   '/app/programs': typeof AppProgramsRoute
   '/app/sessions': typeof AppSessionsRoute
   '/app/trust': typeof AppTrustRoute
+  '/app/watchlist': typeof AppWatchlistRoute
+  '/app/website-studio': typeof AppWebsiteStudioRoute
+  '/app/website-studio-templates': typeof AppWebsiteStudioTemplatesRoute
+  '/app/website-studio-v4': typeof AppWebsiteStudioV4Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -173,9 +230,12 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/company': typeof CompanyRoute
   '/onboarding': typeof OnboardingRoute
+  '/startup-playbook': typeof StartupPlaybookRoute
   '/ventures': typeof VenturesRoute
+  '/website-studio': typeof WebsiteStudioRoute
   '/app/collaboration': typeof AppCollaborationRoute
   '/app/create': typeof AppCreateRoute
+  '/app/creator': typeof AppCreatorRoute
   '/app/explore': typeof AppExploreRoute
   '/app/home': typeof AppHomeRoute
   '/app/media': typeof AppMediaRoute
@@ -188,6 +248,10 @@ export interface FileRoutesById {
   '/app/programs': typeof AppProgramsRoute
   '/app/sessions': typeof AppSessionsRoute
   '/app/trust': typeof AppTrustRoute
+  '/app/watchlist': typeof AppWatchlistRoute
+  '/app/website-studio': typeof AppWebsiteStudioRoute
+  '/app/website-studio-templates': typeof AppWebsiteStudioTemplatesRoute
+  '/app/website-studio-v4': typeof AppWebsiteStudioV4Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -196,9 +260,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/company'
     | '/onboarding'
+    | '/startup-playbook'
     | '/ventures'
+    | '/website-studio'
     | '/app/collaboration'
     | '/app/create'
+    | '/app/creator'
     | '/app/explore'
     | '/app/home'
     | '/app/media'
@@ -211,15 +278,22 @@ export interface FileRouteTypes {
     | '/app/programs'
     | '/app/sessions'
     | '/app/trust'
+    | '/app/watchlist'
+    | '/app/website-studio'
+    | '/app/website-studio-templates'
+    | '/app/website-studio-v4'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/company'
     | '/onboarding'
+    | '/startup-playbook'
     | '/ventures'
+    | '/website-studio'
     | '/app/collaboration'
     | '/app/create'
+    | '/app/creator'
     | '/app/explore'
     | '/app/home'
     | '/app/media'
@@ -232,15 +306,22 @@ export interface FileRouteTypes {
     | '/app/programs'
     | '/app/sessions'
     | '/app/trust'
+    | '/app/watchlist'
+    | '/app/website-studio'
+    | '/app/website-studio-templates'
+    | '/app/website-studio-v4'
   id:
     | '__root__'
     | '/'
     | '/auth'
     | '/company'
     | '/onboarding'
+    | '/startup-playbook'
     | '/ventures'
+    | '/website-studio'
     | '/app/collaboration'
     | '/app/create'
+    | '/app/creator'
     | '/app/explore'
     | '/app/home'
     | '/app/media'
@@ -253,6 +334,10 @@ export interface FileRouteTypes {
     | '/app/programs'
     | '/app/sessions'
     | '/app/trust'
+    | '/app/watchlist'
+    | '/app/website-studio'
+    | '/app/website-studio-templates'
+    | '/app/website-studio-v4'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -260,9 +345,12 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   CompanyRoute: typeof CompanyRoute
   OnboardingRoute: typeof OnboardingRoute
+  StartupPlaybookRoute: typeof StartupPlaybookRoute
   VenturesRoute: typeof VenturesRoute
+  WebsiteStudioRoute: typeof WebsiteStudioRoute
   AppCollaborationRoute: typeof AppCollaborationRoute
   AppCreateRoute: typeof AppCreateRoute
+  AppCreatorRoute: typeof AppCreatorRoute
   AppExploreRoute: typeof AppExploreRoute
   AppHomeRoute: typeof AppHomeRoute
   AppMediaRoute: typeof AppMediaRoute
@@ -275,6 +363,10 @@ export interface RootRouteChildren {
   AppProgramsRoute: typeof AppProgramsRoute
   AppSessionsRoute: typeof AppSessionsRoute
   AppTrustRoute: typeof AppTrustRoute
+  AppWatchlistRoute: typeof AppWatchlistRoute
+  AppWebsiteStudioRoute: typeof AppWebsiteStudioRoute
+  AppWebsiteStudioTemplatesRoute: typeof AppWebsiteStudioTemplatesRoute
+  AppWebsiteStudioV4Route: typeof AppWebsiteStudioV4Route
 }
 
 declare module '@tanstack/react-router' {
@@ -307,11 +399,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/startup-playbook': {
+      id: '/startup-playbook'
+      path: '/startup-playbook'
+      fullPath: '/startup-playbook'
+      preLoaderRoute: typeof StartupPlaybookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ventures': {
       id: '/ventures'
       path: '/ventures'
       fullPath: '/ventures'
       preLoaderRoute: typeof VenturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/website-studio': {
+      id: '/website-studio'
+      path: '/website-studio'
+      fullPath: '/website-studio'
+      preLoaderRoute: typeof WebsiteStudioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/collaboration': {
@@ -326,6 +432,13 @@ declare module '@tanstack/react-router' {
       path: '/app/create'
       fullPath: '/app/create'
       preLoaderRoute: typeof AppCreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/creator': {
+      id: '/app/creator'
+      path: '/app/creator'
+      fullPath: '/app/creator'
+      preLoaderRoute: typeof AppCreatorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/explore': {
@@ -412,6 +525,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTrustRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/watchlist': {
+      id: '/app/watchlist'
+      path: '/app/watchlist'
+      fullPath: '/app/watchlist'
+      preLoaderRoute: typeof AppWatchlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/website-studio': {
+      id: '/app/website-studio'
+      path: '/app/website-studio'
+      fullPath: '/app/website-studio'
+      preLoaderRoute: typeof AppWebsiteStudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/website-studio-templates': {
+      id: '/app/website-studio-templates'
+      path: '/app/website-studio-templates'
+      fullPath: '/app/website-studio-templates'
+      preLoaderRoute: typeof AppWebsiteStudioTemplatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/website-studio-v4': {
+      id: '/app/website-studio-v4'
+      path: '/app/website-studio-v4'
+      fullPath: '/app/website-studio-v4'
+      preLoaderRoute: typeof AppWebsiteStudioV4RouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -420,9 +561,12 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   CompanyRoute: CompanyRoute,
   OnboardingRoute: OnboardingRoute,
+  StartupPlaybookRoute: StartupPlaybookRoute,
   VenturesRoute: VenturesRoute,
+  WebsiteStudioRoute: WebsiteStudioRoute,
   AppCollaborationRoute: AppCollaborationRoute,
   AppCreateRoute: AppCreateRoute,
+  AppCreatorRoute: AppCreatorRoute,
   AppExploreRoute: AppExploreRoute,
   AppHomeRoute: AppHomeRoute,
   AppMediaRoute: AppMediaRoute,
@@ -435,17 +579,20 @@ const rootRouteChildren: RootRouteChildren = {
   AppProgramsRoute: AppProgramsRoute,
   AppSessionsRoute: AppSessionsRoute,
   AppTrustRoute: AppTrustRoute,
+  AppWatchlistRoute: AppWatchlistRoute,
+  AppWebsiteStudioRoute: AppWebsiteStudioRoute,
+  AppWebsiteStudioTemplatesRoute: AppWebsiteStudioTemplatesRoute,
+  AppWebsiteStudioV4Route: AppWebsiteStudioV4Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
+import type { createStart } from '@tanstack/react-start'
 declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
   }
 }

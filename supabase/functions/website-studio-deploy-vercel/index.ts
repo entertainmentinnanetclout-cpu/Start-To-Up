@@ -58,7 +58,7 @@ Deno.serve(async (req: Request) => {
   if (project.owner_id !== userData.user.id && !isAdmin) return json({ error: "Not authorized" }, 403);
 
   const manifest = (job.generated_manifest || {}) as Record<string, any>;
-  const files = manifest.generated_files as Record<string, string> | undefined;
+  const files = manifest.generated_files as Record<string, string | { encoding: "base64"; data: string }> | undefined;
   if (!files || !Object.keys(files).length) return json({ error: "Generated source package unavailable" }, 400);
 
   const integration = (project.integration_config || {}) as Record<string, any>;
@@ -95,7 +95,7 @@ Deno.serve(async (req: Request) => {
         name: projectName,
         project: vercelProject.id || projectName,
         target: production ? "production" : undefined,
-        files: Object.entries(files).map(([file, data]) => ({ file, data })),
+        files: Object.entries(files).map(([file, value]) => typeof value === "string" ? { file, data: value } : { file, data: value.data, encoding: "base64" }),
         projectSettings: { framework: "vite", buildCommand: "npm run build", installCommand: "npm install", outputDirectory: "dist" },
       }),
     }, vercelToken, teamId);

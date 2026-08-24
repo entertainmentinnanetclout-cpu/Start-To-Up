@@ -6,7 +6,7 @@ import {
   type BusinessCategoryKey,
   type WebsiteStudioDraft,
 } from "./website-studio";
-import { generateDeployableProjectFiles } from "./website-studio-export";
+import { generateDeployableProjectBundle } from "./website-studio-export";
 
 type AnyRow = Record<string, any>;
 const db = supabase as any;
@@ -118,7 +118,7 @@ async function queuePublication(raw: WebsiteStudioDraft, provider: "github" | "v
   const user = await getWebsiteStudioUser();
   if (!user) throw new Error("SIGN_IN_REQUIRED");
   const draft = normalizeWebsiteDraft(raw);
-  const generatedFiles = generateDeployableProjectFiles(draft);
+  const generatedFiles = await generateDeployableProjectBundle(draft);
   const manifest = { ...buildPublicationManifest(draft), generated_files: generatedFiles, export: { file_count: Object.keys(generatedFiles).length, runtime: "vite-react-typescript", zero_edit_vercel_ready: true } };
   const { data, error } = await db.from("website_studio_publication_jobs").insert({
     project_id: draft.id,

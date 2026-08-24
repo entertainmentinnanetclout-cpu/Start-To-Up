@@ -1,4 +1,5 @@
 import { createWebsiteDraft, normalizeWebsiteDraft, type BusinessCategoryKey, type WebsiteStudioDraft } from "./website-studio";
+import { applyVisualContractMediaDefaults } from "./website-studio-template-assets";
 
 export type StudioTemplatePreset = {
   key: string;
@@ -57,7 +58,7 @@ export const templateFamilies = ["All", ...Array.from(new Set(studioTemplates.ma
 
 export function applyStudioTemplate(template: StudioTemplatePreset, businessName = "Your Business"): WebsiteStudioDraft {
   const base = createWebsiteDraft(businessName, template.category);
-  return normalizeWebsiteDraft({
+  return applyVisualContractMediaDefaults(normalizeWebsiteDraft({
     ...base,
     templateKey: template.key as WebsiteStudioDraft["templateKey"],
     brand: { ...base.brand, ...template.brand },
@@ -72,5 +73,5 @@ export function applyStudioTemplate(template: StudioTemplatePreset, businessName
       description: `${template.site.tagline || base.site.tagline} Built with the ${template.name} Website Studio system.`,
       keywords: `${template.tags.join(", ")}, ${businessName.toLowerCase()}, south africa`,
     },
-  });
+  }));
 }

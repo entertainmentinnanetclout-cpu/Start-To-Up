@@ -162,7 +162,7 @@ Deno.serve(async (req: Request) => {
   if (!owner || !repository) return json({ error: "Repository destination required" }, 400);
 
   const manifest = (job.generated_manifest || {}) as Record<string, any>;
-  const files = manifest.generated_files as Record<string, string> | undefined;
+  const files = manifest.generated_files as Record<string, string | { encoding: "base64"; data: string }> | undefined;
   if (!files || !Object.keys(files).length) return json({ error: "Generated website package unavailable" }, 400);
 
   const githubAppId = Deno.env.get("GITHUB_APP_ID");
@@ -195,7 +195,7 @@ Deno.serve(async (req: Request) => {
       const sha = await currentFileSha(owner, repository, path, branch, token);
       const payload: Record<string, unknown> = {
         message: `Website Studio: publish ${project.business_name}`,
-        content: utf8Base64(String(content)),
+        content: typeof content === "string" ? utf8Base64(content) : content.data,
         branch,
       };
       if (sha) payload.sha = sha;

@@ -1,6 +1,8 @@
 import { normalizeWebsiteDraft, type WebsiteStudioDraft } from "./website-studio";
 
-export type GeneratedProjectFiles = Record<string, string>;
+export type BinaryProjectFile = { encoding: "base64"; data: string };
+export type GeneratedProjectFile = string | BinaryProjectFile;
+export type GeneratedProjectFiles = Record<string, GeneratedProjectFile>;
 
 const q = (value: unknown) => JSON.stringify(value);
 const pretty = (value: unknown) => JSON.stringify(value, null, 2);
@@ -209,11 +211,18 @@ function u16(value: number) { const out = new Uint8Array(2); new DataView(out.bu
 function u32(value: number) { const out = new Uint8Array(4); new DataView(out.buffer).setUint32(0, value >>> 0, true); return out; }
 function concat(parts: Uint8Array[]) { const size = parts.reduce((sum, part) => sum + part.length, 0); const out = new Uint8Array(size); let offset = 0; for (const part of parts) { out.set(part, offset); offset += part.length; } return out; }
 function dosTime(date = new Date()) { const year = Math.max(1980, date.getFullYear()); return { time: (date.getHours() << 11) | (date.getMinutes() << 5) | Math.floor(date.getSeconds() / 2), day: ((year - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate() }; }
+function projectFileBytes(content: GeneratedProjectFile, encoder: TextEncoder) {
+  if (typeof content === "string") return encoder.encode(content);
+  const decoded = atob(content.data);
+  const bytes = new Uint8Array(decoded.length);
+  for (let index = 0; index < decoded.length; index += 1) bytes[index] = decoded.charCodeAt(index);
+  return bytes;
+}
 
 export function createZipBlob(files: GeneratedProjectFiles, rootFolder: string) {
   const encoder = new TextEncoder(); const locals: Uint8Array[] = []; const centrals: Uint8Array[] = []; let offset = 0; const stamp = dosTime();
   for (const [path, content] of Object.entries(files)) {
-    const name = encoder.encode((rootFolder + "/" + path).replace(/\/+/g, "/")); const data = encoder.encode(content); const crc = crc32(data);
+    const name = encoder.encode((rootFolder + "/" + path).replace(/\/+/g, "/")); const data = projectFileBytes(content, encoder); const crc = crc32(data);
     const local = concat([u32(0x04034b50),u16(20),u16(0x0800),u16(0),u16(stamp.time),u16(stamp.day),u32(crc),u32(data.length),u32(data.length),u16(name.length),u16(0),name,data]); locals.push(local);
     centrals.push(concat([u32(0x02014b50),u16(20),u16(20),u16(0x0800),u16(0),u16(stamp.time),u16(stamp.day),u32(crc),u32(data.length),u32(data.length),u16(name.length),u16(0),u16(0),u16(0),u16(0),u32(0),u32(offset),name])); offset += local.length;
   }

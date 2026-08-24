@@ -1,0 +1,20 @@
+{
+  "templateKey": "newsroom-pro",
+  "referenceFilename": "Codex Image Aug 23, 2026, 05_29_30 PM.png",
+  "preview": "preview.png",
+  "logo": "logo.png",
+  "hero": "hero.png",
+  "gallery": [
+    "gallery-01.png",
+    "gallery-02.png",
+    "gallery-03.png",
+    "gallery-04.png",
+    "gallery-05.png",
+    "gallery-06.png",
+    "gallery-07.png"
+  ],
+  "extraction": {
+    "method": "lossless-pixel-crop",
+    "generatedImagery": false
+  }
+}
