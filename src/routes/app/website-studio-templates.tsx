@@ -28,10 +28,10 @@ function WebsiteStudioTemplatesPage() {
     const next = ensureStudioV6Draft(applyVisualContractDefaults(applyStudioTemplate(template)) as any);
     window.localStorage.setItem("start-to-up-website-studio-draft", JSON.stringify(next));
     window.localStorage.setItem("start-to-up-website-studio-template", template.key);
-    void navigate({ to: "/app/website-studio-v6" });
+    void navigate({ to: "/app/website-studio-v6-pro" });
   }
 
-  return <AppShell title="Website templates" eyebrow={`${studioTemplates.length} PREMIUM STRUCTURAL SYSTEMS`} action={<Link to="/app/website-studio-v6" className="button button-secondary">Open website editor</Link>}>
+  return <AppShell title="Website templates" eyebrow={`${studioTemplates.length} PREMIUM STRUCTURAL SYSTEMS`} action={<Link to="/app/website-studio-v6-pro" className="button button-secondary">Open website editor</Link>}>
     <section className="template-library-hero">
       <div><span><Sparkles/> START TO UP TEMPLATE LIBRARY V6</span><h2>What you preview is what gets built.</h2><p>Approved template cards use their real reference imagery, while the builder preserves the same visual contract through editing, multi-page expansion, ZIP export, GitHub publication and Vercel deployment.</p></div>
       <div className="template-library-count"><strong>{studioTemplates.length}</strong><span>premium templates</span></div>
