@@ -14,7 +14,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,5 +28,46 @@ jobs:
         run: npm install --ignore-scripts
       - name: Build Start To Up
         run: npm run build
-      - name: Generate, unzip and build Website Studio export
+      - name: Verify Website Studio V6 project model
+        run: npx --yes tsx@4.20.6 scripts/verify-website-studio-v6.ts
+      - name: Generate, unzip and build Website Studio exports
         run: npx --yes tsx@4.20.6 scripts/verify-website-studio-export.ts
+
+  visual-fidelity:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout candidate
+        uses: actions/checkout@v4
+      - name: Checkout approved main baseline
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: stu-base
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package.json
+      - name: Install candidate and visual-test dependencies
+        run: |
+          npm install --ignore-scripts
+          npm install --no-save --ignore-scripts playwright@1.55.0 pixelmatch@7.1.0 pngjs@7.0.0
+          ln -s "$GITHUB_WORKSPACE/node_modules" "$GITHUB_WORKSPACE/stu-base/node_modules"
+          npx playwright install --with-deps chromium
+      - name: Compare approved templates at desktop tablet and mobile
+        env:
+          STU_FIDELITY_BASE: ${{ github.workspace }}/stu-base
+          STU_FIDELITY_HEAD: ${{ github.workspace }}
+          STU_FIDELITY_OUTPUT: ${{ runner.temp }}/website-studio-fidelity
+          STU_FIDELITY_MAX_DIFF: '0.02'
+        run: npx tsx scripts/verify-template-fidelity.ts
+      - name: Upload fidelity screenshots and diffs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: website-studio-template-fidelity
+          path: ${{ runner.temp }}/website-studio-fidelity
+          if-no-files-found: ignore
