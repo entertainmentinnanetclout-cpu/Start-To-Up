@@ -1,0 +1,36 @@
+name: V6 readonly pages repair
+
+on:
+  push:
+    branches:
+      - feat/website-studio-v6-builder-suite
+    paths:
+      - scripts/v6-readonly-pages-trigger.txt
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/website-studio-v6-builder-suite
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Patch readonly generated page props
+        run: node scripts/patch-v6-readonly-pages.mjs
+      - name: Commit repair
+        run: |
+          git config user.name "start-to-up-ci"
+          git config user.email "actions@users.noreply.github.com"
+          git add src/lib/website-studio-project-export-v6.ts
+          if git diff --cached --quiet; then
+            echo "No repair required"
+          else
+            git commit -m "fix: support readonly generated page configuration"
+            git push origin HEAD:feat/website-studio-v6-builder-suite
+          fi
