@@ -1,1 +1,1 @@
-export * from "./website-studio-project-export-v4";
+export * from "./website-studio-project-export-v6";
