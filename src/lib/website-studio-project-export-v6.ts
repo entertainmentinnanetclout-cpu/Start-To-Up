@@ -1,12 +1,11 @@
 import { normalizeWebsiteDraft, type WebsiteStudioDraft } from "./website-studio";
 import { ensureStudioV6Draft, type StudioV6Draft } from "./website-studio-v6";
 import {
-  createZipBlob,
   generateDeployableProjectBundle as generateV5Bundle,
   generateDeployableProjectFiles as generateV5Files,
   type WebsiteStudioAssetLoader,
 } from "./website-studio-project-export-v4";
-import type { GeneratedProjectFiles } from "./website-studio-project-export";
+import { createZipBlob, type GeneratedProjectFiles } from "./website-studio-project-export";
 
 const pretty = (value: unknown) => JSON.stringify(value, null, 2);
 const q = (value: unknown) => JSON.stringify(value);
