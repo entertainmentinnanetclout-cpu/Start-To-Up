@@ -6,8 +6,9 @@ import { applyStudioTemplate, studioTemplates } from "../../lib/website-studio-t
 import { getStructuralFamily, structuralFamilyLabels } from "../../lib/website-studio-structural";
 import { applyVisualContractDefaults } from "../../lib/website-studio-visual-contract-defaults";
 import { hasVisualContract, renderWebsiteStudioHtml } from "../../lib/website-studio-visual-contracts";
-import "../../website-studio-templates.css";
+import { ensureStudioV6Draft } from "../../lib/website-studio-v6";
 import { getVisualContractAssetPack } from "../../lib/website-studio-template-assets";
+import "../../website-studio-templates.css";
 import "../../website-studio-visual-contracts.css";
 
 export const Route = createFileRoute("/app/website-studio-templates")({ component: WebsiteStudioTemplatesPage });
@@ -24,15 +25,15 @@ function WebsiteStudioTemplatesPage() {
   }), [family, query]);
 
   function choose(template: (typeof studioTemplates)[number]) {
-    const next = applyVisualContractDefaults(applyStudioTemplate(template));
+    const next = ensureStudioV6Draft(applyVisualContractDefaults(applyStudioTemplate(template)) as any);
     window.localStorage.setItem("start-to-up-website-studio-draft", JSON.stringify(next));
     window.localStorage.setItem("start-to-up-website-studio-template", template.key);
-    void navigate({ to: "/app/website-studio-v4" });
+    void navigate({ to: "/app/website-studio-v6" });
   }
 
-  return <AppShell title="Website templates" eyebrow={`${studioTemplates.length} PREMIUM STRUCTURAL SYSTEMS`} action={<Link to="/app/website-studio-v4" className="button button-secondary">Open website editor</Link>}>
+  return <AppShell title="Website templates" eyebrow={`${studioTemplates.length} PREMIUM STRUCTURAL SYSTEMS`} action={<Link to="/app/website-studio-v6" className="button button-secondary">Open website editor</Link>}>
     <section className="template-library-hero">
-      <div><span><Sparkles/> START TO UP TEMPLATE LIBRARY V5</span><h2>What you preview is what gets built.</h2><p>Marketplace cards now render the same source used by the editor, ZIP export, GitHub publication and Vercel deployment. The ten approved templates are reference-locked visual contracts; other catalogue entries show their actual structural renderer instead of invented mockups.</p></div>
+      <div><span><Sparkles/> START TO UP TEMPLATE LIBRARY V6</span><h2>What you preview is what gets built.</h2><p>Approved template cards use their real reference imagery, while the builder preserves the same visual contract through editing, multi-page expansion, ZIP export, GitHub publication and Vercel deployment.</p></div>
       <div className="template-library-count"><strong>{studioTemplates.length}</strong><span>premium templates</span></div>
     </section>
 
