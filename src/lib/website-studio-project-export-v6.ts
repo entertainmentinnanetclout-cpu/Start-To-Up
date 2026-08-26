@@ -43,7 +43,7 @@ function studioPageSource() {
   return `import { siteConfig } from "../site-config";
 import { StudioSection } from "./StudioSection";
 
-export function StudioPage({ page, pages }: { page: any; pages: any[] }) {
+export function StudioPage({ page, pages }: { page: any; pages: readonly any[] }) {
   if (!page) return <main className="v6-not-found"><h1>Page not found</h1><a href="/">Return home</a></main>;
   return <div className="v6-site" style={{ "--v6-primary": siteConfig.brand.primary, "--v6-secondary": siteConfig.brand.secondary, "--v6-accent": siteConfig.brand.accent, "--v6-surface": siteConfig.brand.surface, "--v6-text": siteConfig.brand.text } as React.CSSProperties}>
     <header className="v6-header"><div className="v6-shell"><a className="v6-brand" href="/">{siteConfig.brand.logoUrl ? <img src={siteConfig.brand.logoUrl} alt={siteConfig.businessName}/> : <strong>{siteConfig.brand.logoText || siteConfig.businessName}</strong>}</a><nav>{pages.filter((item:any)=>item.visible).slice(0,7).map((item:any)=><a key={item.id} href={item.slug === "/" ? "/" : "/"+item.slug.replace(/^\\//,"")}>{item.title}</a>)}</nav><a href="/contact" className="v6-button">{siteConfig.site.primaryCta}</a></div></header>
