@@ -42,7 +42,7 @@ const scaleNavigation = [
   { to: "/app/creator", label: "Creator studio", icon: BarChart3 },
   { to: "/app/watchlist", label: "Investor watchlist", icon: WalletCards },
   { to: "/app/website-studio-templates", label: "Website templates", icon: LayoutTemplate },
-  { to: "/app/website-studio", label: "Website studio", icon: LayoutTemplate },
+  { to: "/app/website-studio-v6", label: "Website studio", icon: LayoutTemplate },
   { to: "/app/programs", label: "Programs", icon: CalendarDays },
   { to: "/app/plans", label: "Plans", icon: WalletCards },
 ] as const;
@@ -57,7 +57,7 @@ const mobileNavigation = [
 
 const mobileMoreNavigation = [
   { to: "/app/website-studio-templates", label: "Website templates", icon: LayoutTemplate, description: "Choose from 20+ premium business starters" },
-  { to: "/app/website-studio", label: "Website studio", icon: LayoutTemplate, description: "Build, integrate, export and deploy websites" },
+  { to: "/app/website-studio-v6", label: "Website studio", icon: LayoutTemplate, description: "Visual builder, content, teams, QA and deployment" },
   { to: "/app/collaboration", label: "Collaboration rooms", icon: Handshake, description: "Build with teams inside Start To Up" },
   { to: "/app/messages", label: "Messages", icon: MessageCircle, description: "Continue project conversations" },
   { to: "/app/network", label: "Network", icon: Compass, description: "People, ventures and institutions" },
