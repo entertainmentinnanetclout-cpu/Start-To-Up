@@ -1,0 +1,36 @@
+name: V6 route source rewrite
+
+on:
+  push:
+    branches:
+      - feat/website-studio-v6-builder-suite
+    paths:
+      - scripts/v6-rewrite-trigger.txt
+
+permissions:
+  contents: write
+
+jobs:
+  rewrite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feat/website-studio-v6-builder-suite
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Rewrite parser-sensitive V6 source
+        run: node scripts/rewrite-v6-route.mjs
+      - name: Commit repaired route
+        run: |
+          git config user.name "start-to-up-ci"
+          git config user.email "actions@users.noreply.github.com"
+          git add src/routes/app/website-studio-v6.tsx
+          if git diff --cached --quiet; then
+            echo "No rewrite required"
+          else
+            git commit -m "fix: normalize Website Studio V6 form editor JSX"
+            git push origin HEAD:feat/website-studio-v6-builder-suite
+          fi
