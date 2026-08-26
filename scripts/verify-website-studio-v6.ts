@@ -5,7 +5,7 @@ import { applyStudioTemplate, studioTemplates } from "../src/lib/website-studio-
 import { applyVisualContractDefaults } from "../src/lib/website-studio-visual-contract-defaults";
 import { ensureStudioV6Draft, type StudioV6Draft } from "../src/lib/website-studio-v6";
 import { createZipBlob } from "../src/lib/website-studio-project-export";
-import { generateDeployableProjectFiles } from "../src/lib/website-studio-project-export-v6";
+import { generateDeployableProjectFiles } from "../src/lib/website-studio-export";
 
 const representatives = ["pulse-saas", "habitat-property", "table-flame", "edulaunch", "newsroom-pro"];
 const required = [
@@ -19,11 +19,17 @@ for (const key of representatives) {
   if (!template) throw new Error(`Template missing: ${key}`);
   const draft = ensureStudioV6Draft(applyVisualContractDefaults(applyStudioTemplate(template)) as StudioV6Draft);
   draft.slug = `v6-${key}`;
+  draft.integrations.supabase.publicSubmitToken = `test-${key}-public-token`;
   draft.studioV6.industryRecords.push({ id: `test-${key}`, moduleType: key === "habitat-property" ? "property" : key === "table-flame" ? "menu_item" : key === "edulaunch" ? "course" : key === "newsroom-pro" ? "article" : "product", title: `Test ${key}`, slug: `test-${key}`, status: "active", data: { description: "Portable V6 structured content" }, media: [] });
   const files = generateDeployableProjectFiles(draft);
   for (const path of required) if (!(path in files)) throw new Error(`${key}: missing ${path}`);
   const config = JSON.parse(String(files["app/studio-v6.json"]));
   if (config.version !== 6 || config.pages.length < 4) throw new Error(`${key}: invalid V6 config`);
+  const analytics = String(files["src/lib/studio-analytics.ts"] || "");
+  if (!analytics.includes("VITE_STUDIO_PROJECT_TOKEN")) throw new Error(`${key}: analytics fallback token missing`);
+  const env = String(files["env/vercel.env.example"] || "");
+  if (!env.includes(`VITE_STUDIO_ANALYTICS_TOKEN=test-${key}-public-token`)) throw new Error(`${key}: managed analytics token not exported`);
+  if (/SERVICE_ROLE|STRIPE_SECRET|VERCEL_TOKEN|GITHUB.*PRIVATE/i.test(env)) throw new Error(`${key}: private secret leaked into public environment example`);
   const root = `/tmp/start-to-up-${draft.slug}`;
   const zipPath = `${root}.zip`;
   await rm(root, { recursive: true, force: true }); await rm(zipPath, { force: true });
