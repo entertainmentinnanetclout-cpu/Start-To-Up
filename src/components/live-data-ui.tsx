@@ -1,3 +1,4 @@
+import { Link, useRouterState } from "@tanstack/react-router";
 import { LockKeyhole, Sparkles } from "lucide-react";
 import type { Project } from "../lib/start-to-up-data";
 
@@ -34,15 +35,25 @@ export function DataState({
 }
 
 export function AuthDeferred({ children }: { children?: React.ReactNode }) {
+  const path = useRouterState({ select: (state) => state.location.href });
+  function rememberReturn() {
+    if (typeof window === "undefined") return;
+    const safePath = path.startsWith("/") && !path.startsWith("//") ? path : "/app/home";
+    window.localStorage.setItem("start-to-up-auth-return", safePath);
+  }
   return (
     <div className="auth-deferred">
       <LockKeyhole />
       <div>
-        <strong>Member access is opening next</strong>
+        <strong>Sign in to continue</strong>
         <span>
-          Explore the network now. Secure member publishing and team actions are coming next.
+          This capability is protected by your Start To Up account. After authentication, you return
+          to the same workspace and your saved session state is restored.
         </span>
       </div>
+      <Link to="/auth" className="button button-primary" onClick={rememberReturn}>
+        Sign in securely
+      </Link>
       {children}
     </div>
   );
