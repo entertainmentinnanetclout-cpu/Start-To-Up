@@ -10,6 +10,7 @@ const required = [
   "src/lib/startup-os-foundation.ts",
   "src/startup-os.css",
   "supabase/migrations/20260827090000_startup_os_phase0_foundation.sql",
+  "supabase/migrations/20260827090500_startup_os_phase0_trust_hardening.sql",
   "supabase/functions/startup-os-provider-connect/index.ts",
   "docs/PHASE0_IMPLEMENTATION_SPEC.md",
 ];
@@ -46,8 +47,9 @@ for (const provider of startupOsProviders) {
 }
 
 const sql = read("supabase/migrations/20260827090000_startup_os_phase0_foundation.sql");
+const hardening = read("supabase/migrations/20260827090500_startup_os_phase0_trust_hardening.sql");
 if (/create\s+type\s+if\s+not\s+exists/i.test(sql)) throw new Error("Phase 0 migration contains unsupported CREATE TYPE IF NOT EXISTS syntax");
-if (!/audit_workspace_change/i.test(sql)) throw new Error("Phase 0 migration must install workspace audit logging");
+if (!/audit_workspace_change/i.test(sql) || !/audit_workspace_change/i.test(hardening)) throw new Error("Phase 0 migration must install hardened workspace audit logging");
 if (!/company-vault/.test(sql)) throw new Error("Phase 0 migration must create the private company vault");
 if (!/startup_os_provider_credentials/.test(sql)) throw new Error("Phase 0 migration must include server-side provider credential storage");
 if (/grant\s+(?:select|all|insert|update|delete)[\s\S]{0,120}startup_os_provider_credentials[\s\S]{0,120}to\s+authenticated/i.test(sql)) {
@@ -55,8 +57,15 @@ if (/grant\s+(?:select|all|insert|update|delete)[\s\S]{0,120}startup_os_provider
 }
 const issuedPrivate = /comment\s+on\s+column\s+public\.company_verification_records\.issued_at\s+is\s+'[^']*Never publish directly\.'/i.test(sql);
 const expiryPrivate = /comment\s+on\s+column\s+public\.company_verification_records\.expires_at\s+is\s+'[^']*Never publish directly\.'/i.test(sql);
-if (!issuedPrivate || !expiryPrivate) {
-  throw new Error("Verification date fields must be explicitly documented as private-only metadata");
+if (!issuedPrivate || !expiryPrivate) throw new Error("Verification date fields must be explicitly documented as private-only metadata");
+if (!/verification staff review[\s\S]{0,220}public\.is_staff\(auth\.uid\(\)\)/i.test(hardening)) {
+  throw new Error("Verified company status must require platform staff review");
+}
+if (!/logo permission staff review[\s\S]{0,220}public\.is_staff\(auth\.uid\(\)\)/i.test(hardening)) {
+  throw new Error("Official-logo authorisation must require platform staff review");
+}
+if (!/status in \('unverified','pending'\)/i.test(hardening)) {
+  throw new Error("Workspace owners must only be able to submit unverified/pending trust records");
 }
 
 const connector = read("supabase/functions/startup-os-provider-connect/index.ts");
@@ -65,4 +74,4 @@ if (!/workspace_audit_log/.test(connector)) throw new Error("Provider connector 
 if (!/google_places/.test(connector) || !/semrush/.test(connector)) throw new Error("Company Intelligence provider hooks must remain available");
 if (!/deferredVerification/.test(connector)) throw new Error("Billable provider validation must support deferred verification");
 
-console.log(`Startup OS Phase 0 release contract passed: ${startupOsProviders.length} integrations, private verification dates, RLS/audit/secret controls present.`);
+console.log(`Startup OS Phase 0 release contract passed: ${startupOsProviders.length} integrations, private verification dates, staff-reviewed trust, RLS/audit/secret controls present.`);
