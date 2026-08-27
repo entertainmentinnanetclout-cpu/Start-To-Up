@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, BadgeCheck, CalendarCheck2, Mail, Phone, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, FileCheck2, Mail, Phone, ShieldCheck, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/company")({
   component: CompanyPage,
@@ -56,15 +56,15 @@ function CompanyPage() {
             </p>
             <p>
               Start To Up Innovation Group (Pty) Ltd is registered in South Africa as a private
-              company. The current verification record below is based on the company documents
-              supplied directly to Start To Up and is kept separate from sensitive tax and director information.
+              company. The verification record below is based on company documents supplied directly
+              to Start To Up and is kept separate from sensitive tax and director information.
             </p>
 
             <div className="registration-status">
               <BadgeCheck />
               <div>
                 <strong>CIPC-registered private company</strong>
-                <span>Registration number 2026/672029/07 • Effective 24 August 2026 • Status: In Business.</span>
+                <span>Registration number 2026/672029/07 • Status: In Business.</span>
               </div>
             </div>
 
@@ -72,7 +72,7 @@ function CompanyPage() {
               <ShieldCheck />
               <div>
                 <strong>SARS income-tax registration confirmed</strong>
-                <span>Income-tax registration is confirmed by a SARS Notice of Registration dated 24 August 2026. The taxpayer reference number is not published.</span>
+                <span>Income-tax registration is confirmed by an official SARS Notice of Registration. The taxpayer reference number is not published.</span>
               </div>
             </div>
 
@@ -80,12 +80,12 @@ function CompanyPage() {
               <BadgeCheck />
               <div>
                 <strong>B-BBEE Level 1 Contributor</strong>
-                <span>135% procurement recognition on the supplied certificate • Certificate expiry: 22 August 2027.</span>
+                <span>135% procurement recognition on the supplied certificate.</span>
               </div>
             </div>
 
             <div className="registration-status">
-              <CalendarCheck2 />
+              <FileCheck2 />
               <div>
                 <strong>Verification documents controlled</strong>
                 <span>Supporting documents can be supplied for legitimate procurement, partnership or due-diligence requests without exposing sensitive personal or tax identifiers publicly.</span>
