@@ -167,8 +167,8 @@ function StartupOsPage() {
   return (
     <AppShell
       title="Startup OS"
-      eyebrow="PHASE 0 · TRUST · IDENTITY · WORKSPACE"
-      action={<Link to="/app/integrations" className="button button-primary"><PlugZap size={16}/> Integrations</Link>}
+      eyebrow="FOUNDATION LIVE · VALIDATION AVAILABLE"
+      action={<div className="startup-os-header-actions"><Link to="/app/validate" className="button button-primary">Validate &amp; research</Link><Link to="/app/integrations" className="button button-secondary"><PlugZap size={16}/> Integrations</Link></div>}
     >
       <section className="phase0-toolbar">
         <div>
@@ -194,7 +194,7 @@ function StartupOsPage() {
 
       <div className="phase0-grid phase0-grid-main">
         <section className="phase0-panel">
-          <header><div><Building2/><span>SHARED COMPANY PROFILE</span></div><small>Used by future finance, CRM, website, funding and compliance tools.</small></header>
+          <header><div><Building2/><span>SHARED COMPANY PROFILE</span></div><small>Used by validation, finance, CRM, website, funding and compliance tools.</small></header>
           <form className="phase0-form" onSubmit={saveProfile} key={`${workspaceId}-${snapshot.profile?.updated_at || "new"}`}>
             <label>Trading name<input name="trading_name" defaultValue={snapshot.profile?.trading_name || active?.name || ""}/></label>
             <label>Legal company name<input name="legal_name" defaultValue={snapshot.profile?.legal_name || ""}/></label>
@@ -224,7 +224,7 @@ function StartupOsPage() {
 
       <div className="phase0-grid">
         <section className="phase0-panel">
-          <header><div><ListTodo/><span>FOUNDATION TASKS</span></div><small>Shared task primitive for every future module.</small></header>
+          <header><div><ListTodo/><span>FOUNDATION TASKS</span></div><small>Shared task primitive for every Startup OS module.</small></header>
           <form className="phase0-inline-form" onSubmit={addTask}><input name="title" placeholder="Add a company action…" required minLength={2}/><button>Add task</button></form>
           <div className="phase0-simple-list">
             {snapshot.tasks.slice(0, 8).map((task) => <article key={task.id}><span className={`phase0-dot ${task.priority}`}/><div><strong>{task.title}</strong><small>{String(task.status).replaceAll("_", " ")}</small></div></article>)}
@@ -233,7 +233,7 @@ function StartupOsPage() {
         </section>
 
         <section className="phase0-panel">
-          <header><div><Flag/><span>STAGED ROLLOUT</span></div><small>Foundation features are enabled; later phases remain gated until released.</small></header>
+          <header><div><Flag/><span>STAGED ROLLOUT</span></div><small>Foundation and validation flags are workspace-aware; later phases stay gated until released.</small></header>
           <div className="phase0-flag-list">
             {snapshot.flags.map((flag) => <article key={flag.flag_key}><div><strong>{flag.flag_key.replace("startup_os.", "").replaceAll("_", " ")}</strong><span>{flag.enabled ? "Available" : "Not released to this workspace"}</span></div><b className={flag.enabled ? "on" : "off"}>{flag.enabled ? "ON" : "OFF"}</b></article>)}
           </div>
@@ -257,8 +257,8 @@ function StartupOsPage() {
       </div>
 
       <section className="phase0-roadmap-band">
-        <div><CircleDollarSign/><div><span>NEXT RELEASE</span><strong>Phase 1 — Validate & Research</strong><p>Idea validation, market size, Company Intelligence, competitor discovery, customer research and startup-health baselines will use this same company workspace.</p></div></div>
-        <span>Core profile and identity data will not need to be re-entered.</span>
+        <div><CircleDollarSign/><div><span>PHASE 1 AVAILABLE</span><strong>Validate &amp; Research</strong><p>Run idea validation, TAM/SAM/SOM modelling, Company Intelligence, competitor research, customer personas, interviews, surveys, brand checks and Startup Health baselines from this same workspace.</p></div></div>
+        <Link to="/app/validate" className="button button-primary">Open Phase 1</Link>
       </section>
     </AppShell>
   );
