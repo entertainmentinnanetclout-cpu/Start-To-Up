@@ -7,12 +7,14 @@ import {
   Compass,
   Handshake,
   Home,
+  LayoutDashboard,
   LayoutTemplate,
   LogOut,
   Menu,
   MessageCircle,
   PanelLeftClose,
   PanelLeftOpen,
+  PlugZap,
   Plus,
   Play,
   Radio,
@@ -24,8 +26,10 @@ import {
 } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 import { supabase } from "../integrations/supabase/client";
+import { recordSessionActivity } from "../lib/startup-os-foundation";
 import { WebsiteStudioV6Enhancements } from "./website-studio-v6-enhancements";
 import "../app-shell-v6.css";
+import "../startup-os.css";
 
 const navigation = [
   { to: "/app/home", label: "Home", icon: Home, primary: false },
@@ -33,6 +37,11 @@ const navigation = [
   { to: "/app/create", label: "Create", icon: Plus, primary: true },
   { to: "/app/network", label: "Network", icon: MessageCircle, primary: false },
   { to: "/app/profile", label: "Profile", icon: UserRound, primary: false },
+] as const;
+
+const startupOsNavigation = [
+  { to: "/app/startup-os", label: "Startup OS", icon: LayoutDashboard },
+  { to: "/app/integrations", label: "Integrations", icon: PlugZap },
 ] as const;
 
 const trustNavigation = [
@@ -57,12 +66,14 @@ const mobileNavigation = [
   navigation[0],
   navigation[1],
   navigation[2],
-  { to: "/app/media", label: "Media", icon: Play, primary: false },
+  { to: "/app/startup-os", label: "Startup OS", icon: LayoutDashboard, primary: false },
   navigation[4],
 ] as const;
 
 const mobileMoreNavigation = [
-  { to: "/app/website-studio-templates", label: "Website templates", icon: LayoutTemplate, description: "Choose from 20+ premium business starters" },
+  { to: "/app/startup-os", label: "Startup OS", icon: LayoutDashboard, description: "Your secure company operating workspace" },
+  { to: "/app/integrations", label: "Integrations", icon: PlugZap, description: "Connect external services in three guided steps" },
+  { to: "/app/website-studio-templates", label: "Website templates", icon: LayoutTemplate, description: "Choose from premium business starters" },
   { to: "/app/website-studio-v6", label: "Website studio", icon: LayoutTemplate, description: "Build, customize, integrate, export and deploy websites" },
   { to: "/app/collaboration", label: "Collaboration rooms", icon: Handshake, description: "Build with teams inside Start To Up" },
   { to: "/app/messages", label: "Messages", icon: MessageCircle, description: "Continue project conversations" },
@@ -98,9 +109,23 @@ export function AppShell({
     window.localStorage.setItem("start-to-up-sidebar-collapsed", String(sidebarCollapsed));
   }, [sidebarCollapsed]);
   useEffect(() => {
-    void supabase.auth.getSession().then(({ data }) => setSignedIn(Boolean(data.session)));
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => setSignedIn(Boolean(session)));
-    return () => data.subscription.unsubscribe();
+    let heartbeat: ReturnType<typeof window.setInterval> | undefined;
+    void supabase.auth.getSession().then(({ data }) => {
+      const active = Boolean(data.session);
+      setSignedIn(active);
+      if (active) {
+        void recordSessionActivity();
+        heartbeat = window.setInterval(() => void recordSessionActivity(), 5 * 60 * 1000);
+      }
+    });
+    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSignedIn(Boolean(session));
+      if (session) void recordSessionActivity();
+    });
+    return () => {
+      if (heartbeat) window.clearInterval(heartbeat);
+      data.subscription.unsubscribe();
+    };
   }, []);
   useEffect(() => {
     if (!mobileMenuOpen) return;
@@ -135,6 +160,12 @@ export function AppShell({
               <Icon size={21} /><span>{label}</span>
             </Link>
           ))}
+          <span className="sidebar-section-label">STARTUP OS</span>
+          {startupOsNavigation.map(({ to, label, icon: Icon }) => (
+            <Link preload="intent" key={to} to={to} title={label} className={`sidebar-link ${path === to ? "active" : ""}`}>
+              <Icon size={19} /><span>{label}</span>
+            </Link>
+          ))}
           <span className="sidebar-section-label">COLLABORATION &amp; TRUST</span>
           {trustNavigation.map(({ to, label, icon: Icon }) => (
             <Link preload="intent" key={to} to={to} title={label} className={`sidebar-link ${path === to ? "active" : ""}`}>
@@ -151,8 +182,8 @@ export function AppShell({
         <div className="sidebar-footer-zone">
           {!sidebarCollapsed ? <div className="sidebar-trust">
             <img src="/brand/start-to-up-symbol.png" alt="" loading="lazy" decoding="async" />
-            <strong>Innovation-only network</strong>
-            <span>Protected sharing is active.</span>
+            <strong>Secure company workspace</strong>
+            <span>Sessions, permissions and protected sharing are active.</span>
           </div> : null}
           {signedIn ? <button className="sidebar-session-action" onClick={() => void signOut()} title="Sign out"><LogOut size={16}/><span>Sign out</span></button> : <Link to="/auth" className="sidebar-session-action" title="Sign in"><UserRound size={16}/><span>Sign in</span></Link>}
           <Link preload="intent" to="/" className="sidebar-back" title="Public website">← <span>Public website</span></Link>

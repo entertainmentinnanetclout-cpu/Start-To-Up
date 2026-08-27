@@ -1,15 +1,15 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight, BadgeCheck, Mail, Phone, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, BadgeCheck, FileCheck2, Mail, Phone, ShieldCheck, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/company")({
   component: CompanyPage,
   head: () => ({
     meta: [
-      { title: "Company & Founder | Start To Up" },
+      { title: "Company & Verification | Start To Up" },
       {
         name: "description",
         content:
-          "Meet Start To Up Innovation Group, a registered South African company with tax registration and a B-BBEE certificate on file, and founder Ayanda Lawrence Msizi Dube.",
+          "Start To Up Innovation Group (Pty) Ltd is a registered South African private company, registered for income tax and certified as a B-BBEE Level 1 Contributor.",
       },
     ],
   }),
@@ -29,14 +29,15 @@ function CompanyPage() {
       <main>
         <section className="company-page-hero shell-width">
           <span>
-            <Sparkles /> COMPANY &amp; LEADERSHIP
+            <Sparkles /> COMPANY &amp; VERIFICATION
           </span>
-          <h1>Built close to the problem. Designed for measurable progress.</h1>
+          <h1>Built close to the problem. Structured to operate professionally.</h1>
           <p>
-            Start To Up Innovation Group develops ventures, digital products and practical growth
-            systems for founders, innovators, businesses and institutions.
+            Start To Up Innovation Group (Pty) Ltd develops ventures, digital products and practical
+            growth systems for founders, innovators, businesses and institutions.
           </p>
         </section>
+
         <section className="company-founder-card shell-width">
           <div className="founder-portrait-wrap">
             <img src="/brand/founder-ayanda-dube.webp" alt="Ayanda Lawrence Msizi Dube" />
@@ -45,46 +46,60 @@ function CompanyPage() {
               <strong>Ayanda Lawrence Msizi Dube</strong>
             </div>
           </div>
+
           <div className="founder-copy">
-            <span className="section-label">FOUNDER-LED BY DESIGN</span>
-            <h2>Creating the infrastructure serious ideas need.</h2>
+            <span className="section-label">VERIFIED COMPANY STATUS</span>
+            <h2>Registered, tax registered and procurement-ready.</h2>
             <p className="founder-statement">
               “Start To Up exists to give serious ideas a clearer path—from uncertainty and
               isolation to visibility, collaboration and measurable growth.”
             </p>
             <p>
-              Ayanda Lawrence Msizi Dube combines practical startup building, digital product
-              development and ecosystem thinking. Start To Up begins lean, works with specialist
-              delivery partners where required and grows alongside the ventures it supports.
+              Start To Up Innovation Group (Pty) Ltd is registered in South Africa as a private
+              company. The verification record below is based on company documents supplied directly
+              to Start To Up and is kept separate from sensitive tax and director information.
             </p>
+
             <div className="registration-status">
               <BadgeCheck />
               <div>
-                <strong>Registered South African company</strong>
-                <span>Company registration is complete and the business is operating as a registered entity.</span>
+                <strong>CIPC-registered private company</strong>
+                <span>Registration number 2026/672029/07 • Status: In Business.</span>
               </div>
             </div>
+
+            <div className="registration-status">
+              <ShieldCheck />
+              <div>
+                <strong>SARS income-tax registration confirmed</strong>
+                <span>Income-tax registration is confirmed by an official SARS Notice of Registration. The taxpayer reference number is not published.</span>
+              </div>
+            </div>
+
             <div className="registration-status">
               <BadgeCheck />
               <div>
-                <strong>Tax registered</strong>
-                <span>The company is registered for South African tax administration. This statement does not imply a separate tax-compliance certification.</span>
+                <strong>B-BBEE Level 1 Contributor</strong>
+                <span>135% procurement recognition on the supplied certificate.</span>
               </div>
             </div>
+
             <div className="registration-status">
-              <BadgeCheck />
+              <FileCheck2 />
               <div>
-                <strong>B-BBEE certificate on file</strong>
-                <span>Current verification documentation is available for legitimate due-diligence and procurement requests.</span>
+                <strong>Verification documents controlled</strong>
+                <span>Supporting documents can be supplied for legitimate procurement, partnership or due-diligence requests without exposing sensitive personal or tax identifiers publicly.</span>
               </div>
             </div>
+
             <p>
-              Regulator and public-body logos are only displayed where their published terms or written
-              permission expressly allow third-party use. Verification documents can be supplied directly
-              where appropriate.
+              Official regulator and public-body logos are only displayed where published licence terms
+              or written authorisation expressly allow the intended third-party use. Start To Up uses its
+              own verification indicators where such permission has not been established.
             </p>
           </div>
         </section>
+
         <section className="company-contact-band shell-width">
           <div>
             <span>START A CONVERSATION</span>
