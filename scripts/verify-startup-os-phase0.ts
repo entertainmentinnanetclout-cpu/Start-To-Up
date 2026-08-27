@@ -53,7 +53,9 @@ if (!/startup_os_provider_credentials/.test(sql)) throw new Error("Phase 0 migra
 if (/grant\s+(?:select|all|insert|update|delete)[\s\S]{0,120}startup_os_provider_credentials[\s\S]{0,120}to\s+authenticated/i.test(sql)) {
   throw new Error("Encrypted provider credentials must not be granted to authenticated browser clients");
 }
-if (!/issued_at[^;]+Never publish directly/i.test(sql) || !/expires_at[^;]+Never publish directly/i.test(sql)) {
+const issuedPrivate = /comment\s+on\s+column\s+public\.company_verification_records\.issued_at\s+is\s+'[^']*Never publish directly\.'/i.test(sql);
+const expiryPrivate = /comment\s+on\s+column\s+public\.company_verification_records\.expires_at\s+is\s+'[^']*Never publish directly\.'/i.test(sql);
+if (!issuedPrivate || !expiryPrivate) {
   throw new Error("Verification date fields must be explicitly documented as private-only metadata");
 }
 
