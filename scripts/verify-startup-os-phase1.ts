@@ -7,8 +7,10 @@ const read = (file: string) => fs.readFileSync(path.join(root, file), "utf8");
 const required = [
   "src/routes/app/validate.tsx",
   "src/lib/startup-os-phase1.ts",
+  "src/lib/startup-os-ad-library.ts",
   "src/startup-os-phase1.css",
   "supabase/migrations/20260827100000_startup_os_phase1_validation_intelligence.sql",
+  "supabase/migrations/20260827101000_startup_os_phase1_meta_ads_evidence.sql",
   "supabase/functions/startup-os-company-intelligence/index.ts",
   "docs/PHASE1_IMPLEMENTATION_SPEC.md",
 ];
@@ -57,15 +59,24 @@ if (!/not Core Web Vitals/i.test(edge)) throw new Error("Technical performance p
 if (!/evidence_confidence:\s*"observed"/.test(edge)) throw new Error("Public company facts must carry observed evidence confidence");
 if (/\broas\b|\bctr\b|\bcpa\b/i.test(edge)) throw new Error("Public Company Intelligence must not fabricate private Meta Ads performance metrics");
 
+const adLibrary = read("src/lib/startup-os-ad-library.ts");
+if (!/facebook\.com\/ads\/library/i.test(adLibrary)) throw new Error("Company Intelligence must provide an official Meta Ad Library review path");
+if (!/active_observed/.test(adLibrary) || !/none_observed/.test(adLibrary)) throw new Error("Meta Ad Library observations must retain explicit observed states");
+if (!/does not provide private spend, CTR, CPA, conversions or ROAS/i.test(adLibrary)) throw new Error("Meta observation workflow must disclose private-performance limitations");
+
+const metaSql = read("supabase/migrations/20260827101000_startup_os_phase1_meta_ads_evidence.sql");
+if (!/meta_ads_evidence_url/.test(metaSql) || !/meta_ads_checked_at/.test(metaSql)) throw new Error("Meta advertising observations must retain evidence URL and checked-at metadata");
+
 const ui = read("src/routes/app/validate.tsx");
 if (!/Google Places can be billable/i.test(ui)) throw new Error("Company search UI must warn users about Google Places billing before search");
 if (!/No website detected in source record/i.test(ui)) throw new Error("UI must use 'no website detected' rather than claiming a website does not exist");
 if (!/not a prediction of success/i.test(ui)) throw new Error("Idea Validator must explain that its score is not a success prediction");
 if (!/not a company-name or trademark clearance/i.test(ui)) throw new Error("Brand checker must not imply legal clearance");
+if (!/Check Meta Ad Library/i.test(ui)) throw new Error("Company results must provide a Meta Ad Library review action");
 
 const publicCompany = `${read("src/routes/company.tsx")}\n${read("src/routes/index.tsx")}`;
 for (const date of [/24\s+August\s+2026/i,/23[-\s]+August[-\s]+2026/i,/22[-\s]+August[-\s]+2027/i]) {
   if (date.test(publicCompany)) throw new Error("Phase 1 regressed the public verification-date privacy rule");
 }
 
-console.log(`Startup OS Phase 1 release contract passed: ${tables.length} research tables, deterministic scoring, evidence provenance, billing acknowledgements and scanner safety checks present.`);
+console.log(`Startup OS Phase 1 release contract passed: ${tables.length} research tables, deterministic scoring, evidence provenance, Google/SEO billing acknowledgements, Meta Ad Library observation controls and scanner safety checks present.`);
