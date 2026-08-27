@@ -29,6 +29,7 @@ import { supabase } from "../integrations/supabase/client";
 import { recordSessionActivity } from "../lib/startup-os-foundation";
 import { WebsiteStudioV6Enhancements } from "./website-studio-v6-enhancements";
 import "../app-shell-v6.css";
+import "../startup-os.css";
 
 const navigation = [
   { to: "/app/home", label: "Home", icon: Home, primary: false },
