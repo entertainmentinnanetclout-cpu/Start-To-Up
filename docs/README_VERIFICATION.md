@@ -1,0 +1,1 @@
+This directory contains internal documentation for the verified Start To Up company status and Startup OS roadmap. Public application code must avoid exposing private tax references, personal identity numbers or director residential addresses.
