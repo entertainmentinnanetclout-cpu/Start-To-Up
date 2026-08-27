@@ -152,7 +152,7 @@ function Index() {
           <div className="company-service-grid">
             <ServiceCard icon={<Lightbulb />} title="Venture strategy" text="Problem validation, business modelling, market positioning, founder roadmaps and commercial readiness." />
             <ServiceCard icon={<Code2 />} title="Product & technology" text="Premium websites, platforms, prototypes, business systems and production-minded software development." />
-            <ServiceCard icon={<LayoutTemplate />} title="Website Studio" text="Create branded, responsive business websites from a 24-template premium system, preview every device and export deployment-ready source." to="/website-studio" />
+            <ServiceCard icon={<LayoutTemplate />} title="Website Studio" text="Create branded, responsive business websites from premium template systems, preview every device and export deployment-ready source." to="/website-studio" />
             <ServiceCard icon={<Blocks />} title="Brand & go-to-market" text="Brand foundations, product storytelling, launch preparation, distribution and early customer acquisition." />
             <ServiceCard icon={<BarChart3 />} title="Operations & scale" text="Metrics, process design, financial control, partnerships, operating cadence and scalable growth systems." />
             <ServiceCard icon={<GraduationCap />} title="Founder development" text="Practical startup operating education, expert sessions, playbooks and structured company-building programmes." />
@@ -233,9 +233,9 @@ function Index() {
             <a href="#services">Services</a>
             <a href="#network">Network</a>
             <a href="#ventures">Ventures</a>
-            <Link preload="intent" to="/company">Company &amp; founder</Link>
+            <Link preload="intent" to="/company">Company &amp; verification</Link>
           </div>
-          <span>© 2026 Start To Up. Start To Up Innovation Group registration pending CIPC confirmation.</span>
+          <span>© 2026 Start To Up. Registered South African company • Tax registered • B-BBEE certificate on file.</span>
         </div>
       </footer>
     </div>
