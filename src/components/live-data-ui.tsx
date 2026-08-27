@@ -35,7 +35,7 @@ export function DataState({
 }
 
 export function AuthDeferred({ children }: { children?: React.ReactNode }) {
-  const path = useRouterState({ select: (state) => state.location.href });
+  const path = useRouterState({ select: (state) => state.location.pathname });
   function rememberReturn() {
     if (typeof window === "undefined") return;
     const safePath = path.startsWith("/") && !path.startsWith("//") ? path : "/app/home";
