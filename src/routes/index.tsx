@@ -235,7 +235,7 @@ function Index() {
             <a href="#ventures">Ventures</a>
             <Link preload="intent" to="/company">Company &amp; verification</Link>
           </div>
-          <span>© 2026 Start To Up. Registered South African company • Tax registered • B-BBEE certificate on file.</span>
+          <span>© 2026 Start To Up Innovation Group (Pty) Ltd • Reg. 2026/672029/07 • SARS income-tax registered • B-BBEE Level 1 Contributor.</span>
         </div>
       </footer>
     </div>
