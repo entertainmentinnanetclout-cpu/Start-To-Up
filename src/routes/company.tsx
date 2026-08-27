@@ -8,7 +8,8 @@ export const Route = createFileRoute("/company")({
       { title: "Company & Founder | Start To Up" },
       {
         name: "description",
-        content: "Meet Start To Up Innovation Group and founder Ayanda Lawrence Msizi Dube.",
+        content:
+          "Meet Start To Up Innovation Group, a registered South African company with tax registration and a B-BBEE certificate on file, and founder Ayanda Lawrence Msizi Dube.",
       },
     ],
   }),
@@ -59,10 +60,29 @@ function CompanyPage() {
             <div className="registration-status">
               <BadgeCheck />
               <div>
-                <strong>Registration in progress</strong>
-                <span>Company registration and name confirmation are being processed by CIPC.</span>
+                <strong>Registered South African company</strong>
+                <span>Company registration is complete and the business is operating as a registered entity.</span>
               </div>
             </div>
+            <div className="registration-status">
+              <BadgeCheck />
+              <div>
+                <strong>Tax registered</strong>
+                <span>The company is registered for South African tax administration. This statement does not imply a separate tax-compliance certification.</span>
+              </div>
+            </div>
+            <div className="registration-status">
+              <BadgeCheck />
+              <div>
+                <strong>B-BBEE certificate on file</strong>
+                <span>Current verification documentation is available for legitimate due-diligence and procurement requests.</span>
+              </div>
+            </div>
+            <p>
+              Regulator and public-body logos are only displayed where their published terms or written
+              permission expressly allow third-party use. Verification documents can be supplied directly
+              where appropriate.
+            </p>
           </div>
         </section>
         <section className="company-contact-band shell-width">
