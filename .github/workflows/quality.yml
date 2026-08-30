@@ -38,6 +38,8 @@ jobs:
         run: npx --yes tsx@4.20.6 scripts/verify-startup-os-phase5.ts
       - name: Verify Startup OS Phase 6 operations and teams
         run: npx --yes tsx@4.20.6 scripts/verify-startup-os-phase6.ts
+      - name: Verify Startup OS Phase 7 legal and compliance
+        run: npx --yes tsx@4.20.6 scripts/verify-startup-os-phase7.ts
       - name: Build Start To Up
         run: npm run build
       - name: Verify Website Studio V6 project model
