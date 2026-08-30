@@ -22,7 +22,7 @@ export async function loadOperationsWorkspace(org:string){const calls=await Prom
 async function insert(table:string,org:string,values:Record<string,unknown>){const {data,error}=await db.from(table).insert({organization_id:org,...values,created_by:await actor()}).select("*").single();if(error)throw error;return data;}
 export const createOkr=(org:string,v:Record<string,unknown>)=>insert("ops_okrs",org,v);
 export async function addKeyResult(org:string,v:Record<string,unknown>){const {data,error}=await db.from("ops_key_results").insert({organization_id:org,...v}).select("*").single();if(error)throw error;return data;}
-export const logDecision=(org:string,v:Record<string,unknown>)=>insert("ops_decisions",org,{...v,decided_by:null});
+export async function logDecision(org:string,v:Record<string,unknown>){const {data,error}=await db.from("ops_decisions").insert({organization_id:org,...v,decided_by:await actor()}).select("*").single();if(error)throw error;return data;}
 export const addRisk=(org:string,v:Record<string,unknown>)=>insert("ops_risks",org,v);
 export const addHiringPlan=(org:string,v:Record<string,unknown>)=>insert("ops_hiring_plans",org,v);
 export const addJobRole=(org:string,v:Record<string,unknown>)=>insert("ops_job_roles",org,v);
