@@ -1,6 +1,5 @@
 import { applyStudioTemplate, studioTemplates, type StudioTemplatePreset } from "./website-studio-template-catalog";
 import { ensureStudioV6Draft, type StudioV6Draft, type StudioV6Page, type StudioV6Section } from "./website-studio-v6";
-import { hasVisualContract } from "./website-studio-visual-contracts";
 
 const uid = (value: string) => `ent-${value}`;
 const responsive = {
@@ -8,6 +7,11 @@ const responsive = {
   tablet: { fontScale: .94, spacingScale: .86, columns: 2, hidden: false, imageFit: "cover" as const, imagePosition: "50% 50%" },
   mobile: { fontScale: .88, spacingScale: .7, columns: 1, hidden: false, imageFit: "cover" as const, imagePosition: "50% 50%" },
 };
+
+export const existingApprovedVisualKeys = new Set([
+  "newsroom-pro","edulaunch","medica-clinic","atelier-mode","table-flame","habitat-property",
+  "studio-north","neon-foundry","pulse-saas","campus-living",
+]);
 
 function section(key: string, title: string, order: number, content: Record<string, unknown> = {}): StudioV6Section {
   return { id: uid(`section-${key}`), key, type: "custom", title, order, columns: 1, content, style: { paddingTop: 64, paddingBottom: 64, background: "", width: "contained", align: "left" }, responsive };
@@ -18,50 +22,34 @@ function page(slug: string, title: string, order: number, sections: StudioV6Sect
 
 export const entertainmentTemplates: StudioTemplatePreset[] = [
   {
-    key: "rap-cut-producer",
-    name: "Rap Cut — Producer",
-    category: "events",
-    family: "Music Producer",
+    key: "rap-cut-producer", name: "Rap Cut — Producer", category: "events", family: "Music Producer",
     description: "Neon-black producer system for beats, placements, videos, sessions, merch, live streams and bookings.",
     tags: ["producer", "beats", "studio", "music", "merch", "streaming"],
     preview: { primary: "#7cff00", secondary: "#050705", accent: "#b7ff53", surface: "#0b0e0c", mood: "dark" },
     brand: { primary: "#7cff00", secondary: "#050705", accent: "#b7ff53", surface: "#0b0e0c", text: "#f7f9f2", fontFamily: "DM Sans", heroStyle: "split", navStyle: "dark", cardStyle: "glass", buttonStyle: "square", radius: 14, logoText: "RAP CUT THE JUICE" },
     site: {
-      headline: "RAP CUT",
-      tagline: "High quality beats, industry-ready sound, next-level visuals and live content. Let’s build something that hits different.",
-      description: "Producer. Artist. Creative direction. Cut the noise. Keep the juice.",
-      primaryCta: "LISTEN TO BEATS",
-      secondaryCta: "BOOK A SESSION",
-      announcement: "NEW BEATS · VIDEOS · MERCH · LIVE EVENTS",
-      location: "South Africa",
+      headline: "RAP CUT", tagline: "High quality beats, industry-ready sound, next-level visuals and live content. Let’s build something that hits different.",
+      description: "Producer. Artist. Creative direction. Cut the noise. Keep the juice.", primaryCta: "LISTEN TO BEATS", secondaryCta: "BOOK A SESSION",
+      announcement: "NEW BEATS · VIDEOS · MERCH · LIVE EVENTS", location: "South Africa",
       services: ["Music Production", "Mixing & Mastering", "Collaboration", "Creative Direction", "Bookings"],
-      highlights: ["120M+ Streams", "250+ Placements", "10+ Years"],
-      process: ["Choose a beat", "Preview the sound", "Book or license when payments launch"],
+      highlights: ["120M+ Streams", "250+ Placements", "10+ Years"], process: ["Choose a beat", "Preview the sound", "Book or license when payments launch"],
       testimonials: ["One of the hardest producers out right now. Every beat is crazy and original."],
       stats: [{ value: "120M+", label: "Streams" }, { value: "250+", label: "Placements" }, { value: "10+", label: "Years" }],
       showAnnouncement: false, showServices: true, showHighlights: true, showProcess: true, showTestimonials: true, showStats: true, showGallery: true, showContact: true,
     },
   },
   {
-    key: "rap-cut-artist",
-    name: "Rap Cut — Artist",
-    category: "events",
-    family: "Music Artist",
+    key: "rap-cut-artist", name: "Rap Cut — Artist", category: "events", family: "Music Artist",
     description: "Premium artist system for releases, videos, performances, merch, fan capture, collaborations and bookings.",
     tags: ["artist", "musician", "performer", "music", "tour", "merch"],
     preview: { primary: "#7cff00", secondary: "#050705", accent: "#b7ff53", surface: "#0b0e0c", mood: "dark" },
     brand: { primary: "#7cff00", secondary: "#050705", accent: "#b7ff53", surface: "#0b0e0c", text: "#f7f9f2", fontFamily: "DM Sans", heroStyle: "split", navStyle: "dark", cardStyle: "glass", buttonStyle: "square", radius: 14, logoText: "RAP CUT THE JUICE" },
     site: {
-      headline: "RAP CUT",
-      tagline: "Artist. Storyteller. Game changer. Bringing raw energy, real music and unforgettable performances to every stage.",
-      description: "Artist. Creator. Visionary. More than music — this is culture.",
-      primaryCta: "LISTEN NOW",
-      secondaryCta: "BOOK A SHOW",
-      announcement: "NEW MUSIC · VIDEOS · TOUR DATES · EXCLUSIVE DROPS",
-      location: "South Africa",
+      headline: "RAP CUT", tagline: "Artist. Storyteller. Game changer. Bringing raw energy, real music and unforgettable performances to every stage.",
+      description: "Artist. Creator. Visionary. More than music — this is culture.", primaryCta: "LISTEN NOW", secondaryCta: "BOOK A SHOW",
+      announcement: "NEW MUSIC · VIDEOS · TOUR DATES · EXCLUSIVE DROPS", location: "South Africa",
       services: ["Artist Development", "Songwriting", "Live Performances", "Brand Collaborations", "Creative Direction"],
-      highlights: ["85M+ Streams", "120+ Shows", "6 Projects"],
-      process: ["Discover the music", "Watch the visuals", "Join the next live moment"],
+      highlights: ["85M+ Streams", "120+ Shows", "6 Projects"], process: ["Discover the music", "Watch the visuals", "Join the next live moment"],
       testimonials: ["A rare energy and authenticity. This is not just music — it is a movement."],
       stats: [{ value: "85M+", label: "Streams" }, { value: "120+", label: "Shows" }, { value: "6", label: "Projects" }],
       showAnnouncement: false, showServices: true, showHighlights: true, showProcess: true, showTestimonials: true, showStats: true, showGallery: true, showContact: true,
@@ -71,11 +59,14 @@ export const entertainmentTemplates: StudioTemplatePreset[] = [
 
 export const entertainmentTemplateKeys = new Set(entertainmentTemplates.map((item) => item.key));
 export function isEntertainmentTemplate(value: unknown): boolean { return entertainmentTemplateKeys.has(String(value || "")); }
-
 export const publishedStudioTemplates: StudioTemplatePreset[] = [
-  ...studioTemplates.filter((template) => hasVisualContract(template.key)),
+  ...studioTemplates.filter((template) => existingApprovedVisualKeys.has(template.key)),
   ...entertainmentTemplates,
 ];
+
+export const templateCommercialDefaults: Record<string, { access: "paid" | "free"; priceCents: number | null; currency: "ZAR"; approvalRequired: boolean }> = Object.fromEntries(
+  publishedStudioTemplates.map((item) => [item.key, { access: "paid", priceCents: null, currency: "ZAR", approvalRequired: true }]),
+);
 
 export function applyEntertainmentPages(input: StudioV6Draft): StudioV6Draft {
   if (!isEntertainmentTemplate(input.templateKey)) return input;
@@ -84,12 +75,8 @@ export function applyEntertainmentPages(input: StudioV6Draft): StudioV6Draft {
   const commonHome = [
     section("hero", "Hero", 0, { variant: producer ? "producer" : "artist" }),
     section("featured", producer ? "Featured Beats" : "Featured Tracks", 1),
-    section("videos", "Music Videos & Clips", 2),
-    section("services", "Services", 3),
-    section("merch", "Merch", 4),
-    section("events", "Live Events & Streams", 5),
-    section("collaborators", "Testimonials & Collaborators", 6),
-    section("newsletter", "Stay Updated", 7),
+    section("videos", "Music Videos & Clips", 2), section("services", "Services", 3), section("merch", "Merch", 4),
+    section("events", "Live Events & Streams", 5), section("collaborators", "Testimonials & Collaborators", 6), section("newsletter", "Stay Updated", 7),
   ];
   const pages: StudioV6Page[] = producer ? [
     page("", "Home", 0, commonHome, next.businessName),
