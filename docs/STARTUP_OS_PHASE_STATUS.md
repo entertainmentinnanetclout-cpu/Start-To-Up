@@ -11,8 +11,8 @@ This file is the implementation tracker. A phase is only marked **COMPLETE** aft
 | 4 — Sales, CRM & Revenue Operations | COMPLETE | CRM, pipeline, proposals, quotes/invoices, forecasting, lead magnets, referrals, affiliates, reputation, support |
 | 5 — Marketing & Growth | COMPLETE | Campaigns, budget, content, UTM, SEO growth, experiments, KPIs, retention, attribution, paid-media evidence |
 | 6 — Operations, Teams & Execution | COMPLETE | Founder Command Centre, OKRs, decisions, risks, hiring, ATS, vendors, meetings, renewals |
-| 7 — Legal, Compliance & Administration | PLANNED | Compliance, contracts, e-sign, documents, tenders, supplier readiness |
-| 8 — Funding & Investor Readiness | PLANNED | Funding finder, investor CRM, pitch deck, data room, readiness |
+| 7 — Legal, Compliance & Administration | COMPLETE | Compliance dashboard, company setup, private documents, contracts, e-sign, tenders, supplier readiness, deadlines and due diligence |
+| 8 — Funding & Investor Readiness | COMPLETE | Funding finder, investor CRM, pitch deck, evidence-derived readiness, secure data room, round/cap-table and valuation scenarios |
 | 9 — Network, Partnerships & Opportunity Marketplace | PLANNED | Matching, opportunities, collaborations, programmes |
 | 10 — Intelligence, Automation & Safe Assistance | PLANNED | Safe assistance, next-best actions, workflow automation |
 
@@ -31,5 +31,13 @@ Phase 5 merged through PR #22 as commit `a4e53a0c7098cbed7752358ae20df1b41785de2
 ## Phase 6 release record
 
 Phase 6 merged through PR #24 as commit `599215bb921c75344cd7d68cb3a07130941b0e70`. Its build, Phase 0/1/3/4/5/6 release contracts, Website Studio project/export tests and approved-template visual-fidelity gate all passed. The Founder Command Centre derives operating health from actual workspace records and the OKR, decision, risk, hiring, job-description, applicant, vendor, meeting and renewal tools are workspace-scoped in the committed backend model. The exact merge commit was successfully deployed by Vercel.
+
+## Phase 7 release record
+
+Phase 7 merged through PR #25 as commit `06981ea7308c6c9e3430818adbf8460cc1c8b017`. Its Phase 0–7 release contracts, full application build, Website Studio project/export builds and approved-template visual-fidelity gate passed. It adds a private legal/compliance data model, private document storage policies, structured legal draft builders, auditable signing workflow, tender and supplier readiness, private deadline management and expiring due-diligence shares. The exact merge commit was successfully deployed by Vercel. The Supabase migration and public legal gateway source are committed; live Supabase application/deployment must be independently verified when the management connector is available.
+
+## Phase 8 release record
+
+Phase 8 merged through PR #26 as commit `25ff9d082944489e461cb5693925f80d69181b2e`. The first release gate caught and corrected a Funding Finder score-normalisation defect; the corrected head then passed the Phase 0–8 contracts, full application build, Website Studio project/export builds and approved-template visual-fidelity gate. Investor readiness is derived from actual verification, legal/financial, revenue, growth, risk, pitch, cap-table and data-room evidence rather than self-declaration. The Supabase migration and investor data-room gateway source are committed; live Supabase application/deployment must be independently verified when the management connector is available.
 
 Public company pages continue to exclude registration dates, certificate issue dates and certificate expiry dates.
