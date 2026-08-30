@@ -9,6 +9,8 @@ import {
   generateDeployableProjectFiles as generateV6Files,
   generateDeployableProjectBundle as generateV6Bundle,
 } from "./website-studio-project-export-v6";
+import { generateEntertainmentProjectBundle, generateEntertainmentProjectFiles } from "./website-studio-entertainment-export";
+import { isEntertainmentTemplate } from "./website-studio-entertainment-templates";
 
 function patchPublicRuntime(files: GeneratedProjectFiles, raw: WebsiteStudioDraft | StudioV6Draft) {
   const token = raw.integrations?.supabase?.publicSubmitToken || "";
@@ -30,11 +32,13 @@ function patchPublicRuntime(files: GeneratedProjectFiles, raw: WebsiteStudioDraf
 }
 
 export function generateDeployableProjectFiles(raw: WebsiteStudioDraft | StudioV6Draft): GeneratedProjectFiles {
-  return patchPublicRuntime(generateV6Files(raw), raw);
+  const generated = isEntertainmentTemplate(raw.templateKey) ? generateEntertainmentProjectFiles(raw) : generateV6Files(raw);
+  return patchPublicRuntime(generated, raw);
 }
 
 export async function generateDeployableProjectBundle(raw: WebsiteStudioDraft | StudioV6Draft, loadAsset?: WebsiteStudioAssetLoader): Promise<GeneratedProjectFiles> {
-  return patchPublicRuntime(await generateV6Bundle(raw, loadAsset), raw);
+  const generated = isEntertainmentTemplate(raw.templateKey) ? await generateEntertainmentProjectBundle(raw, loadAsset) : await generateV6Bundle(raw, loadAsset);
+  return patchPublicRuntime(generated, raw);
 }
 
 export async function downloadProjectZip(raw: WebsiteStudioDraft | StudioV6Draft) {
