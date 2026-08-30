@@ -22,6 +22,7 @@ import {
   Radio,
   Search,
   ShieldCheck,
+  Sparkles,
   TrendingUp,
   UserRound,
   WalletCards,
@@ -51,6 +52,7 @@ const startupOsNavigation = [
   { to: "/app/compliance", label: "Compliance", icon: ShieldCheck },
   { to: "/app/funding", label: "Funding & investors", icon: WalletCards },
   { to: "/app/opportunities", label: "Network & opportunities", icon: Handshake },
+  { to: "/app/intelligence", label: "Intelligence & automation", icon: Sparkles },
   { to: "/app/integrations", label: "Integrations", icon: PlugZap },
 ] as const;
 
@@ -89,6 +91,7 @@ const mobileMoreNavigation = [
   { to: "/app/compliance", label: "Compliance", icon: ShieldCheck, description: "Legal drafts, private documents, signatures, tenders, supplier readiness and due diligence" },
   { to: "/app/funding", label: "Funding & investors", icon: WalletCards, description: "Funding finder, investor CRM, pitch deck, data room, readiness, cap table and valuation scenarios" },
   { to: "/app/opportunities", label: "Network & opportunities", icon: Handshake, description: "Directory, partnerships, suppliers, pilots, programmes and structured marketplace handoffs" },
+  { to: "/app/intelligence", label: "Intelligence & automation", icon: Sparkles, description: "Safe assistant, next actions, localisation, reviewed change sets and approval-first automations" },
   { to: "/app/integrations", label: "Integrations", icon: PlugZap, description: "Connect external services in three guided steps" },
   { to: "/app/website-studio-templates", label: "Website templates", icon: LayoutTemplate, description: "Choose from premium business starters" },
   { to: "/app/website-studio-v6", label: "Website studio", icon: LayoutTemplate, description: "Build, customize, integrate, export and deploy websites" },
