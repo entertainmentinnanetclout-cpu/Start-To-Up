@@ -75,7 +75,7 @@ begin
  select count(*) into active_campaigns from public.growth_campaigns where organization_id=org_id and status='active';
  select count(*) into critical_risks from public.ops_risks where organization_id=org_id and status in ('open','monitoring') and risk_score>=15;
  select count(*) into overdue_compliance from public.legal_obligations where organization_id=org_id and status not in ('complete','not_applicable') and due_date is not null and due_date<current_date;
- select coalesce((select score from public.funding_readiness_snapshots where organization_id=org_id order by created_at desc limit 1),0) into readiness;
+ select coalesce((select overall_score from public.funding_readiness_snapshots where organization_id=org_id order by created_at desc limit 1),0) into readiness;
  select count(*) into saved_opps from public.ecosystem_saved_opportunities where organization_id=org_id and status in ('saved','reviewing','applying');
  if overdue_compliance>0 then actions:=actions||jsonb_build_array(jsonb_build_object('module','compliance','priority',95,'title','Resolve overdue compliance obligations','path','/app/compliance','evidence',jsonb_build_object('count',overdue_compliance))); end if;
  if critical_risks>0 then actions:=actions||jsonb_build_array(jsonb_build_object('module','operations','priority',90,'title','Mitigate critical operating risks','path','/app/operations','evidence',jsonb_build_object('count',critical_risks))); end if;
