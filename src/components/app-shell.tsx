@@ -48,6 +48,7 @@ const startupOsNavigation = [
   { to: "/app/revenue", label: "Revenue OS", icon: BadgeDollarSign },
   { to: "/app/growth", label: "Growth", icon: TrendingUp },
   { to: "/app/operations", label: "Operations", icon: BriefcaseBusiness },
+  { to: "/app/compliance", label: "Compliance", icon: ShieldCheck },
   { to: "/app/integrations", label: "Integrations", icon: PlugZap },
 ] as const;
 
@@ -83,6 +84,7 @@ const mobileMoreNavigation = [
   { to: "/app/revenue", label: "Revenue OS", icon: BadgeDollarSign, description: "CRM, pipeline, proposals, quotes, invoices and customer operations" },
   { to: "/app/growth", label: "Growth", icon: TrendingUp, description: "Campaigns, content, SEO, experiments, KPIs, retention and attribution" },
   { to: "/app/operations", label: "Operations", icon: BriefcaseBusiness, description: "Founder command centre, OKRs, risks, hiring, vendors, meetings and renewals" },
+  { to: "/app/compliance", label: "Compliance", icon: ShieldCheck, description: "Legal drafts, private documents, signatures, tenders, supplier readiness and due diligence" },
   { to: "/app/integrations", label: "Integrations", icon: PlugZap, description: "Connect external services in three guided steps" },
   { to: "/app/website-studio-templates", label: "Website templates", icon: LayoutTemplate, description: "Choose from premium business starters" },
   { to: "/app/website-studio-v6", label: "Website studio", icon: LayoutTemplate, description: "Build, customize, integrate, export and deploy websites" },
