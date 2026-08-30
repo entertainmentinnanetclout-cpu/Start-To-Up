@@ -28,6 +28,8 @@ jobs:
         run: npm install --ignore-scripts
       - name: Verify Startup OS Phase 0 foundation
         run: npx --yes tsx@4.20.6 scripts/verify-startup-os-phase0.ts
+      - name: Verify Startup OS Phase 1 validation and intelligence
+        run: npx --yes tsx@4.20.6 scripts/verify-startup-os-phase1.ts
       - name: Build Start To Up
         run: npm run build
       - name: Verify Website Studio V6 project model

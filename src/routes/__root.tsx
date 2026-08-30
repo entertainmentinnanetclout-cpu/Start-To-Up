@@ -14,6 +14,8 @@ import uxSpeedCss from "../ux-speed.css?url";
 import startupAuthorityCss from "../startup-authority.css?url";
 import mobilePolishCss from "../mobile-polish.css?url";
 import websiteStudioV2Css from "../website-studio-v2.css?url";
+import startupOsCss from "../startup-os.css?url";
+import startupOsPhase1Css from "../startup-os-phase1.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 const primaryDomain = "https://www.start-to-up.co.za";
@@ -80,6 +82,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: startupAuthorityCss },
       { rel: "stylesheet", href: mobilePolishCss },
       { rel: "stylesheet", href: websiteStudioV2Css },
+      { rel: "stylesheet", href: startupOsCss },
+      { rel: "stylesheet", href: startupOsPhase1Css },
       { rel: "canonical", href: primaryDomain },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
       { rel: "apple-touch-icon", href: "/brand/apple-touch-icon.png" },
