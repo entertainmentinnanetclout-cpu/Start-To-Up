@@ -36,7 +36,7 @@ for(const page of ["Home","Music","Videos","Events","Merch","About","Contact"])i
 if(producer.studioV6.pages[0].sections.length<8||artist.studioV6.pages[0].sections.length<8)throw new Error("Entertainment homepage must retain combined premium section system.");
 
 const producerHtml=renderStudioHtml(producer);
-for(const marker of ["FEATURED BEATS","MUSIC VIDEOS & CLIPS","SERVICES","MERCH","LIVE EVENTS & STREAMS","TESTIMONIALS & COLLABORATORS","JOIN THE RCTJ LIST"])if(!producerHtml.includes(marker))throw new Error(`Producer visual contract missing ${marker}`);
+for(const marker of ["FEATURED BEATS","MUSIC VIDEOS &amp; CLIPS","SERVICES","MERCH","LIVE EVENTS &amp; STREAMS","TESTIMONIALS &amp; COLLABORATORS","JOIN THE RCTJ LIST"])if(!producerHtml.includes(marker))throw new Error(`Producer visual contract missing ${marker}`);
 const artistHtml=renderStudioHtml(artist);
 for(const marker of ["FEATURED TRACKS","ARTIST · PERFORMER · CREATIVE","BOOK A SHOW"])if(!artistHtml.includes(marker))throw new Error(`Artist visual contract missing ${marker}`);
 producer.studioV6.activePageSlug="merch";
