@@ -32,6 +32,8 @@ jobs:
         run: npx --yes tsx@4.20.6 scripts/verify-startup-os-phase1.ts
       - name: Verify Website Studio Phase 3 entertainment and access controls
         run: npx --yes tsx@4.20.6 scripts/verify-website-studio-entertainment-access.ts
+      - name: Verify Startup OS Phase 4 revenue operations
+        run: npx --yes tsx@4.20.6 scripts/verify-startup-os-phase4.ts
       - name: Build Start To Up
         run: npm run build
       - name: Verify Website Studio V6 project model
