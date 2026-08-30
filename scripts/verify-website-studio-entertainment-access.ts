@@ -52,7 +52,7 @@ for(const route of ["/music","/videos","/events","/merch","/about","/contact"])i
 const editor=read("src/routes/app/website-studio-v6-pro.tsx");
 if(!/sandbox=\"allow-same-origin\"/.test(editor))throw new Error("Visual preview must be sandboxed without navigation permissions.");
 if(!/preventDefault\(\).*stopPropagation\(\)/s.test(editor))throw new Error("Visual preview must intercept navigation during editing.");
-if(!/data\.studioPage/.test(editor))throw new Error("Multi-page preview must switch parent source rather than navigate the iframe.");
+if(!/dataset\.studioPage/.test(editor))throw new Error("Multi-page preview must switch parent source rather than navigate the iframe.");
 if(!/Double-click desktop · double-tap mobile/.test(editor))throw new Error("Contextual visual editing affordance missing.");
 if(/readAsDataUrl/.test(editor))throw new Error("Unsigned local image upload fallback must not return; image upload requires signed-in approved media storage.");
 
