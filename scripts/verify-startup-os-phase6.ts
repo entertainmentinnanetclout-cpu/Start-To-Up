@@ -1,0 +1,22 @@
+import fs from "node:fs";
+import path from "node:path";
+import { calculateHiringMonthlyCost, calculateKeyResultProgress, calculateOkrProgress, calculateRiskScore, riskLevel } from "../src/lib/startup-os-phase6";
+const root=process.cwd();const read=(p:string)=>fs.readFileSync(path.join(root,p),"utf8");
+const required=["src/lib/startup-os-phase6.ts","src/routes/app/operations.tsx","src/startup-os-phase6.css","supabase/migrations/20260830150000_startup_os_phase6_operating_company.sql"];
+for(const p of required)if(!fs.existsSync(path.join(root,p)))throw new Error(`Phase 6 file missing: ${p}`);
+const migration=read(required[3]);
+const tables=["ops_okrs","ops_key_results","ops_decisions","ops_risks","ops_hiring_plans","ops_job_descriptions","ops_candidates","ops_candidate_events","ops_vendors","ops_vendor_engagements","ops_meetings","ops_meeting_actions","ops_renewals","ops_command_snapshots"];
+for(const t of tables){if(!migration.includes(`public.${t}`))throw new Error(`Missing Phase 6 table ${t}`);if(!migration.includes(`'${t}'`))throw new Error(`Phase 6 RLS loop missing ${t}`);}
+for(const fn of ["ops_command_centre","ops_refresh_okrs"])if(!migration.includes(fn))throw new Error(`Missing Phase 6 workflow ${fn}`);
+for(const control of ["private.startup_workspace_member","private.workspace_has_permission","company.manage","enable row level security"])if(!migration.includes(control))throw new Error(`Phase 6 workspace security contract missing ${control}`);
+if(!migration.includes("revenue_opportunities")||!migration.includes("growth_campaigns")||!migration.includes("workspace_tasks")||!migration.includes("company_verification_records"))throw new Error("Command Centre must derive from real cross-module workspace data.");
+if(calculateRiskScore(5,4)!==20||riskLevel(20)!=="critical"||riskLevel(15)!=="high"||riskLevel(8)!=="medium")throw new Error("Risk scoring regression");
+if(Math.round(calculateKeyResultProgress(0,50,100))!==50)throw new Error("Key-result progress regression");
+if(Math.round(calculateOkrProgress([{start_value:0,current_value:50,target_value:100},{start_value:0,current_value:100,target_value:100}]))!==75)throw new Error("OKR progress regression");
+const hiring=calculateHiringMonthlyCost(20000,30000);if(hiring.midpoint!==25000||hiring.annualMidpoint!==300000)throw new Error("Hiring cost math regression");
+const route=read(required[1]);
+for(const label of ["FOUNDER COMMAND CENTRE","OKR Tracker","Decision Log","Risk Register","Hiring Planner","Job Description Builder","Applicant Tracking System","Freelancer / Vendor Manager","Meeting Workspace","Renewal & Deadline Tracker"])if(!route.includes(label))throw new Error(`Phase 6 UI surface missing ${label}`);
+if(!route.includes("actual workspace records"))throw new Error("Command Centre must disclose that health derives from workspace data.");
+if(!route.includes("does not publish certificate, registration or expiry dates"))throw new Error("Public verification-date privacy must remain explicit in Phase 6 renewal UI.");
+const shell=read("src/components/app-shell.tsx");if(!shell.includes('/app/operations')||!shell.includes('Operations'))throw new Error("Phase 6 navigation missing.");
+console.log(`Startup OS Phase 6 release contract passed: ${tables.length} operations tables, 10 operating-company surfaces, cross-module Command Centre, deterministic OKR/risk calculations and workspace RLS.`);

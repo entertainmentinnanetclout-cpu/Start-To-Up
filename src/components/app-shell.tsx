@@ -3,6 +3,7 @@ import {
   BadgeDollarSign,
   BarChart3,
   Bell,
+  BriefcaseBusiness,
   Building2,
   CalendarDays,
   Compass,
@@ -46,6 +47,7 @@ const startupOsNavigation = [
   { to: "/app/validate", label: "Validate & research", icon: Compass },
   { to: "/app/revenue", label: "Revenue OS", icon: BadgeDollarSign },
   { to: "/app/growth", label: "Growth", icon: TrendingUp },
+  { to: "/app/operations", label: "Operations", icon: BriefcaseBusiness },
   { to: "/app/integrations", label: "Integrations", icon: PlugZap },
 ] as const;
 
@@ -80,6 +82,7 @@ const mobileMoreNavigation = [
   { to: "/app/validate", label: "Validate & research", icon: Compass, description: "Validate ideas, markets, companies and customer evidence" },
   { to: "/app/revenue", label: "Revenue OS", icon: BadgeDollarSign, description: "CRM, pipeline, proposals, quotes, invoices and customer operations" },
   { to: "/app/growth", label: "Growth", icon: TrendingUp, description: "Campaigns, content, SEO, experiments, KPIs, retention and attribution" },
+  { to: "/app/operations", label: "Operations", icon: BriefcaseBusiness, description: "Founder command centre, OKRs, risks, hiring, vendors, meetings and renewals" },
   { to: "/app/integrations", label: "Integrations", icon: PlugZap, description: "Connect external services in three guided steps" },
   { to: "/app/website-studio-templates", label: "Website templates", icon: LayoutTemplate, description: "Choose from premium business starters" },
   { to: "/app/website-studio-v6", label: "Website studio", icon: LayoutTemplate, description: "Build, customize, integrate, export and deploy websites" },
