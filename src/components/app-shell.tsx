@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
+  BadgeDollarSign,
   BarChart3,
   Bell,
   Building2,
@@ -42,6 +43,7 @@ const navigation = [
 const startupOsNavigation = [
   { to: "/app/startup-os", label: "Startup OS", icon: LayoutDashboard },
   { to: "/app/validate", label: "Validate & research", icon: Compass },
+  { to: "/app/revenue", label: "Revenue OS", icon: BadgeDollarSign },
   { to: "/app/integrations", label: "Integrations", icon: PlugZap },
 ] as const;
 
@@ -74,6 +76,7 @@ const mobileNavigation = [
 const mobileMoreNavigation = [
   { to: "/app/startup-os", label: "Startup OS", icon: LayoutDashboard, description: "Your secure company operating workspace" },
   { to: "/app/validate", label: "Validate & research", icon: Compass, description: "Validate ideas, markets, companies and customer evidence" },
+  { to: "/app/revenue", label: "Revenue OS", icon: BadgeDollarSign, description: "CRM, pipeline, proposals, quotes, invoices and customer operations" },
   { to: "/app/integrations", label: "Integrations", icon: PlugZap, description: "Connect external services in three guided steps" },
   { to: "/app/website-studio-templates", label: "Website templates", icon: LayoutTemplate, description: "Choose from premium business starters" },
   { to: "/app/website-studio-v6", label: "Website studio", icon: LayoutTemplate, description: "Build, customize, integrate, export and deploy websites" },
