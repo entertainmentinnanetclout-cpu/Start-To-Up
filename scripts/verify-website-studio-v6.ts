@@ -39,6 +39,9 @@ for (const marker of [
 const sheetSource = await readFile("src/components/ui/sheet.tsx", "utf8");
 for (const marker of ['data-side-panel="true"', 'aria-label="Close panel"', '92vw', '100dvh']) if (!sheetSource.includes(marker)) throw new Error(`Canonical side-sheet contract missing: ${marker}`);
 
+const drawerSource = await readFile("src/components/ui/drawer.tsx", "utf8");
+for (const marker of ['data-drawer-panel="true"', 'aria-label="Close drawer"', 'max-h-[calc(100dvh-16px)]', 'overscroll-contain']) if (!drawerSource.includes(marker)) throw new Error(`Canonical drawer contract missing: ${marker}`);
+
 const shellSource = await readFile("src/components/app-shell.tsx", "utf8");
 for (const marker of ['/app/website-studio-v6-pro', 'Interactive exact template preview', 'forceExactPreview={false}', 'showIntegrations={false}']) if (!shellSource.includes(marker)) throw new Error(`V6 Pro contextual-editor integration missing: ${marker}`);
 
