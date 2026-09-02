@@ -6,6 +6,7 @@ on:
       - main
       - 'feat/**'
       - 'fix/**'
+      - 'chore/**'
   pull_request:
     branches:
       - main
@@ -26,6 +27,8 @@ jobs:
           cache-dependency-path: package.json
       - name: Install dependencies
         run: npm install --ignore-scripts
+      - name: Verify Startup OS full backend contract
+        run: npx --yes tsx@4.20.6 scripts/verify-startup-os-backend.ts
       - name: Verify Startup OS Phase 0 foundation
         run: npx --yes tsx@4.20.6 scripts/verify-startup-os-phase0.ts
       - name: Verify Startup OS Phase 1 validation and intelligence
