@@ -54,8 +54,17 @@ if(!legal.includes('legal-documents')||!/values\s*\(\s*'legal-documents'\s*,\s*'
 if(!legal.includes('signer_token')||!legal.includes('public_token'))throw new Error('Legal public flows must remain scoped by unguessable tokens.');
 if(!funding.includes('public_token'))throw new Error('Investor data-room public gateway token missing.');
 
+// Allow privacy disclosure copy such as “the taxpayer reference number is not published”.
+// Reject actual known private dates or number-like taxpayer references in public route source.
 const publicFiles=['src/routes/index.tsx','src/routes/company.tsx'].filter(exists);
-const forbidden=[/certificate\s+(issue|expiry)\s+date/i,/registration\s+date/i,/taxpayer\s+(reference|number)/i];
-for(const file of publicFiles){const body=read(file);for(const re of forbidden)if(re.test(body))throw new Error(`Public verification privacy regression in ${file}: ${re}`);}
+const forbidden:[RegExp,string][]=[
+  [/24\s+August\s+2026/i,'registration date'],
+  [/23\s+August\s+2026/i,'certificate issue date'],
+  [/22\s+August\s+2027/i,'certificate expiry date'],
+  [/taxpayer\s+(?:reference|ref)\s*(?:number|no\.?|:)\s*[:#-]?\s*\d{6,}/i,'taxpayer reference number'],
+];
+for(const file of publicFiles){const body=read(file);for(const [re,label] of forbidden)if(re.test(body))throw new Error(`Public verification privacy regression in ${file}: ${label}`);}
+const publicationPolicy=read('docs/VERIFICATION_PUBLICATION_POLICY.md');
+for(const required of ['must **not** publish','registration/effective dates','certificate issue dates','certificate expiry dates','SARS taxpayer reference number'])if(!publicationPolicy.includes(required))throw new Error(`Verification publication policy is missing: ${required}`);
 
 console.log(`Startup OS backend contract passed: ${migrations.length} migrations with unique versions, Phases 0–10 present, Phase 2 finance backend complete, reconciliation/health controls active in source, ${edgeFunctions.length} server gateways present, and browser service-role leakage blocked.`);
