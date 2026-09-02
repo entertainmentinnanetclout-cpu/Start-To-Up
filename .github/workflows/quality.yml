@@ -49,6 +49,8 @@ jobs:
         run: npx --yes tsx@4.20.6 scripts/verify-startup-os-phase9.ts
       - name: Verify Startup OS Phase 10 intelligence and automation
         run: npx --yes tsx@4.20.6 scripts/verify-startup-os-phase10.ts
+      - name: Verify UX Operating Layer P0 to P2
+        run: npx --yes tsx@4.20.6 scripts/verify-ux-operating-layer.ts
       - name: Build Start To Up
         run: npm run build
       - name: Verify Website Studio V6 project model
