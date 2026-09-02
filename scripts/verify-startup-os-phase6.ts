@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { calculateHiringMonthlyCost, calculateKeyResultProgress, calculateOkrProgress, calculateRiskScore, riskLevel } from "../src/lib/startup-os-phase6";
 const root=process.cwd();const read=(p:string)=>fs.readFileSync(path.join(root,p),"utf8");
-const required=["src/lib/startup-os-phase6.ts","src/routes/app/operations.tsx","src/startup-os-phase6.css","supabase/migrations/20260830150000_startup_os_phase6_operating_company.sql"];
+const required=["src/lib/startup-os-phase6.ts","src/routes/app/operations.tsx","src/startup-os-phase6.css","supabase/migrations/20260830151000_startup_os_phase6_operating_company.sql"];
 for(const p of required)if(!fs.existsSync(path.join(root,p)))throw new Error(`Phase 6 file missing: ${p}`);
 const migration=read(required[3]);
 const tables=["ops_okrs","ops_key_results","ops_decisions","ops_risks","ops_hiring_plans","ops_job_descriptions","ops_candidates","ops_candidate_events","ops_vendors","ops_vendor_engagements","ops_meetings","ops_meeting_actions","ops_renewals","ops_command_snapshots"];
