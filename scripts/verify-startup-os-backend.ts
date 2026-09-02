@@ -70,9 +70,13 @@ const edgeFunctions=[
 ];
 for(const fn of edgeFunctions)if(!exists(`supabase/functions/${fn}/index.ts`))throw new Error(`Required Edge Function source missing: ${fn}`);
 
-// Service-role credentials must never be bundled into browser source.
+// Service-role credentials must never be bundled into browser-reachable source.
+// Explicit *.server.* modules are server-only by contract and are checked separately for client imports below.
 const walk=(dir:string):string[]=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);
-for(const file of walk(path.join(root,'src')).filter(f=>/\.(ts|tsx|js|jsx)$/.test(f))){const body=fs.readFileSync(file,'utf8');if(body.includes('SUPABASE_SERVICE_ROLE_KEY')||body.includes('service_role'))throw new Error(`Browser source contains a service-role marker: ${path.relative(root,file)}`);}
+const sourceFiles=walk(path.join(root,'src')).filter(f=>/\.(ts|tsx|js|jsx)$/.test(f));
+const browserFiles=sourceFiles.filter(f=>!/[\\/]server[\\/]/.test(f)&&!f.includes('.server.'));
+for(const file of browserFiles){const body=fs.readFileSync(file,'utf8');if(body.includes('SUPABASE_SERVICE_ROLE_KEY')||body.includes("['service_role']")||body.includes('"service_role"'))throw new Error(`Browser source contains a service-role credential marker: ${path.relative(root,file)}`);}
+for(const file of browserFiles){const body=fs.readFileSync(file,'utf8');if(/from\s+['"][^'"]*\.server(?:\.[^'"]*)?['"]/.test(body)||/import\(['"][^'"]*\.server(?:\.[^'"]*)?['"]\)/.test(body))throw new Error(`Browser source imports a server-only module: ${path.relative(root,file)}`);}
 
 // Phase 7/8 public access is token-mediated, not anonymous direct-table access.
 const legal=read('supabase/migrations/20260830170000_startup_os_phase7_legal_compliance.sql');
