@@ -1,11 +1,49 @@
 import { execFileSync } from "node:child_process";
-import { access, mkdir, rm, writeFile } from "node:fs/promises";
+import { access, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { applyStudioTemplate, studioTemplates } from "../src/lib/website-studio-template-catalog";
 import { applyVisualContractDefaults } from "../src/lib/website-studio-visual-contract-defaults";
 import { ensureStudioV6Draft, type StudioV6Draft } from "../src/lib/website-studio-v6";
 import { createZipBlob } from "../src/lib/website-studio-project-export";
 import { generateDeployableProjectFiles } from "../src/lib/website-studio-export";
+
+const editorSource = await readFile("src/components/website-studio-v6-enhancements.tsx", "utf8");
+for (const marker of [
+  'doc.addEventListener("click"',
+  'doc.addEventListener("pointerup"',
+  'event.preventDefault()',
+  'stu-context-backdrop',
+  'stu-panel-close',
+  'section.responsive[styleDevice]',
+  'fontFamily',
+  'buttonStyle',
+  'cardStyle',
+  'navStyle',
+  'heroStyle',
+  'removeImage',
+  'resolveSection',
+  'data-stu-selected',
+]) if (!editorSource.includes(marker)) throw new Error(`Website Studio visual editor completion marker missing: ${marker}`);
+
+const editorCss = await readFile("src/website-studio-visual-editor.css", "utf8");
+for (const marker of [
+  '.stu-context-drawer',
+  '.stu-provider-drawer',
+  'calc(100vw - 20px)',
+  'calc(100dvh - 20px)',
+  '.stu-panel-close',
+  'body:has(.stu-context-layer) .v6pro-tools.open',
+  '.v6pro-tools:not(.open)',
+]) if (!editorCss.includes(marker)) throw new Error(`Website Studio mobile visual-editor contract missing: ${marker}`);
+
+const sheetSource = await readFile("src/components/ui/sheet.tsx", "utf8");
+for (const marker of ['data-side-panel="true"', 'aria-label="Close panel"', '92vw', '100dvh']) if (!sheetSource.includes(marker)) throw new Error(`Canonical side-sheet contract missing: ${marker}`);
+
+const drawerSource = await readFile("src/components/ui/drawer.tsx", "utf8");
+for (const marker of ['data-drawer-panel="true"', 'aria-label="Close drawer"', 'max-h-[calc(100dvh-16px)]', 'overscroll-contain']) if (!drawerSource.includes(marker)) throw new Error(`Canonical drawer contract missing: ${marker}`);
+
+const shellSource = await readFile("src/components/app-shell.tsx", "utf8");
+for (const marker of ['/app/website-studio-v6-pro', 'Interactive exact template preview', 'forceExactPreview={false}', 'showIntegrations={false}']) if (!shellSource.includes(marker)) throw new Error(`V6 Pro contextual-editor integration missing: ${marker}`);
 
 const representatives = ["pulse-saas", "habitat-property", "table-flame", "edulaunch", "newsroom-pro"];
 const required = [
@@ -43,4 +81,4 @@ for (const key of representatives) {
   await access(join(projectDir, "dist", "index.html"));
   console.log(`${key}: Website Studio V6 multi-page export passed (${Object.keys(files).length} files)`);
 }
-console.log(`Website Studio V6 export contract passed for ${representatives.length} template families.`);
+console.log(`Website Studio V6 editor + export contract passed for ${representatives.length} template families.`);
