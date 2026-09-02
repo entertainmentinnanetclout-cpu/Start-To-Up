@@ -134,6 +134,7 @@ export function WebsiteStudioV6Enhancements({
   });
   const attached = useRef<HTMLIFrameElement | null>(null);
   const cleanupRef = useRef<(() => void) | null>(null);
+  const lastTouchSelectionAt = useRef(0);
 
   useEffect(() => { localStorage.setItem(EDITOR_DEVICE_KEY, styleDevice); }, [styleDevice]);
   useEffect(() => {
@@ -199,11 +200,12 @@ export function WebsiteStudioV6Enhancements({
         const onClick = (event: MouseEvent) => {
           const element = event.target instanceof Element ? event.target : null;
           if (!element) return;
+          event.preventDefault();
+          event.stopPropagation();
+          if (Date.now() - lastTouchSelectionAt.current < 500) return;
           const link = element.closest("a") as HTMLAnchorElement | null;
           const button = element.closest("button");
           if (link || button) {
-            event.preventDefault();
-            event.stopPropagation();
             const page = link?.dataset.studioPage;
             if (page) {
               const draft = readDraft();
@@ -216,8 +218,6 @@ export function WebsiteStudioV6Enhancements({
               }
             }
           }
-          event.preventDefault();
-          event.stopPropagation();
           openTarget(event.target, doc);
         };
         const onDoubleClick = (event: MouseEvent) => { event.preventDefault(); event.stopPropagation(); openTarget(event.target, doc); };
@@ -225,6 +225,7 @@ export function WebsiteStudioV6Enhancements({
           if (event.pointerType !== "touch" && event.pointerType !== "pen") return;
           event.preventDefault();
           event.stopPropagation();
+          lastTouchSelectionAt.current = Date.now();
           openTarget(event.target, doc);
         };
         const onSubmit = (event: SubmitEvent) => {
